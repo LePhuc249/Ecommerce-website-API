@@ -26,3 +26,6 @@ Project is created with:
 - ReactJs for the Font-end.
 - Java 8, Spring framework 5.0 (Spring Boot), SwaggerUI, SimpleJWT and JPA/Hibernate for the Back-end.
 - PostgreSQL, DBeaver for the Database.
+
+## Note
+If you want to find the UI of this project please click this [link](https://github.com/LePhuc249/Ecommerce-website-UI)
