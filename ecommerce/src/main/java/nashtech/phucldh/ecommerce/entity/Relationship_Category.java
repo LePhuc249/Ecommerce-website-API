@@ -8,18 +8,19 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "relationship_category")
 public class Relationship_Category {
-	
+
 	@Id
 	@Column(name = "relationshipid")
 	private String relationshipid;
-	
+
 	@Column(name = "categoryid1")
 	private String categoryid1;
-	
+
 	@Column(name = "categoryid2")
 	private String categoryid2;
 
-	public Relationship_Category() {}
+	public Relationship_Category() {
+	}
 
 	public Relationship_Category(String relationshipid, String categoryid1, String categoryid2) {
 		this.relationshipid = relationshipid;

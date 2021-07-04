@@ -10,30 +10,31 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "feedback")
 public class Feedback {
-	
+
 	@Id
 	@Column(name = "feedbackid")
 	private String feedbackid;
-	
+
 	@Column(name = "accountid")
 	private String accountid;
-	
+
 	@Column(name = "orderid")
 	private String orderid;
-	
+
 	@Column(name = "feedbacktime")
 	private Timestamp feedbacktime;
-	
+
 	@Column(name = "content")
 	private String content;
-	
+
 	@Column(name = "counter")
 	private int counter;
-	
+
 	@Column(name = "status")
 	private String status;
 
-	public Feedback() {}
+	public Feedback() {
+	}
 
 	public Feedback(String feedbackid, String accountid, String orderid, Timestamp feedbacktime, String content,
 			int counter, String status) {

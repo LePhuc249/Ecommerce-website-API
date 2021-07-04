@@ -10,21 +10,22 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "orderstatus")
 public class Orderstatus {
-	
+
 	@Id
 	@Column(name = "orderstatusid")
 	private String orderstatusid;
-	
+
 	@Column(name = "orderstatusname")
 	private String orderstatusname;
-	
+
 	@Column(name = "createdate")
 	private Timestamp createdate;
-	
+
 	@Column(name = "isdeleted")
 	private boolean isdeleted;
 
-	public Orderstatus() {}
+	public Orderstatus() {
+	}
 
 	public Orderstatus(String orderstatusid, String orderstatusname, Timestamp createdate, boolean isdeleted) {
 		this.orderstatusid = orderstatusid;

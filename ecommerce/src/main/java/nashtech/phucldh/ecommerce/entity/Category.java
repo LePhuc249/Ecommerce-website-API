@@ -10,7 +10,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "category")
 public class Category {
-	
+
 	@Id
 	@Column(name = "categoryid")
 	private String categoryid;
@@ -27,7 +27,8 @@ public class Category {
 	@Column(name = "isdeleted")
 	private boolean isdeleted;
 
-	public Category() {}
+	public Category() {
+	}
 
 	public Category(String categoryid, String categoryname, Timestamp createdate, String createaccount,
 			boolean isdeleted) {

@@ -10,36 +10,37 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "account")
 public class Account {
-	
+
 	@Id
 	@Column(name = "username")
 	private String username;
-	
+
 	@Column(name = "password")
 	private String password;
-	
+
 	@Column(name = "fullname")
 	private String fullname;
-	
+
 	@Column(name = "email")
 	private String email;
-	
+
 	@Column(name = "phone")
 	private String phone;
-	
+
 	@Column(name = "address")
 	private String address;
-	
+
 	@Column(name = "createdate")
 	private Timestamp createdate;
-	
+
 	@Column(name = "statusaccount")
 	private String statusaccount;
-	
+
 	@Column(name = "roleid")
 	private String roleid;
 
-	public Account() {}
+	public Account() {
+	}
 
 	public Account(String username, String password, String fullname, String email, String phone, String address,
 			Timestamp createdate, String statusaccount, String roleid) {

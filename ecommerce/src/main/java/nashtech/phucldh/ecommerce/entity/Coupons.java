@@ -10,33 +10,34 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "coupons")
 public class Coupons {
-	
+
 	@Id
 	@Column(name = "couponid")
 	private String couponid;
-	
+
 	@Column(name = "couponcode")
 	private String couponcode;
-	
+
 	@Column(name = "discountamount")
 	private int discountamount;
-	
+
 	@Column(name = "productdiscount")
 	private String productdiscount;
-	
+
 	@Column(name = "description")
 	private String description;
-	
+
 	@Column(name = "expirationdate")
 	private String expirationdate;
-	
+
 	@Column(name = "createdate")
 	private Timestamp createdate;
-	
+
 	@Column(name = "isdeleted")
 	private boolean isdeleted;
 
-	public Coupons() {}
+	public Coupons() {
+	}
 
 	public Coupons(String couponid, String couponcode, int discountamount, String productdiscount, String description,
 			String expirationdate, Timestamp createdate, boolean isdeleted) {
@@ -120,5 +121,5 @@ public class Coupons {
 				+ ", productdiscount=" + productdiscount + ", description=" + description + ", expirationdate="
 				+ expirationdate + ", createdate=" + createdate + ", isdeleted=" + isdeleted + "]";
 	}
-	
+
 }

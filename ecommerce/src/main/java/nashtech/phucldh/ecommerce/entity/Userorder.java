@@ -10,33 +10,34 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "userorder")
 public class Userorder {
-	
+
 	@Id
 	@Column(name = "orderid")
 	private String orderid;
-	
+
 	@Column(name = "customerid")
 	private String customerid;
-	
+
 	@Column(name = "createdate")
 	private Timestamp createdate;
-	
+
 	@Column(name = "datedelivery")
 	private String datedelivery;
-	
+
 	@Column(name = "paymentmethod")
 	private String paymentmethod;
-	
+
 	@Column(name = "totalprice")
 	private Float totalprice;
-	
+
 	@Column(name = "status")
 	private String status;
-	
+
 	@Column(name = "couponid")
 	private String couponid;
 
-	public Userorder() {}
+	public Userorder() {
+	}
 
 	public Userorder(String orderid, String customerid, Timestamp createdate, String datedelivery, String paymentmethod,
 			Float totalprice, String status, String couponid) {

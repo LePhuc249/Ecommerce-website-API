@@ -10,21 +10,22 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "paymentmethod")
 public class Paymentmethod {
-	
+
 	@Id
 	@Column(name = "id")
 	private String id;
-	
+
 	@Column(name = "methodname")
 	private String methodname;
-	
+
 	@Column(name = "createdate")
 	private Timestamp createdate;
-	
+
 	@Column(name = "isdeleted")
 	private boolean isdeleted;
 
-	public Paymentmethod() {}
+	public Paymentmethod() {
+	}
 
 	public Paymentmethod(String id, String methodname, Timestamp createdate, boolean isdeleted) {
 		this.id = id;

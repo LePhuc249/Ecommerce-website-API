@@ -10,30 +10,31 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "orderdetail")
 public class Orderdetail {
-	
+
 	@Id
 	@Column(name = "orderlineid")
 	private String orderlineid;
-	
+
 	@Column(name = "orderid")
 	private String orderid;
-	
+
 	@Column(name = "itemid")
 	private String itemid;
-	
+
 	@Column(name = "amount")
 	private int amount;
-	
+
 	@Column(name = "price")
 	private Float price;
-	
+
 	@Column(name = "itemproperty")
 	private String itemproperty;
-	
+
 	@Column(name = "createdate")
 	private Timestamp createdate;
 
-	public Orderdetail() {}
+	public Orderdetail() {
+	}
 
 	public Orderdetail(String orderlineid, String orderid, String itemid, int amount, Float price, String itemproperty,
 			Timestamp createdate) {

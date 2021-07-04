@@ -10,42 +10,43 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "product")
 public class Product {
-	
+
 	@Id
 	@Column(name = "itemid")
 	private String itemid;
-	
+
 	@Column(name = "itemname")
 	private String itemname;
-	
+
 	@Column(name = "img")
 	private String img;
-	
+
 	@Column(name = "description")
 	private String description;
-	
+
 	@Column(name = "price")
 	private Float price;
-	
+
 	@Column(name = "createdate")
 	private Timestamp createdate;
-	
+
 	@Column(name = "productname")
 	private String productname;
-	
+
 	@Column(name = "quantity")
 	private int quantity;
-	
+
 	@Column(name = "categoryid")
 	private String categoryid;
-	
+
 	@Column(name = "counter")
 	private int counter;
-	
+
 	@Column(name = "status")
 	private boolean status;
 
-	public Product() {}
+	public Product() {
+	}
 
 	public Product(String itemid, String itemname, String img, String description, Float price, Timestamp createdate,
 			String productname, int quantity, String categoryid, int counter, boolean status) {
