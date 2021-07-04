@@ -2,7 +2,7 @@ package nashtech.phucldh.ecommerce.entity;
 
 import java.sql.Timestamp;
 
-public class category {
+public class Category {
 	
 	private String categoryid;
 	
@@ -14,9 +14,9 @@ public class category {
 	
 	private boolean isdeleted;
 
-	public category() {}
+	public Category() {}
 
-	public category(String categoryid, String categoryname, Timestamp createdate, String createaccount,
+	public Category(String categoryid, String categoryname, Timestamp createdate, String createaccount,
 			boolean isdeleted) {
 		this.categoryid = categoryid;
 		this.categoryname = categoryname;
