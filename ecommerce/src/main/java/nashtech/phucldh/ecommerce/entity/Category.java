@@ -2,16 +2,29 @@ package nashtech.phucldh.ecommerce.entity;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "category")
 public class Category {
 	
+	@Id
+	@Column(name = "categoryid")
 	private String categoryid;
-	
+
+	@Column(name = "categoryname")
 	private String categoryname;
-	
+
+	@Column(name = "createdate")
 	private Timestamp createdate;
-	
+
+	@Column(name = "createaccount")
 	private String createaccount;
-	
+
+	@Column(name = "isdeleted")
 	private boolean isdeleted;
 
 	public Category() {}
