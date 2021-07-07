@@ -13,4 +13,6 @@ public interface FeedbackService {
 	public void saveFeedback(Feedback theFeedback);
 	
 	public void deleteFeedbackById(String idFeedback);
+	
+	public boolean checkExistFeedback(String username, String orderid);
 }
