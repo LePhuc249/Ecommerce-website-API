@@ -8,7 +8,7 @@ public interface OrderdetailService {
 	
 	public List<Orderdetail> findAll();
 	
-	public List<String> getListItemProperty();
+	public List<String> getListItemProperty(String orderID);
 	
 	public Orderdetail getOrderdetailByCode(String code);
 	
