@@ -1,6 +1,7 @@
 package nashtech.phucldh.ecommerce.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,11 @@ import org.springframework.stereotype.Service;
 
 import nashtech.phucldh.ecommerce.entity.Account;
 import nashtech.phucldh.ecommerce.entity.AccountResponse;
+import nashtech.phucldh.ecommerce.exception.AccountNotFoundException;
 import nashtech.phucldh.ecommerce.payload.request.LoginRequest;
 import nashtech.phucldh.ecommerce.payload.request.SignUpRequest;
 import nashtech.phucldh.ecommerce.payload.response.JwtResponse;
 import nashtech.phucldh.ecommerce.reponsitory.AccountReponsitory;
-import nashtech.phucldh.ecommerce.reponsitory.RoleRepository;
 import nashtech.phucldh.ecommerce.sercurity.jwt.JwtUtils;
 import nashtech.phucldh.ecommerce.sercurity.service.impl.UserDetailsImpl;
 import nashtech.phucldh.ecommerce.service.AccountService;
@@ -33,9 +34,6 @@ public class AccountServiceImpl implements AccountService {
 
 	@Autowired
 	AccountReponsitory accountRepository;
-
-	@Autowired
-	RoleRepository roleRepository;
 
 	@Autowired
 	PasswordEncoder encoder;
@@ -77,6 +75,28 @@ public class AccountServiceImpl implements AccountService {
 	    theAccount.setRoleid(signUpRequest.getRoleid());
 	    accountRepository.save(theAccount);
 	    return accountResponse.generateMessageResponseEntity("Account have been registered successfully!", HttpStatus.CREATED);
+	}
+
+	@Override
+	public Account getAccountByEmail(String email) {
+		Optional<Account> result  = accountRepository.findByEmail(email);
+		Account theAccount = null;
+		if (result.isPresent()) {
+			theAccount = result.get();
+		} else {
+			throw new AccountNotFoundException("Did not find account by email - " + email);
+		}
+		return theAccount;
+	}
+
+	@Override
+	public void updateStatus(Account theAccount) {
+		accountRepository.save(theAccount);
+	}
+
+	@Override
+	public void deleteAccount(String username) {
+		accountRepository.deleteById(username);
 	}
 
 }
