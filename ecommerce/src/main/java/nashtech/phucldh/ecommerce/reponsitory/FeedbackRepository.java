@@ -7,5 +7,6 @@ import nashtech.phucldh.ecommerce.entity.Feedback;
 
 @Repository
 public interface FeedbackRepository extends JpaRepository<Feedback, String> {
-
+	
+	Boolean existsFeedbackByUsernameAndOrderid(String username, String orderid);
 }
