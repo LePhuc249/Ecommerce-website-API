@@ -8,7 +8,7 @@ public interface CouponsService {
 	
 	public List<Coupons> findAll();
 	
-	public List<Coupons> findByItem();
+	public List<Coupons> findByItem(String productdiscount);
 	
 	public Coupons getCouponByCode(String code);
 	
