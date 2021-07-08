@@ -10,17 +10,17 @@ public interface ProductService {
 	
 	public List<Product> findAllForCustomer();
 	
-	public List<Product> findByNameOrCategory();
+	public List<Product> findByNameOrCategory(String itemname, String categoryid);
 	
-	public List<Product> findByNameOrCategoryForCustomer();
+	public List<Product> findByNameOrCategoryForCustomer(String itemname, String categoryid);
 	
-	public boolean checkExistProduct();
+	public boolean checkExistProduct(String itemname, String img, String discription, String productName);
 	
 	public Product getProductById(String productId);
-	
-	public Product checkProductToAdd(String productId);
 	
 	public void saveProduct(Product theProduct);
 	
 	public void deleteProduct(String productId);
+	
+	public void activeProduct(String productId);
 }
