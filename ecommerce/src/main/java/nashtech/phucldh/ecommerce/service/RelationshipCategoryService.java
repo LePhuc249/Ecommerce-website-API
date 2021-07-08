@@ -4,5 +4,5 @@ import nashtech.phucldh.ecommerce.entity.Relationship_Category;
 
 public interface RelationshipCategoryService {
 	
-	public Relationship_Category getRelationshipCategoryByCategory(String category);
+	public Relationship_Category getRelationshipCategoryByCategory(String category1, String category2);
 }
