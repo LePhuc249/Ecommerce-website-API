@@ -12,15 +12,13 @@ public interface UserorderService {
 
 	public List<String> listUsedCoupons();
 
-	public List<Userorder> historyOrder(String date);
-
 	public void saveOrder(Userorder newUserOrder);
 
 	public Userorder getOrderById(String orderID);
 
-	public boolean updateFinish(String orderId);
-
-	public boolean updateCancel(String orderId);
-
-	public boolean updateConfirm(String orderId);
+	public boolean updateStatusToFinish(String orderId);
+	
+	public boolean updateStatusToCancel(String orderId);
+	
+	public boolean updateStatusToConfirm(String orderId);
 }
