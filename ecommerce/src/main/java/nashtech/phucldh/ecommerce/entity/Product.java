@@ -1,10 +1,17 @@
 package nashtech.phucldh.ecommerce.entity;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -15,13 +22,13 @@ public class Product {
 	@Column(name = "itemid")
 	private String itemid;
 
-	@Column(name = "itemname")
+	@Column(name = "itemname", unique = true, nullable = false, columnDefinition = "TEXT", length = 50)
 	private String itemname;
 
-	@Column(name = "img")
+	@Column(name = "img", unique = true, nullable = false, columnDefinition = "TEXT", length = 200)
 	private String img;
 
-	@Column(name = "description")
+	@Column(name = "description", nullable = false, columnDefinition = "TEXT", length = 100)
 	private String description;
 
 	@Column(name = "price")
@@ -30,13 +37,13 @@ public class Product {
 	@Column(name = "createdate")
 	private Timestamp createdate;
 
-	@Column(name = "productname")
+	@Column(name = "productname", nullable = false, columnDefinition = "TEXT", length = 50)
 	private String productname;
 
 	@Column(name = "quantity")
 	private int quantity;
 
-	@Column(name = "categoryid")
+	@Column(name = "categoryid", nullable = false, columnDefinition = "TEXT", length = 10)
 	private String categoryid;
 
 	@Column(name = "counter")
@@ -44,6 +51,16 @@ public class Product {
 
 	@Column(name = "status")
 	private boolean status;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "categoryid")
+	private Category categoryProduct;
+	
+	@OneToMany(mappedBy = "productCoupons", cascade = CascadeType.ALL)
+	private List<Coupons> listCoupons = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "productOrderdetail", cascade = CascadeType.ALL)
+	private List<Orderdetail> Orderdetail = new ArrayList<>();
 
 	public Product() {
 	}

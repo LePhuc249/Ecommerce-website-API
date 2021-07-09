@@ -1,10 +1,17 @@
 package nashtech.phucldh.ecommerce.entity;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -15,7 +22,7 @@ public class Coupons {
 	@Column(name = "couponid")
 	private String couponid;
 
-	@Column(name = "couponcode")
+	@Column(name = "couponcode", unique = true, nullable = false, columnDefinition = "TEXT", length = 30)
 	private String couponcode;
 
 	@Column(name = "discountamount")
@@ -24,10 +31,10 @@ public class Coupons {
 	@Column(name = "productdiscount")
 	private String productdiscount;
 
-	@Column(name = "description")
+	@Column(name = "description", unique = false, nullable = false, columnDefinition = "TEXT", length = 30)
 	private String description;
 
-	@Column(name = "expirationdate")
+	@Column(name = "expirationdate", unique = false, nullable = false, columnDefinition = "TEXT", length = 30)
 	private String expirationdate;
 
 	@Column(name = "createdate")
@@ -35,6 +42,13 @@ public class Coupons {
 
 	@Column(name = "isdeleted")
 	private boolean isdeleted;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "itemid")
+	private Product productCoupons;
+	
+	@OneToMany(mappedBy = "userorderCoupons", cascade = CascadeType.ALL)
+	private List<Userorder> listUserorder = new ArrayList<>();
 
 	public Coupons() {
 	}

@@ -1,10 +1,14 @@
 package nashtech.phucldh.ecommerce.entity;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -12,10 +16,10 @@ import javax.persistence.Table;
 public class Orderstatus {
 
 	@Id
-	@Column(name = "orderstatusid")
+	@Column(name = "orderstatusid", nullable = false, length = 100)
 	private String orderstatusid;
 
-	@Column(name = "orderstatusname")
+	@Column(name = "orderstatusname", unique = true, nullable = false, columnDefinition = "TEXT", length = 50)
 	private String orderstatusname;
 
 	@Column(name = "createdate")
@@ -23,6 +27,9 @@ public class Orderstatus {
 
 	@Column(name = "isdeleted")
 	private boolean isdeleted;
+	
+	@OneToMany(mappedBy = "userorderOrderstatus", cascade = CascadeType.ALL)
+	private List<Userorder> listUserorder = new ArrayList<>();
 
 	public Orderstatus() {
 	}

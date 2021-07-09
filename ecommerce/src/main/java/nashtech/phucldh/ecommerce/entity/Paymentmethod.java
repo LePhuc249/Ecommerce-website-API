@@ -1,10 +1,14 @@
 package nashtech.phucldh.ecommerce.entity;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -15,7 +19,7 @@ public class Paymentmethod {
 	@Column(name = "id")
 	private String id;
 
-	@Column(name = "methodname")
+	@Column(name = "methodname", unique = true, nullable = false, columnDefinition = "TEXT", length = 50)
 	private String methodname;
 
 	@Column(name = "createdate")
@@ -23,6 +27,9 @@ public class Paymentmethod {
 
 	@Column(name = "isdeleted")
 	private boolean isdeleted;
+	
+	@OneToMany(mappedBy = "userorderPaymentmethod", cascade = CascadeType.ALL)
+	private List<Userorder> listUserorder = new ArrayList<>();
 
 	public Paymentmethod() {
 	}

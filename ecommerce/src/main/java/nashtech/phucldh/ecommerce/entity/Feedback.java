@@ -2,9 +2,13 @@ package nashtech.phucldh.ecommerce.entity;
 
 import java.sql.Timestamp;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -15,7 +19,7 @@ public class Feedback {
 	@Column(name = "feedbackid")
 	private String feedbackid;
 
-	@Column(name = "accountid")
+	@Column(name = "accountid", unique = false, nullable = false, columnDefinition = "TEXT", length = 30)
 	private String accountid;
 
 	@Column(name = "orderid")
@@ -24,14 +28,22 @@ public class Feedback {
 	@Column(name = "feedbacktime")
 	private Timestamp feedbacktime;
 
-	@Column(name = "content")
+	@Column(name = "feedbackcontent", unique = false, nullable = false, columnDefinition = "TEXT", length = 100)
 	private String content;
 
 	@Column(name = "counter")
 	private int counter;
 
-	@Column(name = "status")
+	@Column(name = "status", unique = false, nullable = false, columnDefinition = "TEXT", length = 10)
 	private String status;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "orderid")
+	private Userorder feedbackUserorder;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id")
+	private Account feedbackAccount;
 
 	public Feedback() {
 	}

@@ -4,7 +4,10 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -27,11 +30,19 @@ public class Orderdetail {
 	@Column(name = "price")
 	private Float price;
 
-	@Column(name = "itemproperty")
+	@Column(name = "itemproperty", unique = false, nullable = false, columnDefinition = "TEXT", length = 100)
 	private String itemproperty;
 
 	@Column(name = "createdate")
 	private Timestamp createdate;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "itemid")
+	private Product productOrderdetail;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "orderid")
+	private Userorder userorderOrderdetail;
 
 	public Orderdetail() {
 	}

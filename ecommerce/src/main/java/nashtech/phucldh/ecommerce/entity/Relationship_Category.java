@@ -2,7 +2,10 @@ package nashtech.phucldh.ecommerce.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -13,11 +16,15 @@ public class Relationship_Category {
 	@Column(name = "relationshipid")
 	private String relationshipid;
 
-	@Column(name = "categoryid1")
+	@Column(name = "categoryid1", nullable = false, columnDefinition = "TEXT", length = 10)
 	private String categoryid1;
 
-	@Column(name = "categoryid2")
+	@Column(name = "categoryid2", nullable = false, columnDefinition = "TEXT", length = 10)
 	private String categoryid2;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "categoryid")
+	private Category categoryRelationship;
 
 	public Relationship_Category() {
 	}

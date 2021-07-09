@@ -1,10 +1,17 @@
 package nashtech.phucldh.ecommerce.entity;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -12,10 +19,10 @@ import javax.persistence.Table;
 public class Category {
 
 	@Id
-	@Column(name = "categoryid")
+	@Column(name = "categoryid", unique = false, nullable = false, columnDefinition = "TEXT", length = 10)
 	private String categoryid;
 
-	@Column(name = "categoryname")
+	@Column(name = "categoryname", unique = false, nullable = false, columnDefinition = "TEXT", length = 20)
 	private String categoryname;
 
 	@Column(name = "createdate")
@@ -26,6 +33,16 @@ public class Category {
 
 	@Column(name = "isdeleted")
 	private boolean isdeleted;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id")
+	private Account account;
+	
+	@OneToMany(mappedBy = "categoryRelationship", cascade = CascadeType.ALL)
+	private List<Relationship_Category> listRelationship = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "categoryProduct", cascade = CascadeType.ALL)
+	private List<Product> listProduct = new ArrayList<>();
 
 	public Category() {
 	}
