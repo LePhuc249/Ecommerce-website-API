@@ -46,9 +46,6 @@ public class Account {
 
 	@Column(name = "statusaccount")
 	private String statusaccount;
-	
-	@Column(name = "roleid")
-	private String roleid;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "roleid")
@@ -179,15 +176,6 @@ public class Account {
 
 	public void setListCategory(List<Category> listCategory) {
 		this.listCategory = listCategory;
-	}
-
-
-	public String getRoleid() {
-		return roleid;
-	}
-
-	public void setRoleid(String roleid) {
-		this.roleid = roleid;
 	}
 
 	@Override
