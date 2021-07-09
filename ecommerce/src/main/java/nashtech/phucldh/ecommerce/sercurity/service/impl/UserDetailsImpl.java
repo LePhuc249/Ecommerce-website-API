@@ -10,9 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import nashtech.phucldh.ecommerce.entity.Account;
 import nashtech.phucldh.ecommerce.entity.Role;
-import nashtech.phucldh.ecommerce.service.RoleService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,9 +32,6 @@ public class UserDetailsImpl implements UserDetails {
 
 	private Collection<? extends GrantedAuthority> authorities;
 
-	@Autowired
-	private static RoleService roleService;
-
 	public UserDetailsImpl() {
 	}
 
@@ -52,8 +47,7 @@ public class UserDetailsImpl implements UserDetails {
 
 	public static UserDetailsImpl build(Account theAccount) {
 		Set<Role> roleSet = new HashSet<Role>();
-		Role roleAccount = roleService.getRoleById(theAccount.getRoleid());
-		roleSet.add(roleAccount);
+		roleSet.add(theAccount.getRole());
 		List<GrantedAuthority> authorities = roleSet.stream()
 				.map(role -> new SimpleGrantedAuthority(role.getRolename())).collect(Collectors.toList());
 		return new UserDetailsImpl(theAccount.getUsername(), theAccount.getPassword(), theAccount.getFullname(),

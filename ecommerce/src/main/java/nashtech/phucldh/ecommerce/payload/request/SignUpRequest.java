@@ -1,5 +1,7 @@
 package nashtech.phucldh.ecommerce.payload.request;
 
+import java.util.Set;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -33,13 +35,13 @@ public class SignUpRequest {
 
 	private String statusaccount;
 
-	private String roleid;
+	private Set<String> role;
 
 	public SignUpRequest() {
 	}
 
 	public SignUpRequest(String username, String password, String fullname, String email, String phoneNumber,
-			String address, String statusaccount, String roleid) {
+			String address, String statusaccount, Set<String> role) {
 		this.username = username;
 		this.password = password;
 		this.fullname = fullname;
@@ -47,11 +49,11 @@ public class SignUpRequest {
 		this.phoneNumber = phoneNumber;
 		this.address = address;
 		this.statusaccount = statusaccount;
-		this.roleid = roleid;
+		this.role = role;
 	}
 
 	public SignUpRequest(String username, String password, String retypePassword, String fullname, String email,
-			String phoneNumber, String address, String statusaccount, String roleid) {
+			String phoneNumber, String address, String statusaccount, Set<String> role) {
 		this.username = username;
 		this.password = password;
 		this.retypePassword = retypePassword;
@@ -60,7 +62,7 @@ public class SignUpRequest {
 		this.phoneNumber = phoneNumber;
 		this.address = address;
 		this.statusaccount = statusaccount;
-		this.roleid = roleid;
+		this.role = role;
 	}
 
 	public String getUsername() {
@@ -127,12 +129,12 @@ public class SignUpRequest {
 		this.statusaccount = statusaccount;
 	}
 
-	public String getRoleid() {
-		return roleid;
+	public Set<String> getRole() {
+		return role;
 	}
 
-	public void setRoleid(String roleid) {
-		this.roleid = roleid;
+	public void setRole(Set<String> role) {
+		this.role = role;
 	}
 
 }
