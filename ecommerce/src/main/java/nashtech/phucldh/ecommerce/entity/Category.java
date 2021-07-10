@@ -1,17 +1,11 @@
 package nashtech.phucldh.ecommerce.entity;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -29,25 +23,15 @@ public class Category {
 	private Timestamp createdate;
 
 	@Column(name = "createaccount")
-	private String createaccount;
+	private UUID createaccount;
 
 	@Column(name = "isdeleted")
 	private boolean isdeleted;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
-	private Account account;
-	
-	@OneToMany(mappedBy = "categoryRelationship", cascade = CascadeType.ALL)
-	private List<Relationship_Category> listRelationship = new ArrayList<>();
-	
-	@OneToMany(mappedBy = "categoryProduct", cascade = CascadeType.ALL)
-	private List<Product> listProduct = new ArrayList<>();
 
 	public Category() {
 	}
 
-	public Category(String categoryid, String categoryname, Timestamp createdate, String createaccount,
+	public Category(String categoryid, String categoryname, Timestamp createdate, UUID createaccount,
 			boolean isdeleted) {
 		this.categoryid = categoryid;
 		this.categoryname = categoryname;
@@ -80,11 +64,11 @@ public class Category {
 		this.createdate = createdate;
 	}
 
-	public String getCreateaccount() {
+	public UUID getCreateaccount() {
 		return createaccount;
 	}
 
-	public void setCreateaccount(String createaccount) {
+	public void setCreateaccount(UUID createaccount) {
 		this.createaccount = createaccount;
 	}
 

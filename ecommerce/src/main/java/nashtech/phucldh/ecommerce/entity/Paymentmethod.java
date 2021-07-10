@@ -1,14 +1,11 @@
 package nashtech.phucldh.ecommerce.entity;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -22,21 +19,22 @@ public class Paymentmethod {
 	@Column(name = "methodname", unique = true, nullable = false, columnDefinition = "TEXT", length = 50)
 	private String methodname;
 
+	@Column(name = "createby")
+	private UUID createby;
+
 	@Column(name = "createdate")
 	private Timestamp createdate;
 
 	@Column(name = "isdeleted")
 	private boolean isdeleted;
-	
-	@OneToMany(mappedBy = "userorderPaymentmethod", cascade = CascadeType.ALL)
-	private List<Userorder> listUserorder = new ArrayList<>();
 
 	public Paymentmethod() {
 	}
 
-	public Paymentmethod(String id, String methodname, Timestamp createdate, boolean isdeleted) {
+	public Paymentmethod(String id, String methodname, UUID createby, Timestamp createdate, boolean isdeleted) {
 		this.id = id;
 		this.methodname = methodname;
+		this.createby = createby;
 		this.createdate = createdate;
 		this.isdeleted = isdeleted;
 	}
@@ -57,6 +55,14 @@ public class Paymentmethod {
 		this.methodname = methodname;
 	}
 
+	public UUID getCreateby() {
+		return createby;
+	}
+
+	public void setCreateby(UUID createby) {
+		this.createby = createby;
+	}
+
 	public Timestamp getCreatedate() {
 		return createdate;
 	}
@@ -75,8 +81,8 @@ public class Paymentmethod {
 
 	@Override
 	public String toString() {
-		return "Paymentmethod [id=" + id + ", methodname=" + methodname + ", createdate=" + createdate + ", isdeleted="
-				+ isdeleted + "]";
+		return "Paymentmethod [id=" + id + ", methodname=" + methodname + ", createby=" + createby + ", createdate="
+				+ createdate + ", isdeleted=" + isdeleted + "]";
 	}
 
 }

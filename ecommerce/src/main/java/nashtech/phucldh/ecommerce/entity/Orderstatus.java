@@ -1,14 +1,11 @@
 package nashtech.phucldh.ecommerce.entity;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -21,22 +18,24 @@ public class Orderstatus {
 
 	@Column(name = "orderstatusname", unique = true, nullable = false, columnDefinition = "TEXT", length = 50)
 	private String orderstatusname;
+	
+	@Column(name = "createby")
+	private UUID createby;
 
 	@Column(name = "createdate")
 	private Timestamp createdate;
 
 	@Column(name = "isdeleted")
 	private boolean isdeleted;
-	
-	@OneToMany(mappedBy = "userorderOrderstatus", cascade = CascadeType.ALL)
-	private List<Userorder> listUserorder = new ArrayList<>();
 
 	public Orderstatus() {
 	}
 
-	public Orderstatus(String orderstatusid, String orderstatusname, Timestamp createdate, boolean isdeleted) {
+	public Orderstatus(String orderstatusid, String orderstatusname, UUID createby, Timestamp createdate,
+			boolean isdeleted) {
 		this.orderstatusid = orderstatusid;
 		this.orderstatusname = orderstatusname;
+		this.createby = createby;
 		this.createdate = createdate;
 		this.isdeleted = isdeleted;
 	}
@@ -57,6 +56,14 @@ public class Orderstatus {
 		this.orderstatusname = orderstatusname;
 	}
 
+	public UUID getCreateby() {
+		return createby;
+	}
+
+	public void setCreateby(UUID createby) {
+		this.createby = createby;
+	}
+
 	public Timestamp getCreatedate() {
 		return createdate;
 	}
@@ -75,8 +82,8 @@ public class Orderstatus {
 
 	@Override
 	public String toString() {
-		return "Orderstatus [orderstatusid=" + orderstatusid + ", orderstatusname=" + orderstatusname + ", createdate="
-				+ createdate + ", isdeleted=" + isdeleted + "]";
+		return "Orderstatus [orderstatusid=" + orderstatusid + ", orderstatusname=" + orderstatusname + ", createby="
+				+ createby + ", createdate=" + createdate + ", isdeleted=" + isdeleted + "]";
 	}
 
 }

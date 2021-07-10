@@ -1,17 +1,11 @@
 package nashtech.phucldh.ecommerce.entity;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -20,56 +14,55 @@ public class Coupons {
 
 	@Id
 	@Column(name = "couponid")
-	private String couponid;
+	private UUID couponid;
 
 	@Column(name = "couponcode", unique = true, nullable = false, columnDefinition = "TEXT", length = 30)
 	private String couponcode;
 
-	@Column(name = "discountamount")
+	@Column(name = "discount_amount")
 	private int discountamount;
 
-	@Column(name = "productdiscount")
-	private String productdiscount;
+	@Column(name = "product_discount")
+	private Integer productdiscount;
 
-	@Column(name = "description", unique = false, nullable = false, columnDefinition = "TEXT", length = 30)
+	@Column(name = "description", unique = false, nullable = false, length = 30)
 	private String description;
 
-	@Column(name = "expirationdate", unique = false, nullable = false, columnDefinition = "TEXT", length = 30)
+	@Column(name = "expiration_date")
 	private String expirationdate;
+	
+	@Column(name = "createby")
+	private UUID createby;
 
 	@Column(name = "createdate")
 	private Timestamp createdate;
 
 	@Column(name = "isdeleted")
 	private boolean isdeleted;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "itemid")
-	private Product productCoupons;
-	
-	@OneToMany(mappedBy = "userorderCoupons", cascade = CascadeType.ALL)
-	private List<Userorder> listUserorder = new ArrayList<>();
 
 	public Coupons() {
 	}
 
-	public Coupons(String couponid, String couponcode, int discountamount, String productdiscount, String description,
-			String expirationdate, Timestamp createdate, boolean isdeleted) {
+	public Coupons(UUID couponid, String couponcode, int discountamount, Integer productdiscount, String description,
+			String expirationdate, UUID createby, Timestamp createdate, boolean isdeleted) {
 		this.couponid = couponid;
 		this.couponcode = couponcode;
 		this.discountamount = discountamount;
 		this.productdiscount = productdiscount;
 		this.description = description;
 		this.expirationdate = expirationdate;
+		this.createby = createby;
 		this.createdate = createdate;
 		this.isdeleted = isdeleted;
 	}
 
-	public String getCouponid() {
+
+
+	public UUID getCouponid() {
 		return couponid;
 	}
 
-	public void setCouponid(String couponid) {
+	public void setCouponid(UUID couponid) {
 		this.couponid = couponid;
 	}
 
@@ -89,11 +82,11 @@ public class Coupons {
 		this.discountamount = discountamount;
 	}
 
-	public String getProductdiscount() {
+	public Integer getProductdiscount() {
 		return productdiscount;
 	}
 
-	public void setProductdiscount(String productdiscount) {
+	public void setProductdiscount(Integer productdiscount) {
 		this.productdiscount = productdiscount;
 	}
 
@@ -111,6 +104,14 @@ public class Coupons {
 
 	public void setExpirationdate(String expirationdate) {
 		this.expirationdate = expirationdate;
+	}
+
+	public UUID getCreateby() {
+		return createby;
+	}
+
+	public void setCreateby(UUID createby) {
+		this.createby = createby;
 	}
 
 	public Timestamp getCreatedate() {
@@ -133,7 +134,8 @@ public class Coupons {
 	public String toString() {
 		return "Coupons [couponid=" + couponid + ", couponcode=" + couponcode + ", discountamount=" + discountamount
 				+ ", productdiscount=" + productdiscount + ", description=" + description + ", expirationdate="
-				+ expirationdate + ", createdate=" + createdate + ", isdeleted=" + isdeleted + "]";
+				+ expirationdate + ", createby=" + createby + ", createdate=" + createdate + ", isdeleted=" + isdeleted
+				+ "]";
 	}
 
 }

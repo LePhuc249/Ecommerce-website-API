@@ -1,13 +1,11 @@
 package nashtech.phucldh.ecommerce.entity;
 
 import java.sql.Timestamp;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -16,13 +14,13 @@ public class Orderdetail {
 
 	@Id
 	@Column(name = "orderlineid")
-	private String orderlineid;
+	private UUID orderlineid;
 
 	@Column(name = "orderid")
-	private String orderid;
+	private UUID orderid;
 
 	@Column(name = "itemid")
-	private String itemid;
+	private Integer itemid;
 
 	@Column(name = "amount")
 	private int amount;
@@ -35,19 +33,11 @@ public class Orderdetail {
 
 	@Column(name = "createdate")
 	private Timestamp createdate;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "itemid")
-	private Product productOrderdetail;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "orderid")
-	private Userorder userorderOrderdetail;
 
 	public Orderdetail() {
 	}
 
-	public Orderdetail(String orderlineid, String orderid, String itemid, int amount, Float price, String itemproperty,
+	public Orderdetail(UUID orderlineid, UUID orderid, Integer itemid, int amount, Float price, String itemproperty,
 			Timestamp createdate) {
 		this.orderlineid = orderlineid;
 		this.orderid = orderid;
@@ -58,27 +48,27 @@ public class Orderdetail {
 		this.createdate = createdate;
 	}
 
-	public String getOrderlineid() {
+	public UUID getOrderlineid() {
 		return orderlineid;
 	}
 
-	public void setOrderlineid(String orderlineid) {
+	public void setOrderlineid(UUID orderlineid) {
 		this.orderlineid = orderlineid;
 	}
 
-	public String getOrderid() {
+	public UUID getOrderid() {
 		return orderid;
 	}
 
-	public void setOrderid(String orderid) {
+	public void setOrderid(UUID orderid) {
 		this.orderid = orderid;
 	}
 
-	public String getItemid() {
+	public Integer getItemid() {
 		return itemid;
 	}
 
-	public void setItemid(String itemid) {
+	public void setItemid(Integer itemid) {
 		this.itemid = itemid;
 	}
 

@@ -1,14 +1,11 @@
 package nashtech.phucldh.ecommerce.entity;
 
 import java.sql.Timestamp;
-
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,13 +14,13 @@ public class Feedback {
 
 	@Id
 	@Column(name = "feedbackid")
-	private String feedbackid;
+	private UUID feedbackid;
 
 	@Column(name = "accountid", unique = false, nullable = false, columnDefinition = "TEXT", length = 30)
-	private String accountid;
+	private UUID accountid;
 
 	@Column(name = "orderid")
-	private String orderid;
+	private UUID orderid;
 
 	@Column(name = "feedbacktime")
 	private Timestamp feedbacktime;
@@ -36,19 +33,11 @@ public class Feedback {
 
 	@Column(name = "status", unique = false, nullable = false, columnDefinition = "TEXT", length = 10)
 	private String status;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "orderid")
-	private Userorder feedbackUserorder;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
-	private Account feedbackAccount;
 
 	public Feedback() {
 	}
 
-	public Feedback(String feedbackid, String accountid, String orderid, Timestamp feedbacktime, String content,
+	public Feedback(UUID feedbackid, UUID accountid, UUID orderid, Timestamp feedbacktime, String content,
 			int counter, String status) {
 		this.feedbackid = feedbackid;
 		this.accountid = accountid;
@@ -59,27 +48,27 @@ public class Feedback {
 		this.status = status;
 	}
 
-	public String getFeedbackid() {
+	public UUID getFeedbackid() {
 		return feedbackid;
 	}
 
-	public void setFeedbackid(String feedbackid) {
+	public void setFeedbackid(UUID feedbackid) {
 		this.feedbackid = feedbackid;
 	}
 
-	public String getAccountid() {
+	public UUID getAccountid() {
 		return accountid;
 	}
 
-	public void setAccountid(String accountid) {
+	public void setAccountid(UUID accountid) {
 		this.accountid = accountid;
 	}
 
-	public String getOrderid() {
+	public UUID getOrderid() {
 		return orderid;
 	}
 
-	public void setOrderid(String orderid) {
+	public void setOrderid(UUID orderid) {
 		this.orderid = orderid;
 	}
 

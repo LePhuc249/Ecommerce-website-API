@@ -15,10 +15,10 @@ import javax.persistence.Table;
 public class Role {
 
 	@Id
-	@Column(name = "roleid", unique = true, nullable = false, columnDefinition = "TEXT", length = 5)
+	@Column(name = "roleid", length = 30)
 	private String roleid;
 
-	@Column(name = "rolename", unique = false, nullable = false, columnDefinition = "TEXT", length = 10)
+	@Column(name = "rolename", nullable = false, length = 30)
 	private String rolename;
 	
 	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY)

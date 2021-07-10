@@ -1,17 +1,9 @@
 package nashtech.phucldh.ecommerce.entity;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -20,7 +12,7 @@ public class Product {
 
 	@Id
 	@Column(name = "itemid")
-	private String itemid;
+	private Integer itemid;
 
 	@Column(name = "itemname", unique = true, nullable = false, columnDefinition = "TEXT", length = 50)
 	private String itemname;
@@ -36,37 +28,42 @@ public class Product {
 
 	@Column(name = "createdate")
 	private Timestamp createdate;
+	
+	@Column(name = "updatedate")
+	private Timestamp updatedate;
 
-	@Column(name = "productname", nullable = false, columnDefinition = "TEXT", length = 50)
+	@Column(name = "productname", nullable = false, length = 50)
 	private String productname;
 
 	@Column(name = "quantity")
 	private int quantity;
 
-	@Column(name = "categoryid", nullable = false, columnDefinition = "TEXT", length = 10)
-	private String categoryid;
+	@Column(name = "categoryid", nullable = false, length = 10)
+	private String categoryCode;
 
 	@Column(name = "counter")
 	private int counter;
 
 	@Column(name = "status")
 	private boolean status;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "categoryid")
-	private Category categoryProduct;
-	
-	@OneToMany(mappedBy = "productCoupons", cascade = CascadeType.ALL)
-	private List<Coupons> listCoupons = new ArrayList<>();
-	
-	@OneToMany(mappedBy = "productOrderdetail", cascade = CascadeType.ALL)
-	private List<Orderdetail> Orderdetail = new ArrayList<>();
 
 	public Product() {
 	}
 
-	public Product(String itemid, String itemname, String img, String description, Float price, Timestamp createdate,
-			String productname, int quantity, String categoryid, int counter, boolean status) {
+	public Product(Integer itemid, String itemname, String img, String description, Float price, String productname,
+			int quantity, String categoryCode) {
+		this.itemid = itemid;
+		this.itemname = itemname;
+		this.img = img;
+		this.description = description;
+		this.price = price;
+		this.productname = productname;
+		this.quantity = quantity;
+		this.categoryCode = categoryCode;
+	}
+
+	public Product(Integer itemid, String itemname, String img, String description, Float price, Timestamp createdate,
+			String productname, int quantity, String categoryCode, int counter, boolean status) {
 		this.itemid = itemid;
 		this.itemname = itemname;
 		this.img = img;
@@ -75,16 +72,32 @@ public class Product {
 		this.createdate = createdate;
 		this.productname = productname;
 		this.quantity = quantity;
-		this.categoryid = categoryid;
+		this.categoryCode = categoryCode;
 		this.counter = counter;
 		this.status = status;
 	}
 
-	public String getItemid() {
+	public Product(Integer itemid, String itemname, String img, String description, Float price, Timestamp createdate,
+			Timestamp updatedate, String productname, int quantity, String categoryCode, int counter, boolean status) {
+		this.itemid = itemid;
+		this.itemname = itemname;
+		this.img = img;
+		this.description = description;
+		this.price = price;
+		this.createdate = createdate;
+		this.updatedate = updatedate;
+		this.productname = productname;
+		this.quantity = quantity;
+		this.categoryCode = categoryCode;
+		this.counter = counter;
+		this.status = status;
+	}
+
+	public Integer getItemid() {
 		return itemid;
 	}
 
-	public void setItemid(String itemid) {
+	public void setItemid(Integer itemid) {
 		this.itemid = itemid;
 	}
 
@@ -144,14 +157,6 @@ public class Product {
 		this.quantity = quantity;
 	}
 
-	public String getCategoryid() {
-		return categoryid;
-	}
-
-	public void setCategoryid(String categoryid) {
-		this.categoryid = categoryid;
-	}
-
 	public int getCounter() {
 		return counter;
 	}
@@ -168,11 +173,28 @@ public class Product {
 		this.status = status;
 	}
 
+	public Timestamp getUpdatedate() {
+		return updatedate;
+	}
+
+	public void setUpdatedate(Timestamp updatedate) {
+		this.updatedate = updatedate;
+	}
+
+	public String getCategoryCode() {
+		return categoryCode;
+	}
+
+	public void setCategoryCode(String categoryCode) {
+		this.categoryCode = categoryCode;
+	}
+
 	@Override
 	public String toString() {
 		return "Product [itemid=" + itemid + ", itemname=" + itemname + ", img=" + img + ", description=" + description
-				+ ", price=" + price + ", createdate=" + createdate + ", productname=" + productname + ", quantity="
-				+ quantity + ", categoryid=" + categoryid + ", counter=" + counter + ", status=" + status + "]";
+				+ ", price=" + price + ", createdate=" + createdate + ", updatedate=" + updatedate + ", productname="
+				+ productname + ", quantity=" + quantity + ", categoryCode=" + categoryCode + ", counter=" + counter
+				+ ", status=" + status + "]";
 	}
 
 }

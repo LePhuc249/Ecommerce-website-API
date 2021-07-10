@@ -1,18 +1,14 @@
 package nashtech.phucldh.ecommerce.entity;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -20,19 +16,19 @@ import javax.persistence.Table;
 public class Account {
 
 	@Id
-	@Column(name = "id", unique = true, nullable = false)
+	@Column(name = "id")
 	private UUID id;
 
-	@Column(name = "username", unique = true, nullable = false, columnDefinition = "TEXT", length = 30)
+	@Column(name = "username", unique = true, nullable = false, length = 30)
 	private String username;
 
-	@Column(name = "password", nullable = false, columnDefinition = "TEXT", length = 100)
+	@Column(name = "password", nullable = false, length = 100)
 	private String password;
 
-	@Column(name = "fullname", nullable = false, columnDefinition = "TEXT", length = 50)
+	@Column(name = "fullname", nullable = false, length = 50)
 	private String fullname;
 
-	@Column(name = "email", unique = true, nullable = false, columnDefinition = "TEXT", length = 50)
+	@Column(name = "email", unique = true, nullable = false, length = 50)
 	private String email;
 
 	@Column(name = "phone", unique = true, nullable = false, length = 20)
@@ -50,15 +46,6 @@ public class Account {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "roleid")
 	private Role role;
-
-	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-	private List<Category> listCategory = new ArrayList<>();
-
-	@OneToMany(mappedBy = "userorderAccount", cascade = CascadeType.ALL)
-	private List<Userorder> listUserorder = new ArrayList<>();
-
-	@OneToMany(mappedBy = "feedbackAccount", cascade = CascadeType.ALL)
-	private List<Feedback> listFeedback = new ArrayList<>();
 
 	public Account() {
 	}
@@ -170,19 +157,11 @@ public class Account {
 		this.role = role;
 	}
 
-	public List<Category> getListCategory() {
-		return listCategory;
-	}
-
-	public void setListCategory(List<Category> listCategory) {
-		this.listCategory = listCategory;
-	}
-
 	@Override
 	public String toString() {
 		return "Account [id=" + id + ", username=" + username + ", password=" + password + ", fullname=" + fullname
 				+ ", email=" + email + ", phone=" + phone + ", address=" + address + ", createdate=" + createdate
-				+ ", statusaccount=" + statusaccount + ", role=" + role + ", listCategory=" + listCategory + "]";
+				+ ", statusaccount=" + statusaccount + ", role=" + role + "]";
 	}
 
 }
