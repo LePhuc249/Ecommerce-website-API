@@ -37,8 +37,8 @@ public class Feedback {
 	public Feedback() {
 	}
 
-	public Feedback(UUID feedbackid, UUID accountid, UUID orderid, Timestamp feedbacktime, String content,
-			int counter, String status) {
+	public Feedback(UUID feedbackid, UUID accountid, UUID orderid, Timestamp feedbacktime, String content, int counter,
+			String status) {
 		this.feedbackid = feedbackid;
 		this.accountid = accountid;
 		this.orderid = orderid;

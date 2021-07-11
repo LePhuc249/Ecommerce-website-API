@@ -18,7 +18,7 @@ public class Orderstatus {
 
 	@Column(name = "orderstatusname", unique = true, nullable = false, columnDefinition = "TEXT", length = 50)
 	private String orderstatusname;
-	
+
 	@Column(name = "createby")
 	private UUID createby;
 

@@ -28,7 +28,7 @@ public class Product {
 
 	@Column(name = "createdate")
 	private Timestamp createdate;
-	
+
 	@Column(name = "updatedate")
 	private Timestamp updatedate;
 

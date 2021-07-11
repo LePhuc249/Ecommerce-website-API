@@ -30,7 +30,7 @@ public class Coupons {
 
 	@Column(name = "expiration_date")
 	private String expirationdate;
-	
+
 	@Column(name = "createby")
 	private UUID createby;
 
@@ -55,8 +55,6 @@ public class Coupons {
 		this.createdate = createdate;
 		this.isdeleted = isdeleted;
 	}
-
-
 
 	public UUID getCouponid() {
 		return couponid;
