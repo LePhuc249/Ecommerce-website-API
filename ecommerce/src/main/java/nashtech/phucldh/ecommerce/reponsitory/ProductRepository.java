@@ -12,23 +12,24 @@ import nashtech.phucldh.ecommerce.entity.Product;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, String> {
 
-	@Query("update product SET status=false where itemid=:itemid")
+	@Query(value = "update product SET status=false where itemid=:itemid", nativeQuery = true)
 	Boolean deactiveProduct(@Param("itemid") String itemid);
 
-	@Query("update product SET status=true where itemid=:itemid")
+	@Query(value = "update product SET status=true where itemid=:itemid", nativeQuery = true)
 	Boolean activeProduct(@Param("itemid") String itemid);
 
-	@Query("select u from product u where u.itemname=:itemname and u.img=:img and u.description=:description and u.productname=:productname ")
+	@Query(value = "select u from product u where u.itemname=:itemname and u.img=:img and u.description=:description and u.productname=:productname ", nativeQuery = true)
 	Product checkExistProduct(@Param("itemname") String itemName, @Param("img") String img,
 			@Param("description") String productName, @Param("productname") String description);
-	
-	@Query("select u from product u where u.status=true and u.quantity > 0")
+
+	@Query(value = "select u from product u where u.status=true and u.quantity > 0", nativeQuery = true)
 	List<Product> getListForCustomer();
-	
-	@Query("select u from product u where u.itemname = :itemname or u.categoryid = :categoryid")
+
+	@Query(value = "select u from product u where u.itemname = :itemname or u.categoryid = :categoryid", nativeQuery = true)
 	List<Product> searchByNameOrCategory(@Param("itemname") String itemname, @Param("categoryid") String categoryid);
-	
-	@Query("select u from product u where u.itemname = :itemname or u.categoryid = :categoryid and u.status=true and u.quantity > 0")
-	List<Product> searchByNameOrCategoryForCustomer(@Param("itemname") String itemname, @Param("categoryid") String categoryid);
+
+	@Query(value = "select u from product u where u.itemname = :itemname or u.categoryid = :categoryid and u.status=true and u.quantity > 0", nativeQuery = true)
+	List<Product> searchByNameOrCategoryForCustomer(@Param("itemname") String itemname,
+			@Param("categoryid") String categoryid);
 
 }

@@ -10,19 +10,18 @@ import org.springframework.stereotype.Repository;
 import nashtech.phucldh.ecommerce.entity.Userorder;
 
 @Repository
-public interface UserorderRepository extends JpaRepository<Userorder, String>{
-	
+public interface UserorderRepository extends JpaRepository<Userorder, String> {
+
 	List<Userorder> findByCustomerid(String customerid);
-	
-	@Query("select u.couponid from userorder u")
-	List<String> findByCouponid();
-	
-	@Query("update userorder SET status='Fi' where orderid=:orderid")
-	Boolean updateStatusToFinish(@Param("orderid")String orderID);
-	
-	@Query("update userorder SET status='Co' where orderid=:orderid")
-	Boolean updateStatusToConfirm(@Param("orderid")String orderID);
-	
-	@Query("update userorder SET status='Ca' where orderid=:orderid")
-	Boolean updateStatusToCancel(@Param("orderid")String orderID);
+
+	List<String> findByCouponid(String id);
+
+	@Query(value = "update userorder SET status='Fi' where orderid=:orderid", nativeQuery = true)
+	Boolean updateStatusToFinish(@Param("orderid") String orderID);
+
+	@Query(value = "update userorder SET status='Co' where orderid=:orderid", nativeQuery = true)
+	Boolean updateStatusToConfirm(@Param("orderid") String orderID);
+
+	@Query(value = "update userorder SET status='Ca' where orderid=:orderid", nativeQuery = true)
+	Boolean updateStatusToCancel(@Param("orderid") String orderID);
 }

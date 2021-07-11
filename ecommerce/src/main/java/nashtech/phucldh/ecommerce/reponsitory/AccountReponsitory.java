@@ -12,9 +12,6 @@ import nashtech.phucldh.ecommerce.entity.Account;
 @Repository
 public interface AccountReponsitory extends JpaRepository<Account, String> {
 
-//	@Query("select u from User u where u.username = :username or u.password = :password")
-//	Account checkLogin(@Param("username") String username, @Param("password") String password);
-
 	Optional<Account> findByUsername(String username);
 	
 	Optional<Account> findByEmail(String email);
