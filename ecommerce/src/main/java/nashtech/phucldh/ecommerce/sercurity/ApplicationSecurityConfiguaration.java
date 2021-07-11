@@ -45,7 +45,10 @@ public class ApplicationSecurityConfiguaration extends WebSecurityConfigurerAdap
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(jwtAuthEntryPoint).and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-				.antMatchers("/", "index", "/css/*", "/js/*").permitAll().antMatchers("/api/account/**").permitAll()
+				.antMatchers("/", "index", "/css/*", "/js/*").permitAll()
+				.antMatchers("/grocerystore/api/account/auth/**").permitAll()
+				.antMatchers("/grocerystore/api/category/**").permitAll()
+				.antMatchers("/grocerystore/api/coupons/**").permitAll()
 				.anyRequest().authenticated();
 
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
