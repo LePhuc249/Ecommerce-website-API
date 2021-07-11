@@ -1,5 +1,8 @@
 package nashtech.phucldh.ecommerce.dto;
 
+import java.sql.Timestamp;
+import java.util.UUID;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,5 +17,11 @@ public class CategoryDTO {
 	private String categoryid;
 
 	private String categoryname;
+	
+	private Timestamp createdate;
+	
+	private UUID createaccount;
+	
+	private boolean isdeleted;
 
 }

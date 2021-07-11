@@ -1,5 +1,7 @@
 package nashtech.phucldh.ecommerce.dto;
 
+import java.sql.Timestamp;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +13,7 @@ import lombok.Setter;
 @Setter
 public class ProductDTO {
 	
-	private String itemid;
+	private Integer itemid;
 	
 	private String itemname;
 
@@ -20,6 +22,10 @@ public class ProductDTO {
 	private String description;
 
 	private Float price;
+	
+	private Timestamp createdate;
+	
+	private Timestamp updatedate;
 
 	private String productname;
 

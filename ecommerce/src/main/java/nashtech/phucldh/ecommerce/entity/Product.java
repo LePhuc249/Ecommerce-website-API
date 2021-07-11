@@ -14,13 +14,13 @@ public class Product {
 	@Column(name = "itemid")
 	private Integer itemid;
 
-	@Column(name = "itemname", unique = true, nullable = false, columnDefinition = "TEXT", length = 50)
+	@Column(name = "itemname", unique = true, nullable = false, length = 50)
 	private String itemname;
 
-	@Column(name = "img", unique = true, nullable = false, columnDefinition = "TEXT", length = 200)
+	@Column(name = "img", unique = true, nullable = false, length = 200)
 	private String img;
 
-	@Column(name = "description", nullable = false, columnDefinition = "TEXT", length = 100)
+	@Column(name = "description", nullable = false, length = 100)
 	private String description;
 
 	@Column(name = "price")

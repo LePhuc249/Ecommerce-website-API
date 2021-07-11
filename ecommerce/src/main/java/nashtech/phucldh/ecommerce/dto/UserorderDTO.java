@@ -1,5 +1,8 @@
 package nashtech.phucldh.ecommerce.dto;
 
+import java.sql.Timestamp;
+import java.util.UUID;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,9 +14,11 @@ import lombok.Setter;
 @Setter
 public class UserorderDTO {
 	
-	private String orderid;
+	private UUID orderid;
 
-	private String customerid;
+	private UUID customerid;
+	
+	private Timestamp createdate;
 
 	private String datedelivery;
 
@@ -23,5 +28,5 @@ public class UserorderDTO {
 
 	private String status;
 
-	private String couponid;
+	private UUID couponid;
 }

@@ -28,7 +28,7 @@ public class Orderdetail {
 	@Column(name = "price")
 	private Float price;
 
-	@Column(name = "itemproperty", unique = false, nullable = false, columnDefinition = "TEXT", length = 100)
+	@Column(name = "itemproperty", unique = false, nullable = false, length = 100)
 	private String itemproperty;
 
 	@Column(name = "createdate")

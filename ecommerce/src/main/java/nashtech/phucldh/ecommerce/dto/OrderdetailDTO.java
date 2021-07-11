@@ -1,5 +1,8 @@
 package nashtech.phucldh.ecommerce.dto;
 
+import java.sql.Timestamp;
+import java.util.UUID;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,15 +14,17 @@ import lombok.Setter;
 @Setter
 public class OrderdetailDTO {
 	
-	private String orderlineid;
+	private UUID orderlineid;
 
-	private String orderid;
+	private UUID orderid;
 
-	private String itemid;
+	private Integer itemid;
 
 	private int amount;
 
 	private Float price;
 
 	private String itemproperty;
+	
+	private Timestamp createdate;
 }

@@ -16,7 +16,7 @@ public class Orderstatus {
 	@Column(name = "orderstatusid", nullable = false, length = 100)
 	private String orderstatusid;
 
-	@Column(name = "orderstatusname", unique = true, nullable = false, columnDefinition = "TEXT", length = 50)
+	@Column(name = "orderstatusname", unique = true, nullable = false, length = 50)
 	private String orderstatusname;
 
 	@Column(name = "createby")
