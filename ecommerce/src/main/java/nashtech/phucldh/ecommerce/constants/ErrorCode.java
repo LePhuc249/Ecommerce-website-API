@@ -28,13 +28,17 @@ public class ErrorCode {
 	public static final String ERR_ACCOUNT_NOT_FOUND = "ERR_ACCOUNT_NOT_FOUND";
 	public static final String ERR_ACCOUNT_SIGNUP_FAIL = "ERR_ACCOUNT_SIGNUP_FAIL";
 	public static final String ERR_ACCOUNT_EXISTED = "ERR_ACCOUNT_EXISTED";
+	public static final String ERR_EMAIL_ALREADY_TAKEN = "ERR_EMAIL_ALREADY_TAKEN";
 	public static final String ERR_CREATE_ACCOUNT_FAIL = "ERR_CREATE_ACCOUNT_FAIL";
 	public static final String ERR_UPDATE_ACCOUNT_FAIL = "ERR_UPDATE_ACCOUNT_FAIL";
 	public static final String ERR_DELETE_ACCOUNT_FAIL = "ERR_DELETE_ACCOUNT_FAIL";
 	
+	// Role
+	public static final String ERR_ROLE_NOT_FOUND = "ERR_ROLE_NOT_FOUND";
+
 	// Converter
 	public static final String ERR_CONVERTER_DTO_ENITY_FAIL = "ERR_CONVERTER_DTO_ENITY_FAIL";
-	
+
 	// AUTHENTICATION - AUTHORIZATION
 	public static final String ERR_USER_LOGIN_FAIL = "ERR_USER_LOGIN_FAIL";
 
