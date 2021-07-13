@@ -9,17 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
 @Entity
 @Table(name = "feedback")
 public class Feedback {
@@ -49,5 +38,91 @@ public class Feedback {
 
 	@Column(name = "isDeleted")
 	private boolean isDeleted;
+
+	public Feedback() {
+	}
+
+	public Feedback(Integer id, Integer account_id, Integer order_id, LocalDateTime createdate,
+			LocalDateTime updatedate, String content, Integer counter, boolean isDeleted) {
+		this.id = id;
+		this.account_id = account_id;
+		this.order_id = order_id;
+		this.createdate = createdate;
+		this.updatedate = updatedate;
+		this.content = content;
+		this.counter = counter;
+		this.isDeleted = isDeleted;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getAccount_id() {
+		return account_id;
+	}
+
+	public void setAccount_id(Integer account_id) {
+		this.account_id = account_id;
+	}
+
+	public Integer getOrder_id() {
+		return order_id;
+	}
+
+	public void setOrder_id(Integer order_id) {
+		this.order_id = order_id;
+	}
+
+	public LocalDateTime getCreatedate() {
+		return createdate;
+	}
+
+	public void setCreatedate(LocalDateTime createdate) {
+		this.createdate = createdate;
+	}
+
+	public LocalDateTime getUpdatedate() {
+		return updatedate;
+	}
+
+	public void setUpdatedate(LocalDateTime updatedate) {
+		this.updatedate = updatedate;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public Integer getCounter() {
+		return counter;
+	}
+
+	public void setCounter(Integer counter) {
+		this.counter = counter;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	@Override
+	public String toString() {
+		return "Feedback [id=" + id + ", account_id=" + account_id + ", order_id=" + order_id + ", createdate="
+				+ createdate + ", updatedate=" + updatedate + ", content=" + content + ", counter=" + counter
+				+ ", isDeleted=" + isDeleted + "]";
+	}
 
 }

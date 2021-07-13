@@ -9,17 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
 @Entity
 @Table(name = "role")
 public class Role {
@@ -32,5 +21,34 @@ public class Role {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "rolename", length = 20)
 	private ERole name;
+
+	public Role() {
+	}
+
+	public Role(Integer id, ERole name) {
+		this.id = id;
+		this.name = name;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public ERole getName() {
+		return name;
+	}
+
+	public void setName(ERole name) {
+		this.name = name;
+	}
+
+	@Override
+	public String toString() {
+		return "Role [id=" + id + ", name=" + name + "]";
+	}
 
 }

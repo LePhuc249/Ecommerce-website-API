@@ -7,17 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
 @Entity
 @Table(name = "cart_item")
 public class Cart_Item {
@@ -38,4 +27,62 @@ public class Cart_Item {
 	
 	@Column(name = "price", nullable = false)
 	private Float price;
+
+	public Cart_Item() {
+	}
+
+	public Cart_Item(Integer id, Integer cart_id, Integer item_id, Integer amount, Float price) {
+		this.id = id;
+		this.cart_id = cart_id;
+		this.item_id = item_id;
+		this.amount = amount;
+		this.price = price;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getCart_id() {
+		return cart_id;
+	}
+
+	public void setCart_id(Integer cart_id) {
+		this.cart_id = cart_id;
+	}
+
+	public Integer getItem_id() {
+		return item_id;
+	}
+
+	public void setItem_id(Integer item_id) {
+		this.item_id = item_id;
+	}
+
+	public Integer getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Integer amount) {
+		this.amount = amount;
+	}
+
+	public Float getPrice() {
+		return price;
+	}
+
+	public void setPrice(Float price) {
+		this.price = price;
+	}
+
+	@Override
+	public String toString() {
+		return "Cart_Item [id=" + id + ", cart_id=" + cart_id + ", item_id=" + item_id + ", amount=" + amount
+				+ ", price=" + price + "]";
+	}
+
 }
