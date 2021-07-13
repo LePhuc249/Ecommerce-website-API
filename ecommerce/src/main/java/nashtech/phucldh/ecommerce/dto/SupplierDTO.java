@@ -14,20 +14,21 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class SupplierDTO {
-	
+
 	private Integer id;
-	
+
 	private String name;
-	
+
 	private String description;
-	
+
 	private String phone;
-	
+
 	private String address;
-	
+
 	private LocalDateTime createdate;
-	
+
 	private LocalDateTime updatedate;
-	
+
 	private boolean isDeleted;
+	
 }

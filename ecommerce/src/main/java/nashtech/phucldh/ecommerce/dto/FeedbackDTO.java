@@ -12,15 +12,15 @@ import lombok.Setter;
 @Getter
 @Setter
 public class FeedbackDTO {
-	
+
 	private Integer id;
 
 	private Integer account_id;
 
 	private Integer order_id;
-	
+
 	private LocalDateTime createdate;
-	
+
 	private LocalDateTime updatedate;
 
 	private String content;
@@ -28,4 +28,5 @@ public class FeedbackDTO {
 	private int counter;
 
 	private boolean isDeleted;
+	
 }

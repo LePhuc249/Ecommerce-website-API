@@ -16,14 +16,15 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class Payment_MethodDTO {
-	
+
 	private Integer id;
-	
+
 	private String name;
-	
+
 	private Integer createby;
-	
+
 	private LocalDateTime createdate;
 
 	private boolean isdeleted;
+	
 }

@@ -15,21 +15,21 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class ProductDTO {
-	
+
 	private Integer id;
-	
+
 	private String name;
 
 	private String imgurl;
-	
+
 	private String short_description;
 
 	private String description;
 
 	private Float price;
-	
+
 	private LocalDateTime createdate;
-	
+
 	private LocalDateTime updatedate;
 
 	private Integer supplier_id;
@@ -41,4 +41,5 @@ public class ProductDTO {
 	private int counter;
 
 	private boolean isDeleted;
+
 }

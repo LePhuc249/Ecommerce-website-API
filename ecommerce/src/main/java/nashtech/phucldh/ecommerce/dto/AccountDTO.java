@@ -14,18 +14,19 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AccountDTO {
-	
+
 	private Integer id;
-	
+
 	private String username;
-	
+
 	private String fullname;
-	
+
 	private Integer status;
-	
+
 	private Set<String> roles = new HashSet<>();
-	
+
 	private LocalDateTime createdate;
-	
+
 	private LocalDateTime updatedate;
+	
 }

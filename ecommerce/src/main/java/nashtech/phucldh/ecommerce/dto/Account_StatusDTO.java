@@ -12,7 +12,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class Account_StatusDTO {
-	
+
 	private Integer id;
+	
 	private String status;
+	
 }

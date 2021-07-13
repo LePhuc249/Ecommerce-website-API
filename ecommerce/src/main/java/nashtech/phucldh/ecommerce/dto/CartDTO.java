@@ -14,12 +14,13 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class CartDTO {
-	
+
 	private Integer id;
-	
+
 	private Integer customer_id;
-	
+
 	private Float total_price;
-	
+
 	private LocalDateTime createdate;
+	
 }

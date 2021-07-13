@@ -14,14 +14,15 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class Order_StatusDTO {
-	
+
 	private Integer id;
 
 	private String name;
-	
+
 	private Integer createby;
-	
+
 	private LocalDateTime createdate;
 
 	private boolean isDeleted;
+	
 }

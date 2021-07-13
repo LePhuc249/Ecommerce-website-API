@@ -14,7 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class Order_DetailDTO {
-	
+
 	private Integer id;
 
 	private Integer order_id;
@@ -26,6 +26,7 @@ public class Order_DetailDTO {
 	private Float price;
 
 	private String item_property;
-	
+
 	private LocalDateTime createdate;
+	
 }

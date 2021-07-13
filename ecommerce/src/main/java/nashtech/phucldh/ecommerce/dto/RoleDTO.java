@@ -12,8 +12,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class RoleDTO {
-	
+
 	private Integer id;
 
 	private String name;
+
 }

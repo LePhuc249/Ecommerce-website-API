@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CouponsDTO {
-	
+
 	private Integer id;
 
 	private String code;
@@ -24,12 +24,13 @@ public class CouponsDTO {
 	private String description;
 
 	private String expirationdate;
-	
+
 	private Integer create_by;
-	
+
 	private LocalDateTime createdate;
-	
+
 	private LocalDateTime updatedate;
 
 	private boolean isDeleted;
+	
 }
