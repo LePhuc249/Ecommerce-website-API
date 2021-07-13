@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import nashtech.phucldh.ecommerce.entity.Feedback;
 
 @Repository
-public interface FeedbackRepository extends JpaRepository<Feedback, String> {
+public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
 	
 	Boolean existsFeedbackByAccountidAndOrderid(String username, String orderid);
 }

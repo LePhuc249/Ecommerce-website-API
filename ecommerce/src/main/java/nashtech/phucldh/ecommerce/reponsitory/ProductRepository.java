@@ -10,13 +10,13 @@ import org.springframework.stereotype.Repository;
 import nashtech.phucldh.ecommerce.entity.Product;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, String> {
+public interface ProductRepository extends JpaRepository<Product, Integer> {
 
 	@Query(value = "update product SET status=false where itemid=:itemid", nativeQuery = true)
-	Boolean deactiveProduct(@Param("itemid") String itemid);
+	Boolean deactiveProduct(@Param("itemid") Integer itemid);
 
 	@Query(value = "update product SET status=true where itemid=:itemid", nativeQuery = true)
-	Boolean activeProduct(@Param("itemid") String itemid);
+	Boolean activeProduct(@Param("itemid") Integer itemid);
 
 	@Query(value = "select u from product u where u.itemname=:itemname and u.img=:img and u.description=:description and u.productname=:productname ", nativeQuery = true)
 	Product checkExistProduct(@Param("itemname") String itemName, @Param("img") String img,

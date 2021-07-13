@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import nashtech.phucldh.ecommerce.entity.Relationship_Category;
 
 @Repository
-public interface RelationshipCategoryRepository extends JpaRepository<Relationship_Category, String>{
-
+public interface RelationshipCategoryRepository extends JpaRepository<Relationship_Category, Integer>{
+	
 	Optional<Relationship_Category> findByCategoryid1OrCategoryid2(String categoryid1, String categoryid2);
 }
