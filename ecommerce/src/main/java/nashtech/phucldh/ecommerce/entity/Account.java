@@ -1,167 +1,66 @@
 package nashtech.phucldh.ecommerce.entity;
 
-import java.sql.Timestamp;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
 @Entity
 @Table(name = "account")
 public class Account {
 
 	@Id
-	@Column(name = "id")
-	private UUID id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", unique = true, nullable = false)
+	private Integer id;
 
 	@Column(name = "username", unique = true, nullable = false, length = 30)
 	private String username;
 
-	@Column(name = "password", nullable = false, length = 100)
+	@Column(name = "password", unique = true, nullable = false, length = 100)
 	private String password;
 
 	@Column(name = "fullname", nullable = false, length = 50)
 	private String fullname;
 
-	@Column(name = "email", unique = true, nullable = false, length = 50)
+	@Column(name = "email", nullable = false, length = 50)
 	private String email;
 
-	@Column(name = "phone", unique = true, nullable = false, length = 20)
+	@Column(name = "phone", nullable = false, length = 20)
 	private String phone;
 
-	@Column(name = "address", nullable = false, length = 200)
-	private String address;
+	@Column(name = "create_date")
+	private LocalDateTime createdate;
 
-	@Column(name = "createdate")
-	private Timestamp createdate;
+	@Column(name = "update_date")
+	private LocalDateTime updatedate;
 
-	@Column(name = "statusaccount")
-	private String statusaccount;
+	@Column(name = "status")
+	private Integer status;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "roleid")
-	private Role role;
-
-	public Account() {
-	}
-
-	public Account(UUID id, String username, String password, String fullname, String email, String phone,
-			String address, Timestamp createdate, String statusaccount) {
-		this.id = id;
-		this.username = username;
-		this.password = password;
-		this.fullname = fullname;
-		this.email = email;
-		this.phone = phone;
-		this.address = address;
-		this.createdate = createdate;
-		this.statusaccount = statusaccount;
-	}
-
-	public Account(UUID id, String username, String password, String fullname, String email, String phone,
-			String address, Timestamp createdate, String statusaccount, Role role) {
-		this.id = id;
-		this.username = username;
-		this.password = password;
-		this.fullname = fullname;
-		this.email = email;
-		this.phone = phone;
-		this.address = address;
-		this.createdate = createdate;
-		this.statusaccount = statusaccount;
-		this.role = role;
-	}
-
-	public UUID getId() {
-		return id;
-	}
-
-	public void setId(UUID id) {
-		this.id = id;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getFullname() {
-		return fullname;
-	}
-
-	public void setFullname(String fullname) {
-		this.fullname = fullname;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public Timestamp getCreatedate() {
-		return createdate;
-	}
-
-	public void setCreatedate(Timestamp createdate) {
-		this.createdate = createdate;
-	}
-
-	public String getStatusaccount() {
-		return statusaccount;
-	}
-
-	public void setStatusaccount(String statusaccount) {
-		this.statusaccount = statusaccount;
-	}
-
-	public Role getRole() {
-		return role;
-	}
-
-	public void setRole(Role role) {
-		this.role = role;
-	}
-
-	@Override
-	public String toString() {
-		return "Account [id=" + id + ", username=" + username + ", password=" + password + ", fullname=" + fullname
-				+ ", email=" + email + ", phone=" + phone + ", address=" + address + ", createdate=" + createdate
-				+ ", statusaccount=" + statusaccount + ", role=" + role + "]";
-	}
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "account_role", joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles = new HashSet<>();
 
 }

@@ -1,7 +1,5 @@
 package nashtech.phucldh.ecommerce.entity;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,29 +19,23 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Entity
-@Table(name = "category")
-public class Category {
-
+@Table(name = "cart_item")
+public class Cart_Item {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
-
-	@Column(name = "name", unique = true, nullable = false, length = 20)
-	private String name;
-
-	@Column(name = "create_date")
-	private LocalDateTime createdate;
-
-	@Column(name = "update_date")
-	private LocalDateTime updatedate;
-
-	@Column(name = "create_account")
-	private Integer create_account;
-
-	@Column(name = "isDeleted")
-	private boolean isDeleted;
-
 	
-
+	@Column(name = "cart_id", nullable = false)
+	private Integer cart_id;
+	
+	@Column(name = "item_id", unique = true, nullable = false)
+	private Integer item_id;
+	
+	@Column(name = "amount", nullable = false)
+	private Integer amount;
+	
+	@Column(name = "price", nullable = false)
+	private Float price;
 }

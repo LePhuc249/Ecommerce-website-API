@@ -21,39 +21,30 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Entity
-@Table(name = "coupons")
-public class Coupons {
+@Table(name = "order_detail")
+public class Order_Detail {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
 
-	@Column(name = "code", unique = true, nullable = false, length = 10)
-	private String code;
+	@Column(name = "order_id")
+	private Integer order_id;
 
-	@Column(name = "discount_amount")
-	private Integer discountamount;
+	@Column(name = "item_id")
+	private Integer item_id;
 
-	@Column(name = "product_discount")
-	private Integer productdiscount;
+	@Column(name = "amount")
+	private int amount;
 
-	@Column(name = "description", unique = false, nullable = false, length = 30)
-	private String description;
+	@Column(name = "price")
+	private Float price;
 
-	@Column(name = "expiration_date")
-	private String expirationdate;
-
-	@Column(name = "create_by")
-	private Integer create_by;
+	@Column(name = "item_property", unique = false, nullable = false, length = 100)
+	private String item_property;
 
 	@Column(name = "create_date")
 	private LocalDateTime createdate;
-
-	@Column(name = "update_date")
-	private LocalDateTime updatedate;
-
-	@Column(name = "isDeleted")
-	private boolean isDeleted;
 
 }
