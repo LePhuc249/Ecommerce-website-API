@@ -1,5 +1,6 @@
 package nashtech.phucldh.ecommerce.payload.request;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.validation.constraints.NotBlank;
@@ -29,60 +30,51 @@ public class SignUpRequest {
 	@Pattern(regexp = "[0-9]{7,12}", message = "Invalid phone number!")
 	private String phoneNumber;
 
-	@NotBlank(message = "Address is required.")
-	@Size(min = 5, max = 200, message = "Address accepts only upto 200 characters and minimum 5 character")
-	private String address;
+	private int status;
 
-	private String statusaccount;
-
-	private Set<String> role;
+	private Set<String> role = new HashSet<>();
 
 	public SignUpRequest() {
 	}
 	
-	public SignUpRequest(String username, String password, String fullname, String email, String phoneNumber,
-			String address) {
+	public SignUpRequest(String username, String password, String fullname, String email, String phoneNumber) {
 		this.username = username;
 		this.password = password;
 		this.fullname = fullname;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
-		this.address = address;
 	}
 	
 	public SignUpRequest(String username, String password, String fullname, String email, String phoneNumber,
-			String address, Set<String> role) {
+			Set<String> role) {
 		this.username = username;
 		this.password = password;
 		this.fullname = fullname;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
-		this.address = address;
 		this.role = role;
 	}
 
 	public SignUpRequest(String username, String password, String fullname, String email, String phoneNumber,
-			String address, String statusaccount, Set<String> role) {
+			int statusaccount, Set<String> role) {
 		this.username = username;
 		this.password = password;
 		this.fullname = fullname;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
-		this.address = address;
-		this.statusaccount = statusaccount;
+		this.status = statusaccount;
 		this.role = role;
 	}
 
 	public SignUpRequest(String username, String password, String retypePassword, String fullname, String email,
-			String phoneNumber, String address, String statusaccount, Set<String> role) {
+			String phoneNumber, int statusaccount, Set<String> role) {
 		this.username = username;
 		this.password = password;
 		this.retypePassword = retypePassword;
 		this.fullname = fullname;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
-		this.address = address;
-		this.statusaccount = statusaccount;
+		this.status = statusaccount;
 		this.role = role;
 	}
 
@@ -134,20 +126,12 @@ public class SignUpRequest {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public String getAddress() {
-		return address;
+	public int getStatusaccount() {
+		return status;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getStatusaccount() {
-		return statusaccount;
-	}
-
-	public void setStatusaccount(String statusaccount) {
-		this.statusaccount = statusaccount;
+	public void setStatusaccount(int statusaccount) {
+		this.status = statusaccount;
 	}
 
 	public Set<String> getRole() {
