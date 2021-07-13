@@ -1,4 +1,4 @@
-package nashtech.phucldh.ecommerce.dto;
+package nashtech.phucldh.ecommerce.dto.product;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
