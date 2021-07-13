@@ -20,14 +20,14 @@ public class Role {
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "rolename", length = 20)
-	private ERole name;
+	private ERole rolename;
 
 	public Role() {
 	}
 
 	public Role(Integer id, ERole name) {
 		this.id = id;
-		this.name = name;
+		this.rolename = name;
 	}
 
 	public Integer getId() {
@@ -39,16 +39,16 @@ public class Role {
 	}
 
 	public ERole getName() {
-		return name;
+		return rolename;
 	}
 
 	public void setName(ERole name) {
-		this.name = name;
+		this.rolename = name;
 	}
 
 	@Override
 	public String toString() {
-		return "Role [id=" + id + ", name=" + name + "]";
+		return "Role [id=" + id + ", name=" + rolename + "]";
 	}
 
 }

@@ -1,18 +1,12 @@
 package nashtech.phucldh.ecommerce.entity;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -25,7 +19,7 @@ public class Account_Order {
 	private Integer id;
 
 	@Column(name = "customer_id", nullable = false, length = 10)
-	private Integer customer_id;
+	private Integer customerid;
 
 	@Column(name = "create_date")
 	private LocalDateTime createdate;
@@ -34,57 +28,37 @@ public class Account_Order {
 	private LocalDateTime updatedate;
 
 	@Column(name = "date_delivery", nullable = false, length = 20)
-	private String date_delivery;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "payment_method", nullable = false)
-	private Payment_Method payment_method;
+	private String datedelivery;
+
+	@Column(name = "payment_method")
+	private Integer paymentmethod;
 
 	@Column(name = "total_price")
-	private Float total_price;
+	private Float totalprice;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "status", nullable = false)
-	private Order_Status status;
+	@Column(name = "status")
+	private Integer status;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "coupon_id", nullable = false)
-	private Coupons coupon;
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account_order")
-	private List<Order_Detail> listOrder_Detail = new ArrayList<>();
+	@Column(name = "coupon_id")
+	private Integer couponid;
 
 	public Account_Order() {
 	}
 
-	public Account_Order(Integer id, Integer customer_id, LocalDateTime createdate, LocalDateTime updatedate,
-			String date_delivery, Payment_Method payment_method, Float total_price, Order_Status status,
-			Coupons coupon) {
+	public Account_Order(Integer id, Integer customerid, LocalDateTime createdate, LocalDateTime updatedate,
+			String datedelivery, Integer paymentmethod, Float totalprice, Integer status, Integer couponid) {
 		this.id = id;
-		this.customer_id = customer_id;
+		this.customerid = customerid;
 		this.createdate = createdate;
 		this.updatedate = updatedate;
-		this.date_delivery = date_delivery;
-		this.payment_method = payment_method;
-		this.total_price = total_price;
+		this.datedelivery = datedelivery;
+		this.paymentmethod = paymentmethod;
+		this.totalprice = totalprice;
 		this.status = status;
-		this.coupon = coupon;
+		this.couponid = couponid;
 	}
 
-	public Account_Order(Integer id, Integer customer_id, LocalDateTime createdate, LocalDateTime updatedate,
-			String date_delivery, Payment_Method payment_method, Float total_price, Order_Status status, Coupons coupon,
-			List<Order_Detail> listOrder_Detail) {
-		this.id = id;
-		this.customer_id = customer_id;
-		this.createdate = createdate;
-		this.updatedate = updatedate;
-		this.date_delivery = date_delivery;
-		this.payment_method = payment_method;
-		this.total_price = total_price;
-		this.status = status;
-		this.coupon = coupon;
-		this.listOrder_Detail = listOrder_Detail;
-	}
+
 
 	public Integer getId() {
 		return id;
@@ -95,11 +69,11 @@ public class Account_Order {
 	}
 
 	public Integer getCustomer_id() {
-		return customer_id;
+		return customerid;
 	}
 
 	public void setCustomer_id(Integer customer_id) {
-		this.customer_id = customer_id;
+		this.customerid = customer_id;
 	}
 
 	public LocalDateTime getCreatedate() {
@@ -119,59 +93,51 @@ public class Account_Order {
 	}
 
 	public String getDate_delivery() {
-		return date_delivery;
+		return datedelivery;
 	}
 
 	public void setDate_delivery(String date_delivery) {
-		this.date_delivery = date_delivery;
+		this.datedelivery = date_delivery;
 	}
 
-	public Payment_Method getPayment_method() {
-		return payment_method;
+	public Integer getPaymentmethod() {
+		return paymentmethod;
 	}
 
-	public void setPayment_method(Payment_Method payment_method) {
-		this.payment_method = payment_method;
+	public void setPaymentmethod(Integer paymentmethod) {
+		this.paymentmethod = paymentmethod;
 	}
 
 	public Float getTotal_price() {
-		return total_price;
+		return totalprice;
 	}
 
 	public void setTotal_price(Float total_price) {
-		this.total_price = total_price;
+		this.totalprice = total_price;
 	}
 
-	public Order_Status getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(Order_Status status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
-	public Coupons getCoupon() {
-		return coupon;
+	public Integer getCouponid() {
+		return couponid;
 	}
 
-	public void setCoupon(Coupons coupon) {
-		this.coupon = coupon;
-	}
-
-	public List<Order_Detail> getListOrder_Detail() {
-		return listOrder_Detail;
-	}
-
-	public void setListOrder_Detail(List<Order_Detail> listOrder_Detail) {
-		this.listOrder_Detail = listOrder_Detail;
+	public void setCouponid(Integer couponid) {
+		this.couponid = couponid;
 	}
 
 	@Override
 	public String toString() {
-		return "Account_Order [id=" + id + ", customer_id=" + customer_id + ", createdate=" + createdate
-				+ ", updatedate=" + updatedate + ", date_delivery=" + date_delivery + ", payment_method="
-				+ payment_method + ", total_price=" + total_price + ", status=" + status + ", coupon=" + coupon
-				+ ", listOrder_Detail=" + listOrder_Detail + "]";
+		return "Account_Order [id=" + id + ", customer_id=" + customerid + ", createdate=" + createdate
+				+ ", updatedate=" + updatedate + ", date_delivery=" + datedelivery + ", payment_method="
+				+ paymentmethod + ", total_price=" + totalprice + ", status=" + status + ", coupon=" + couponid
+				+ "]";
 	}
 
 }

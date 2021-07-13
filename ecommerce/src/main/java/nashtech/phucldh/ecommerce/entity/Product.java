@@ -28,7 +28,7 @@ public class Product {
 	private String imgurl;
 	
 	@Column(name = "short_description", nullable = false, length = 100)
-	private String short_description;
+	private String shortdescription;
 
 	@Column(name = "description", nullable = false, length = 100)
 	private String description;
@@ -68,7 +68,7 @@ public class Product {
 		this.id = id;
 		this.name = name;
 		this.imgurl = imgurl;
-		this.short_description = short_description;
+		this.shortdescription = short_description;
 		this.description = description;
 		this.price = price;
 		this.createdate = createdate;
@@ -105,11 +105,11 @@ public class Product {
 	}
 
 	public String getShort_description() {
-		return short_description;
+		return shortdescription;
 	}
 
 	public void setShort_description(String short_description) {
-		this.short_description = short_description;
+		this.shortdescription = short_description;
 	}
 
 	public String getDescription() {
@@ -187,7 +187,7 @@ public class Product {
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", name=" + name + ", imgurl=" + imgurl + ", short_description="
-				+ short_description + ", description=" + description + ", price=" + price + ", createdate=" + createdate
+				+ shortdescription + ", description=" + description + ", price=" + price + ", createdate=" + createdate
 				+ ", updatedate=" + updatedate + ", supplier=" + supplier + ", quantity=" + quantity + ", category="
 				+ category + ", counter=" + counter + ", isDeleted=" + isDeleted + "]";
 	}

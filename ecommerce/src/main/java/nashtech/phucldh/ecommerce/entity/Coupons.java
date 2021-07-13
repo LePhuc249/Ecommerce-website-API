@@ -1,16 +1,12 @@
 package nashtech.phucldh.ecommerce.entity;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -38,7 +34,7 @@ public class Coupons {
 	private String expirationdate;
 
 	@Column(name = "create_by")
-	private Integer create_by;
+	private Integer createby;
 
 	@Column(name = "create_date")
 	private LocalDateTime createdate;
@@ -48,9 +44,6 @@ public class Coupons {
 
 	@Column(name = "isDeleted")
 	private boolean isDeleted;
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "coupons")
-	private List<Account_Order> listAccount_Order = new ArrayList<>();
 
 	public Coupons() {
 	}
@@ -64,26 +57,10 @@ public class Coupons {
 		this.productdiscount = productdiscount;
 		this.description = description;
 		this.expirationdate = expirationdate;
-		this.create_by = create_by;
+		this.createby = create_by;
 		this.createdate = createdate;
 		this.updatedate = updatedate;
 		this.isDeleted = isDeleted;
-	}
-
-	public Coupons(Integer id, String code, Integer discountamount, Integer productdiscount, String description,
-			String expirationdate, Integer create_by, LocalDateTime createdate, LocalDateTime updatedate,
-			boolean isDeleted, List<Account_Order> listAccount_Order) {
-		this.id = id;
-		this.code = code;
-		this.discountamount = discountamount;
-		this.productdiscount = productdiscount;
-		this.description = description;
-		this.expirationdate = expirationdate;
-		this.create_by = create_by;
-		this.createdate = createdate;
-		this.updatedate = updatedate;
-		this.isDeleted = isDeleted;
-		this.listAccount_Order = listAccount_Order;
 	}
 
 	public Integer getId() {
@@ -135,11 +112,11 @@ public class Coupons {
 	}
 
 	public Integer getCreate_by() {
-		return create_by;
+		return createby;
 	}
 
 	public void setCreate_by(Integer create_by) {
-		this.create_by = create_by;
+		this.createby = create_by;
 	}
 
 	public LocalDateTime getCreatedate() {
@@ -166,20 +143,12 @@ public class Coupons {
 		this.isDeleted = isDeleted;
 	}
 
-	public List<Account_Order> getListAccount_Order() {
-		return listAccount_Order;
-	}
-
-	public void setListAccount_Order(List<Account_Order> listAccount_Order) {
-		this.listAccount_Order = listAccount_Order;
-	}
-
 	@Override
 	public String toString() {
 		return "Coupons [id=" + id + ", code=" + code + ", discountamount=" + discountamount + ", productdiscount="
 				+ productdiscount + ", description=" + description + ", expirationdate=" + expirationdate
-				+ ", create_by=" + create_by + ", createdate=" + createdate + ", updatedate=" + updatedate
-				+ ", isDeleted=" + isDeleted + ", listAccount_Order=" + listAccount_Order + "]";
+				+ ", create_by=" + createby + ", createdate=" + createdate + ", updatedate=" + updatedate
+				+ ", isDeleted=" + isDeleted + "]";
 	}
 
 }

@@ -17,18 +17,18 @@ public class Relationship_Category {
 	private Integer id;
 
 	@Column(name = "category_id1", nullable = false, length = 10)
-	private Integer category_id1;
+	private Integer categoryid1;
 
 	@Column(name = "category_id2", nullable = false, length = 10)
-	private Integer category_id2;
+	private Integer categoryid2;
 
 	public Relationship_Category() {
 	}
 
 	public Relationship_Category(Integer id, Integer category_id1, Integer category_id2) {
 		this.id = id;
-		this.category_id1 = category_id1;
-		this.category_id2 = category_id2;
+		this.categoryid1 = category_id1;
+		this.categoryid2 = category_id2;
 	}
 
 	public Integer getId() {
@@ -40,24 +40,24 @@ public class Relationship_Category {
 	}
 
 	public Integer getCategory_id1() {
-		return category_id1;
+		return categoryid1;
 	}
 
 	public void setCategory_id1(Integer category_id1) {
-		this.category_id1 = category_id1;
+		this.categoryid1 = category_id1;
 	}
 
 	public Integer getCategory_id2() {
-		return category_id2;
+		return categoryid2;
 	}
 
 	public void setCategory_id2(Integer category_id2) {
-		this.category_id2 = category_id2;
+		this.categoryid2 = category_id2;
 	}
 
 	@Override
 	public String toString() {
-		return "Relationship_Category [id=" + id + ", category_id1=" + category_id1 + ", category_id2=" + category_id2
+		return "Relationship_Category [id=" + id + ", category_id1=" + categoryid1 + ", category_id2=" + categoryid2
 				+ "]";
 	}
 

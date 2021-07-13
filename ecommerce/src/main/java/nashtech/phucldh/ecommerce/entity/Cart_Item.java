@@ -17,10 +17,10 @@ public class Cart_Item {
 	private Integer id;
 	
 	@Column(name = "cart_id", nullable = false)
-	private Integer cart_id;
+	private Integer cartid;
 	
 	@Column(name = "item_id", unique = true, nullable = false)
-	private Integer item_id;
+	private Integer itemid;
 	
 	@Column(name = "amount", nullable = false)
 	private Integer amount;
@@ -33,8 +33,8 @@ public class Cart_Item {
 
 	public Cart_Item(Integer id, Integer cart_id, Integer item_id, Integer amount, Float price) {
 		this.id = id;
-		this.cart_id = cart_id;
-		this.item_id = item_id;
+		this.cartid = cart_id;
+		this.itemid = item_id;
 		this.amount = amount;
 		this.price = price;
 	}
@@ -48,19 +48,19 @@ public class Cart_Item {
 	}
 
 	public Integer getCart_id() {
-		return cart_id;
+		return cartid;
 	}
 
 	public void setCart_id(Integer cart_id) {
-		this.cart_id = cart_id;
+		this.cartid = cart_id;
 	}
 
 	public Integer getItem_id() {
-		return item_id;
+		return itemid;
 	}
 
 	public void setItem_id(Integer item_id) {
-		this.item_id = item_id;
+		this.itemid = item_id;
 	}
 
 	public Integer getAmount() {
@@ -81,7 +81,7 @@ public class Cart_Item {
 
 	@Override
 	public String toString() {
-		return "Cart_Item [id=" + id + ", cart_id=" + cart_id + ", item_id=" + item_id + ", amount=" + amount
+		return "Cart_Item [id=" + id + ", cart_id=" + cartid + ", item_id=" + itemid + ", amount=" + amount
 				+ ", price=" + price + "]";
 	}
 

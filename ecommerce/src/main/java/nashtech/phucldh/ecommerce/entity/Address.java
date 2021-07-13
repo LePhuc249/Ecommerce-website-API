@@ -17,7 +17,7 @@ public class Address {
 	private Integer id;
 	
 	@Column(name = "account_id", nullable = false)
-	private Integer account_id;
+	private Integer accountid;
 	
 	@Column(name = "address", nullable = false, length = 100)
 	private String address;
@@ -27,7 +27,7 @@ public class Address {
 
 	public Address(Integer id, Integer account_id, String address) {
 		this.id = id;
-		this.account_id = account_id;
+		this.accountid = account_id;
 		this.address = address;
 	}
 
@@ -40,11 +40,11 @@ public class Address {
 	}
 
 	public Integer getAccount_id() {
-		return account_id;
+		return accountid;
 	}
 
 	public void setAccount_id(Integer account_id) {
-		this.account_id = account_id;
+		this.accountid = account_id;
 	}
 
 	public String getAddress() {
@@ -57,7 +57,7 @@ public class Address {
 
 	@Override
 	public String toString() {
-		return "Address [id=" + id + ", account_id=" + account_id + ", address=" + address + "]";
+		return "Address [id=" + id + ", account_id=" + accountid + ", address=" + address + "]";
 	}
 
 }

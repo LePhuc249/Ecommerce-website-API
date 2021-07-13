@@ -19,10 +19,10 @@ public class Feedback {
 	private Integer id;
 
 	@Column(name = "account_id", unique = false, nullable = false, length = 30)
-	private Integer account_id;
+	private Integer accountid;
 
 	@Column(name = "order_id")
-	private Integer order_id;
+	private Integer orderid;
 
 	@Column(name = "create_date")
 	private LocalDateTime createdate;
@@ -45,8 +45,8 @@ public class Feedback {
 	public Feedback(Integer id, Integer account_id, Integer order_id, LocalDateTime createdate,
 			LocalDateTime updatedate, String content, Integer counter, boolean isDeleted) {
 		this.id = id;
-		this.account_id = account_id;
-		this.order_id = order_id;
+		this.accountid = account_id;
+		this.orderid = order_id;
 		this.createdate = createdate;
 		this.updatedate = updatedate;
 		this.content = content;
@@ -63,19 +63,19 @@ public class Feedback {
 	}
 
 	public Integer getAccount_id() {
-		return account_id;
+		return accountid;
 	}
 
 	public void setAccount_id(Integer account_id) {
-		this.account_id = account_id;
+		this.accountid = account_id;
 	}
 
 	public Integer getOrder_id() {
-		return order_id;
+		return orderid;
 	}
 
 	public void setOrder_id(Integer order_id) {
-		this.order_id = order_id;
+		this.orderid = order_id;
 	}
 
 	public LocalDateTime getCreatedate() {
@@ -120,7 +120,7 @@ public class Feedback {
 
 	@Override
 	public String toString() {
-		return "Feedback [id=" + id + ", account_id=" + account_id + ", order_id=" + order_id + ", createdate="
+		return "Feedback [id=" + id + ", account_id=" + accountid + ", order_id=" + orderid + ", createdate="
 				+ createdate + ", updatedate=" + updatedate + ", content=" + content + ", counter=" + counter
 				+ ", isDeleted=" + isDeleted + "]";
 	}

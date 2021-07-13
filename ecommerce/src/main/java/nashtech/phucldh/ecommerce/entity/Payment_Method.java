@@ -1,16 +1,12 @@
 package nashtech.phucldh.ecommerce.entity;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -33,9 +29,6 @@ public class Payment_Method {
 
 	@Column(name = "isDeleted")
 	private boolean isDeleted;
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "payment_method")
-	private List<Account_Order> listAccount_Order = new ArrayList<>();
 
 	public Payment_Method() {
 	}
@@ -46,16 +39,6 @@ public class Payment_Method {
 		this.createby = createby;
 		this.createdate = createdate;
 		this.isDeleted = isDeleted;
-	}
-
-	public Payment_Method(Integer id, String name, Integer createby, LocalDateTime createdate, boolean isDeleted,
-			List<Account_Order> listAccount_Order) {
-		this.id = id;
-		this.name = name;
-		this.createby = createby;
-		this.createdate = createdate;
-		this.isDeleted = isDeleted;
-		this.listAccount_Order = listAccount_Order;
 	}
 
 	public Integer getId() {
@@ -98,18 +81,11 @@ public class Payment_Method {
 		this.isDeleted = isDeleted;
 	}
 
-	public List<Account_Order> getListAccount_Order() {
-		return listAccount_Order;
-	}
-
-	public void setListAccount_Order(List<Account_Order> listAccount_Order) {
-		this.listAccount_Order = listAccount_Order;
-	}
 
 	@Override
 	public String toString() {
 		return "Payment_Method [id=" + id + ", name=" + name + ", createby=" + createby + ", createdate=" + createdate
-				+ ", isDeleted=" + isDeleted + ", listAccount_Order=" + listAccount_Order + "]";
+				+ ", isDeleted=" + isDeleted + "]";
 	}
 
 }
