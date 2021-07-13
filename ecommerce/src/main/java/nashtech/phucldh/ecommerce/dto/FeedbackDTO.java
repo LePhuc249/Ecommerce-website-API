@@ -1,7 +1,6 @@
 package nashtech.phucldh.ecommerce.dto;
 
-import java.sql.Timestamp;
-import java.util.UUID;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,17 +13,19 @@ import lombok.Setter;
 @Setter
 public class FeedbackDTO {
 	
-	private UUID feedbackid;
+	private Integer id;
 
-	private UUID accountid;
+	private Integer account_id;
 
-	private UUID orderid;
+	private Integer order_id;
 	
-	private Timestamp feedbacktime;
+	private LocalDateTime createdate;
+	
+	private LocalDateTime updatedate;
 
 	private String content;
 
 	private int counter;
 
-	private String status;
+	private boolean isDeleted;
 }

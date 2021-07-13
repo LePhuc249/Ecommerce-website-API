@@ -1,6 +1,8 @@
 package nashtech.phucldh.ecommerce.dto;
 
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,21 +15,17 @@ import lombok.Setter;
 @Setter
 public class AccountDTO {
 	
-	private UUID id;
+	private Integer id;
 	
 	private String username;
 	
-	private String password;
-	
 	private String fullname;
 	
-	private String email;
+	private Integer status;
 	
-	private String phone;
+	private Set<String> roles = new HashSet<>();
 	
-	private String address;
+	private LocalDateTime createdate;
 	
-	private String statusaccount;
-	
-	private RoleDTO role;
+	private LocalDateTime updatedate;
 }

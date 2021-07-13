@@ -3,33 +3,25 @@ package nashtech.phucldh.ecommerce.dto;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-public class CouponsDTO {
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
+public class Order_StatusDTO {
 	
 	private Integer id;
 
-	private String code;
-
-	private Integer discountamount;
-
-	private Integer productdiscount;
-
-	private String description;
-
-	private String expirationdate;
+	private String name;
 	
-	private Integer create_by;
+	private Integer createby;
 	
 	private LocalDateTime createdate;
-	
-	private LocalDateTime updatedate;
 
 	private boolean isDeleted;
 }
