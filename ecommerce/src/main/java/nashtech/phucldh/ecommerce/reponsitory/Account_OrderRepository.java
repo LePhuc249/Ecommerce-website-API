@@ -16,12 +16,12 @@ public interface Account_OrderRepository extends JpaRepository<Account_Order, In
 
 	List<String> findByCouponid(String id);
 
-	@Query(value = "update userorder SET status='Fi' where id=:id", nativeQuery = true)
-	Boolean updateStatusToFinish(@Param("id") String orderID);
-
-	@Query(value = "update userorder SET status='Co' where id=:id", nativeQuery = true)
-	Boolean updateStatusToConfirm(@Param("id") String orderID);
-
-	@Query(value = "update userorder SET status='Ca' where id=:id", nativeQuery = true)
+	@Query(value = "update account_order SET status=1 where id=:id", nativeQuery = true)
 	Boolean updateStatusToCancel(@Param("id") String orderID);
+	
+	@Query(value = "update account_order SET status=2 where id=:id", nativeQuery = true)
+	Boolean updateStatusToConfirm(@Param("id") String orderID);
+	
+	@Query(value = "update account_order SET status=3 where id=:id", nativeQuery = true)
+	Boolean updateStatusToFinish(@Param("id") String orderID);
 }
