@@ -11,13 +11,14 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 @Component
-public class JwtAuthEntryPoint implements AuthenticationEntryPoint{
-	
+public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
+
 	private static final Logger log = LoggerFactory.getLogger(JwtAuthEntryPoint.class);
 
-    @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        log.error("Unauthorized error: {}", authException.getMessage());
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized");
-    }
+	@Override
+	public void commence(HttpServletRequest request, HttpServletResponse response,
+			AuthenticationException authException) throws IOException, ServletException {
+		log.error("Unauthorized error: {}", authException.getMessage());
+		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized");
+	}
 }

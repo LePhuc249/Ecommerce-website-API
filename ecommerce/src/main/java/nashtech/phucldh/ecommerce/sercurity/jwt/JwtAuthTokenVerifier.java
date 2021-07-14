@@ -28,25 +28,27 @@ public class JwtAuthTokenVerifier extends OncePerRequestFilter {
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-			throws ServletException, IOException {
-		try {
-			String jwt = parseJwt(request);
-			if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
-				String username = jwtUtils.getUsernameFromJwtToken(jwt);
-				UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-						userDetails, null, userDetails.getAuthorities());
-				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-				SecurityContextHolder.getContext().setAuthentication(authentication);
-			}
-		} catch (JwtException ex) {
-			logger.error("Cannot set user authentication: {}", ex);
+			throws ServletException, IOException, JwtException {
+		String jwt = parseJwt(request);
+		System.out.println("Jwt = " + jwt);
+		if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
+			String username = jwtUtils.getUsernameFromJwtToken(jwt);
+			UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
+					null, userDetails.getAuthorities());
+			authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+			System.out.println("SecurityContextHolder.getContext().setAuthentication(authentication)");
 		}
+		System.out.println("Before filter chain");
 		filterChain.doFilter(request, response);
 	}
 
 	private String parseJwt(HttpServletRequest request) {
+		System.out.println("Request = " + request);
+		System.out.println("Authorization Header = " + jwtUtils.getAuthorizationHeader());
 		String headerAuth = request.getHeader(jwtUtils.getAuthorizationHeader());
+		System.out.println("HeaderAuth = " + headerAuth);
 		if (StringUtils.hasText(headerAuth) && headerAuth.startsWith(jwtUtils.getTokenPrefix())) {
 			return headerAuth.replace(jwtUtils.getTokenPrefix(), "");
 		}
