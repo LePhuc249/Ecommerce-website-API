@@ -1,15 +1,12 @@
 package nashtech.phucldh.ecommerce.sercurity.service.impl;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import nashtech.phucldh.ecommerce.entity.Account;
-import nashtech.phucldh.ecommerce.entity.Role;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class UserDetailsImpl implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
+
+	private Integer id;
 
 	private String username;
 
@@ -28,30 +27,37 @@ public class UserDetailsImpl implements UserDetails {
 
 	private String email;
 
-	private String statusaccount;
+	private int status;
 
 	private Collection<? extends GrantedAuthority> authorities;
 
 	public UserDetailsImpl() {
 	}
 
-	public UserDetailsImpl(String username, String password, String fullname, String email, String statusaccount,
-			Collection<? extends GrantedAuthority> authorities) {
+	public UserDetailsImpl(Integer id, String username, String password, String fullname, String email,
+			int status, Collection<? extends GrantedAuthority> authorities) {
+		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.fullname = fullname;
 		this.email = email;
-		this.statusaccount = statusaccount;
+		this.status = status;
 		this.authorities = authorities;
 	}
 
 	public static UserDetailsImpl build(Account theAccount) {
-		Set<Role> roleSet = new HashSet<Role>();
-		roleSet.add(theAccount.getRole());
-		List<GrantedAuthority> authorities = roleSet.stream()
-				.map(role -> new SimpleGrantedAuthority(role.getRolename())).collect(Collectors.toList());
-		return new UserDetailsImpl(theAccount.getUsername(), theAccount.getPassword(), theAccount.getFullname(),
-				theAccount.getEmail(), theAccount.getStatusaccount(), authorities);
+		List<GrantedAuthority> authorities = theAccount.getRoles().stream()
+				.map(role -> new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
+		return new UserDetailsImpl(theAccount.getId(), theAccount.getUsername(), theAccount.getPassword(),
+				theAccount.getFullname(), theAccount.getEmail(), theAccount.getStatus(), authorities);
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getUsername() {
@@ -86,12 +92,12 @@ public class UserDetailsImpl implements UserDetails {
 		this.email = email;
 	}
 
-	public String getStatusaccount() {
-		return statusaccount;
+	public int getStatusaccount() {
+		return status;
 	}
 
-	public void setStatusaccount(String statusaccount) {
-		this.statusaccount = statusaccount;
+	public void setStatusaccount(int statusaccount) {
+		this.status = statusaccount;
 	}
 
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -107,19 +113,13 @@ public class UserDetailsImpl implements UserDetails {
 	}
 
 	@Override
-	public String toString() {
-		return "UserDetailsImpl [username=" + username + ", password=" + password + ", fullname=" + fullname
-				+ ", email=" + email + ", statusaccount=" + statusaccount + ", authorities=" + authorities + "]";
-	}
-
-	@Override
 	public boolean equals(Object o) {
 		if (this == o)
 			return true;
 		if (o == null || getClass() != o.getClass())
 			return false;
 		UserDetailsImpl user = (UserDetailsImpl) o;
-		return Objects.equals(username, user.username);
+		return Objects.equals(id, user.id);
 	}
 
 	@Override
@@ -144,10 +144,10 @@ public class UserDetailsImpl implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		boolean status = false;
-		if(statusaccount.equals("Active")) {
-			status = true;
+		boolean statusAccount = false;
+		if (status == 2) {
+			statusAccount = true;
 		}
-		return status;
+		return statusAccount;
 	}
 }

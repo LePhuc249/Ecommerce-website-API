@@ -1,8 +1,9 @@
 package nashtech.phucldh.ecommerce.service;
 
 import nashtech.phucldh.ecommerce.entity.Relationship_Category;
+import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
 
 public interface RelationshipCategoryService {
 	
-	public Relationship_Category getRelationshipCategoryByCategory(String category1, String category2);
+	public Relationship_Category getRelationshipCategoryByCategory(String category1, String category2) throws DataNotFoundException;
 }

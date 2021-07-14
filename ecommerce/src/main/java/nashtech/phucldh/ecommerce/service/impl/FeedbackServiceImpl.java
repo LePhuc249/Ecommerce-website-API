@@ -6,14 +6,15 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import nashtech.phucldh.ecommerce.constants.ErrorCode;
 import nashtech.phucldh.ecommerce.entity.Feedback;
-import nashtech.phucldh.ecommerce.exception.FeedbackNotFoundException;
+import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
 import nashtech.phucldh.ecommerce.reponsitory.FeedbackRepository;
 import nashtech.phucldh.ecommerce.service.FeedbackService;
 
 @Service
-public class FeedbackServiceImpl implements FeedbackService{
-	
+public class FeedbackServiceImpl implements FeedbackService {
+
 	@Autowired
 	FeedbackRepository feedbackRepository;
 
@@ -24,13 +25,13 @@ public class FeedbackServiceImpl implements FeedbackService{
 	}
 
 	@Override
-	public Feedback getFeedbackById(String code) {
+	public Feedback getFeedbackById(Integer code) throws DataNotFoundException {
 		Optional<Feedback> result = feedbackRepository.findById(code);
 		Feedback theFeedback = null;
 		if (result.isPresent()) {
 			theFeedback = result.get();
 		} else {
-			throw new FeedbackNotFoundException("Did not find feedback by code - " + code);
+			throw new DataNotFoundException(ErrorCode.ERR_ROLE_NOT_FOUND);
 		}
 		return theFeedback;
 	}
@@ -41,13 +42,13 @@ public class FeedbackServiceImpl implements FeedbackService{
 	}
 
 	@Override
-	public void deleteFeedbackById(String idFeedback) {
+	public void deleteFeedbackById(Integer idFeedback) {
 		feedbackRepository.deleteById(idFeedback);
 	}
 
 	@Override
 	public boolean checkExistFeedback(String username, String orderid) {
-		boolean result = feedbackRepository.existsFeedbackByUsernameAndOrderid(username, orderid);
+		boolean result = feedbackRepository.existsFeedbackByAccountidAndOrderid(username, orderid);
 		return result;
 	}
 

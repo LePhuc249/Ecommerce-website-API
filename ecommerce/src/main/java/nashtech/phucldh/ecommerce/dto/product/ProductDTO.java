@@ -1,6 +1,5 @@
 package nashtech.phucldh.ecommerce.dto.product;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;

@@ -6,17 +6,18 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import nashtech.phucldh.ecommerce.constants.ErrorCode;
 import nashtech.phucldh.ecommerce.entity.Product;
-import nashtech.phucldh.ecommerce.exception.ProductNotFoundException;
+import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
 import nashtech.phucldh.ecommerce.reponsitory.ProductRepository;
 import nashtech.phucldh.ecommerce.service.ProductService;
 
 @Service
-public class ProductServiceImpl implements ProductService{
-	
+public class ProductServiceImpl implements ProductService {
+
 	@Autowired
 	ProductRepository productRepository;
-	
+
 	@Override
 	public List<Product> findAll() {
 		List<Product> result = productRepository.findAll();
@@ -52,13 +53,13 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public Product getProductById(String productId) {
+	public Product getProductById(Integer productId) throws DataNotFoundException {
 		Optional<Product> result = productRepository.findById(productId);
 		Product theProduct = null;
 		if (result.isPresent()) {
 			theProduct = result.get();
 		} else {
-			throw new ProductNotFoundException("Did not find product by id - " + productId);
+			throw new DataNotFoundException(ErrorCode.ERR_ROLE_NOT_FOUND);
 		}
 		return theProduct;
 	}
@@ -69,12 +70,12 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public void deleteProduct(String productId) {
+	public void deleteProduct(Integer productId) {
 		productRepository.deactiveProduct(productId);
 	}
-	
+
 	@Override
-	public void activeProduct(String productId) {
+	public void activeProduct(Integer productId) {
 		productRepository.activeProduct(productId);
 	}
 
