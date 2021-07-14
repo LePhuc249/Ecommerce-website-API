@@ -10,13 +10,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
+import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
+import nashtech.phucldh.ecommerce.exception.DuplicateDataException;
 import nashtech.phucldh.ecommerce.payload.request.LoginRequest;
 import nashtech.phucldh.ecommerce.payload.request.SignUpRequest;
 import nashtech.phucldh.ecommerce.service.AccountService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/account/auth")
+@RequestMapping("/account/auth")
 public class AccountRestController {
 	
 	private final AccountService accountService;
@@ -32,7 +35,7 @@ public class AccountRestController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerCustomer(@Valid @RequestBody SignUpRequest signUpRequest) {
+    public ResponseEntity<?> registerCustomer(@Valid @RequestBody SignUpRequest signUpRequest) throws CreateDataFailException, DuplicateDataException, DataNotFoundException {
         return accountService.registerAccount(signUpRequest);
     }
 }
