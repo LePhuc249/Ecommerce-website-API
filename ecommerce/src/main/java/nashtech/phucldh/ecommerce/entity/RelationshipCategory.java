@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "relationship_category")
-public class Relationship_Category {
+public class RelationshipCategory {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,10 +22,10 @@ public class Relationship_Category {
 	@Column(name = "category_id2", nullable = false, length = 10)
 	private Integer categoryid2;
 
-	public Relationship_Category() {
+	public RelationshipCategory() {
 	}
 
-	public Relationship_Category(Integer id, Integer category_id1, Integer category_id2) {
+	public RelationshipCategory(Integer id, Integer category_id1, Integer category_id2) {
 		this.id = id;
 		this.categoryid1 = category_id1;
 		this.categoryid2 = category_id2;

@@ -2,20 +2,20 @@ package nashtech.phucldh.ecommerce.service;
 
 import java.util.List;
 
-import nashtech.phucldh.ecommerce.entity.Account_Order;
+import nashtech.phucldh.ecommerce.entity.AccountOrder;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
 
-public interface Account_OrderService {
+public interface AccountOrderService {
 
-	public List<Account_Order> findAll();
+	public List<AccountOrder> findAll();
 
-	public List<Account_Order> findOrderOfCustomer(String accountID);
+	public List<AccountOrder> findOrderOfCustomer(String accountID);
 
 	public List<String> listUsedCoupons(String id);
 
-	public void saveOrder(Account_Order newUserOrder);
+	public void saveOrder(AccountOrder newUserOrder);
 
-	public Account_Order getOrderById(Integer orderID) throws DataNotFoundException;
+	public AccountOrder getOrderById(Integer orderID) throws DataNotFoundException;
 
 	public boolean updateStatusToFinish(String orderId);
 	

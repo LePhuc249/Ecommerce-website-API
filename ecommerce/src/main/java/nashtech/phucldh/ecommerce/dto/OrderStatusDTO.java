@@ -1,5 +1,7 @@
 package nashtech.phucldh.ecommerce.dto;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -11,10 +13,16 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class Account_StatusDTO {
+public class OrderStatusDTO {
 
 	private Integer id;
-	
-	private String status;
+
+	private String name;
+
+	private Integer createby;
+
+	private LocalDateTime createdate;
+
+	private boolean isDeleted;
 	
 }

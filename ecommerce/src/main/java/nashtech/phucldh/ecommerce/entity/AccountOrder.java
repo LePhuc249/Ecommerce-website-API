@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "account_order")
-public class Account_Order {
+public class AccountOrder {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,11 +42,11 @@ public class Account_Order {
 	@Column(name = "coupon_id")
 	private Integer couponid;
 
-	public Account_Order() {
+	public AccountOrder() {
 	}
 
-	public Account_Order(Integer id, Integer customerid, LocalDateTime createdate, LocalDateTime updatedate,
-			String datedelivery, Integer paymentmethod, Float totalprice, Integer status, Integer couponid) {
+	public AccountOrder(Integer id, Integer customerid, LocalDateTime createdate, LocalDateTime updatedate,
+						String datedelivery, Integer paymentmethod, Float totalprice, Integer status, Integer couponid) {
 		this.id = id;
 		this.customerid = customerid;
 		this.createdate = createdate;

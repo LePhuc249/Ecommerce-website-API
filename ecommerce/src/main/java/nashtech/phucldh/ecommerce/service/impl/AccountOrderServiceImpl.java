@@ -7,26 +7,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
-import nashtech.phucldh.ecommerce.entity.Account_Order;
+import nashtech.phucldh.ecommerce.entity.AccountOrder;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
-import nashtech.phucldh.ecommerce.reponsitory.Account_OrderRepository;
-import nashtech.phucldh.ecommerce.service.Account_OrderService;
+import nashtech.phucldh.ecommerce.reponsitory.AccountOrderRepository;
+import nashtech.phucldh.ecommerce.service.AccountOrderService;
 
 @Service
-public class Account_OrderServiceImpl implements Account_OrderService{
+public class AccountOrderServiceImpl implements AccountOrderService {
 	
 	@Autowired
-	Account_OrderRepository userorderRepository;
+	AccountOrderRepository userorderRepository;
 
 	@Override
-	public List<Account_Order> findAll() {
-		List<Account_Order> theListUserorder = userorderRepository.findAll();
+	public List<AccountOrder> findAll() {
+		List<AccountOrder> theListUserorder = userorderRepository.findAll();
 		return theListUserorder;
 	}
 
 	@Override
-	public List<Account_Order> findOrderOfCustomer(String accountID) {
-		List<Account_Order> result = userorderRepository.findByCustomerid(accountID);
+	public List<AccountOrder> findOrderOfCustomer(String accountID) {
+		List<AccountOrder> result = userorderRepository.findByCustomerid(accountID);
 		return result;
 	}
 
@@ -37,14 +37,14 @@ public class Account_OrderServiceImpl implements Account_OrderService{
 	}
 
 	@Override
-	public void saveOrder(Account_Order newUserOrder) {
+	public void saveOrder(AccountOrder newUserOrder) {
 		userorderRepository.save(newUserOrder);
 	}
 
 	@Override
-	public Account_Order getOrderById(Integer orderID) throws DataNotFoundException {
-		Optional<Account_Order> result = userorderRepository.findById(orderID);
-		Account_Order theUserorder = null;
+	public AccountOrder getOrderById(Integer orderID) throws DataNotFoundException {
+		Optional<AccountOrder> result = userorderRepository.findById(orderID);
+		AccountOrder theUserorder = null;
 		if (result.isPresent()) {
 			theUserorder = result.get();
 		} else {

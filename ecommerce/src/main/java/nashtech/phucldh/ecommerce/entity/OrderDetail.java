@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "order_detail")
-public class Order_Detail {
+public class OrderDetail {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,11 +36,11 @@ public class Order_Detail {
 	@Column(name = "create_date")
 	private LocalDateTime createdate;
 
-	public Order_Detail() {
+	public OrderDetail() {
 	}
 
-	public Order_Detail(Integer id, Integer order_id, Integer item_id, int amount, Float price, String item_property,
-			LocalDateTime createdate) {
+	public OrderDetail(Integer id, Integer order_id, Integer item_id, int amount, Float price, String item_property,
+					   LocalDateTime createdate) {
 		this.id = id;
 		this.orderid = order_id;
 		this.itemid = item_id;

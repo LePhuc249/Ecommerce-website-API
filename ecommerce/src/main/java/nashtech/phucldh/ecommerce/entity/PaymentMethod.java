@@ -10,14 +10,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "order_status")
-public class Order_Status {
+@Table(name = "payment_method")
+public class PaymentMethod {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
-
+	
 	@Column(name = "name", unique = true, nullable = false, length = 50)
 	private String name;
 
@@ -30,10 +30,10 @@ public class Order_Status {
 	@Column(name = "isDeleted")
 	private boolean isDeleted;
 
-	public Order_Status() {
+	public PaymentMethod() {
 	}
 
-	public Order_Status(Integer id, String name, Integer createby, LocalDateTime createdate, boolean isDeleted) {
+	public PaymentMethod(Integer id, String name, Integer createby, LocalDateTime createdate, boolean isDeleted) {
 		this.id = id;
 		this.name = name;
 		this.createby = createby;
@@ -84,7 +84,7 @@ public class Order_Status {
 
 	@Override
 	public String toString() {
-		return "Order_Status [id=" + id + ", name=" + name + ", createby=" + createby + ", createdate=" + createdate
+		return "Payment_Method [id=" + id + ", name=" + name + ", createby=" + createby + ", createdate=" + createdate
 				+ ", isDeleted=" + isDeleted + "]";
 	}
 

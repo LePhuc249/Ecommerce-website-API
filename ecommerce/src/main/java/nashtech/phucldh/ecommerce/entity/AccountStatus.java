@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "account_status")
-public class Account_Status {
+public class AccountStatus {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,10 +19,10 @@ public class Account_Status {
 	@Column(name = "status", unique = true, nullable = false, length = 20)
 	private String status;
 
-	public Account_Status() {
+	public AccountStatus() {
 	}
 
-	public Account_Status(Integer id, String status) {
+	public AccountStatus(Integer id, String status) {
 		this.id = id;
 		this.status = status;
 	}

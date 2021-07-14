@@ -13,16 +13,24 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class Order_StatusDTO {
+public class AccountOrderDTO {
 
 	private Integer id;
 
-	private String name;
-
-	private Integer createby;
+	private Integer customer_id;
 
 	private LocalDateTime createdate;
 
-	private boolean isDeleted;
-	
+	private LocalDateTime updatedate;
+
+	private String date_delivery;
+
+	private Integer payment_method;
+
+	private Float total_price;
+
+	private Integer status;
+
+	private Integer coupon_id;
+
 }

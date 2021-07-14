@@ -1,8 +1,6 @@
 package nashtech.phucldh.ecommerce.dto;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -15,16 +13,20 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class Payment_MethodDTO {
+public class OrderDetailDTO {
 
 	private Integer id;
 
-	private String name;
+	private Integer order_id;
 
-	private Integer createby;
+	private Integer item_id;
+
+	private int amount;
+
+	private Float price;
+
+	private String item_property;
 
 	private LocalDateTime createdate;
-
-	private boolean isdeleted;
 	
 }

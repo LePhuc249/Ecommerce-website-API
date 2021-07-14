@@ -11,12 +11,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class Relationship_CategoryDTO {
+public class AccountStatusDTO {
 
-	private Integer relationshipid;
-
-	private Integer categoryid1;
-
-	private Integer categoryid2;
+	private Integer id;
+	
+	private String status;
 	
 }

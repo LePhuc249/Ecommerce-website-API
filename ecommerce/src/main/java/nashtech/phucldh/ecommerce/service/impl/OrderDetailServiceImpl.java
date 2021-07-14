@@ -7,20 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
-import nashtech.phucldh.ecommerce.entity.Order_Detail;
+import nashtech.phucldh.ecommerce.entity.OrderDetail;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
-import nashtech.phucldh.ecommerce.reponsitory.Order_DetailRepository;
-import nashtech.phucldh.ecommerce.service.Order_DetailService;
+import nashtech.phucldh.ecommerce.reponsitory.OrderDetailRepository;
+import nashtech.phucldh.ecommerce.service.OrderDetailService;
 
 @Service
-public class Order_DetailServiceImpl implements Order_DetailService {
+public class OrderDetailServiceImpl implements OrderDetailService {
 
 	@Autowired
-	Order_DetailRepository orderdetailrepository;
+	OrderDetailRepository orderdetailrepository;
 
 	@Override
-	public List<Order_Detail> findAll() {
-		List<Order_Detail> theListOrderdetail = orderdetailrepository.findAll();
+	public List<OrderDetail> findAll() {
+		List<OrderDetail> theListOrderdetail = orderdetailrepository.findAll();
 		return theListOrderdetail;
 	}
 
@@ -31,9 +31,9 @@ public class Order_DetailServiceImpl implements Order_DetailService {
 	}
 
 	@Override
-	public Order_Detail getOrderdetailByCode(Integer id) throws DataNotFoundException {
-		Optional<Order_Detail> result = orderdetailrepository.findById(id);
-		Order_Detail theOrderdetail = null;
+	public OrderDetail getOrderdetailByCode(Integer id) throws DataNotFoundException {
+		Optional<OrderDetail> result = orderdetailrepository.findById(id);
+		OrderDetail theOrderdetail = null;
 		if (result.isPresent()) {
 			theOrderdetail = result.get();
 		} else {
@@ -43,7 +43,7 @@ public class Order_DetailServiceImpl implements Order_DetailService {
 	}
 
 	@Override
-	public void createOrderdetail(Order_Detail theOrderdetail) {
+	public void createOrderdetail(OrderDetail theOrderdetail) {
 		orderdetailrepository.save(theOrderdetail);
 	}
 

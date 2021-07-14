@@ -11,16 +11,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class Cart_ItemDTO {
+public class RelationshipCategoryDTO {
 
-	private Integer id;
+	private Integer relationshipid;
 
-	private Integer cart_id;
+	private Integer categoryid1;
 
-	private Integer item_id;
-
-	private Integer amount;
-
-	private Float price;
+	private Integer categoryid2;
 	
 }

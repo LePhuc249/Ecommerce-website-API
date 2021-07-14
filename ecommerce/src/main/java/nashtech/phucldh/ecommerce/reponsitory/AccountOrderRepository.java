@@ -7,12 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import nashtech.phucldh.ecommerce.entity.Account_Order;
+import nashtech.phucldh.ecommerce.entity.AccountOrder;
 
 @Repository
-public interface Account_OrderRepository extends JpaRepository<Account_Order, Integer> {
+public interface AccountOrderRepository extends JpaRepository<AccountOrder, Integer> {
 
-	List<Account_Order> findByCustomerid(String customerid);
+	List<AccountOrder> findByCustomerid(String customerid);
 
 	List<String> findByCouponid(String id);
 
