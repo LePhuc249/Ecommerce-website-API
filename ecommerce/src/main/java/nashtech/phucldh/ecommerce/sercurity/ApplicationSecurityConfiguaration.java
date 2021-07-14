@@ -47,8 +47,6 @@ public class ApplicationSecurityConfiguaration extends WebSecurityConfigurerAdap
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
 				.antMatchers("/", "index", "/css/*", "/js/*").permitAll()
 				.antMatchers("/grocerystore/api/account/auth/**").permitAll()
-				.antMatchers("/grocerystore/api/category/**").permitAll()
-				.antMatchers("/grocerystore/api/coupons/**").permitAll()
 				.anyRequest().authenticated();
 
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
