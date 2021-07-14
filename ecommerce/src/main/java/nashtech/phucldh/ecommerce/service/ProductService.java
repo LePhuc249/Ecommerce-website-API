@@ -16,11 +16,11 @@ public interface ProductService {
 	
 	public boolean checkExistProduct(String itemname, String img, String discription, String productName);
 	
-	public Product getProductById(String productId);
+	public Product getProductById(Integer productId);
 	
 	public void saveProduct(Product theProduct);
 	
-	public void deleteProduct(String productId);
+	public void deleteProduct(Integer productId);
 	
-	public void activeProduct(String productId);
+	public void activeProduct(Integer productId);
 }
