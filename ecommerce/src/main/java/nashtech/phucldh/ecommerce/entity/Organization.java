@@ -55,8 +55,8 @@ public class Organization {
     @Column(name = "isdeleted")
     private boolean isDeleted;
 
-    @OneToOne(mappedBy = "organization")
-    private OrganizationAddress listAddress;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "organization")
+    private List<OrganizationAddress> listAddress = new ArrayList<>();
 
     @OneToOne(mappedBy = "organization")
     private Brand organization;
