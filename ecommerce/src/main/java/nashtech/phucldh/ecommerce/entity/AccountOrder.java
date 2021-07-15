@@ -1,25 +1,43 @@
 package nashtech.phucldh.ecommerce.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
 @Entity
 @Table(name = "account_order")
 public class AccountOrder {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", unique = true, nullable = false)
-	private Integer id;
+	private Long id;
 
-	@Column(name = "customer_id", nullable = false, length = 10)
-	private Integer customerid;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "customer_id", nullable = false)
+	private Account account;
 
 	@Column(name = "create_date")
 	private LocalDateTime createdate;
@@ -42,102 +60,7 @@ public class AccountOrder {
 	@Column(name = "coupon_id")
 	private Integer couponid;
 
-	public AccountOrder() {
-	}
-
-	public AccountOrder(Integer id, Integer customerid, LocalDateTime createdate, LocalDateTime updatedate,
-						String datedelivery, Integer paymentmethod, Float totalprice, Integer status, Integer couponid) {
-		this.id = id;
-		this.customerid = customerid;
-		this.createdate = createdate;
-		this.updatedate = updatedate;
-		this.datedelivery = datedelivery;
-		this.paymentmethod = paymentmethod;
-		this.totalprice = totalprice;
-		this.status = status;
-		this.couponid = couponid;
-	}
-
-
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public Integer getCustomer_id() {
-		return customerid;
-	}
-
-	public void setCustomer_id(Integer customer_id) {
-		this.customerid = customer_id;
-	}
-
-	public LocalDateTime getCreatedate() {
-		return createdate;
-	}
-
-	public void setCreatedate(LocalDateTime createdate) {
-		this.createdate = createdate;
-	}
-
-	public LocalDateTime getUpdatedate() {
-		return updatedate;
-	}
-
-	public void setUpdatedate(LocalDateTime updatedate) {
-		this.updatedate = updatedate;
-	}
-
-	public String getDate_delivery() {
-		return datedelivery;
-	}
-
-	public void setDate_delivery(String date_delivery) {
-		this.datedelivery = date_delivery;
-	}
-
-	public Integer getPaymentmethod() {
-		return paymentmethod;
-	}
-
-	public void setPaymentmethod(Integer paymentmethod) {
-		this.paymentmethod = paymentmethod;
-	}
-
-	public Float getTotal_price() {
-		return totalprice;
-	}
-
-	public void setTotal_price(Float total_price) {
-		this.totalprice = total_price;
-	}
-
-	public Integer getStatus() {
-		return status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-
-	public Integer getCouponid() {
-		return couponid;
-	}
-
-	public void setCouponid(Integer couponid) {
-		this.couponid = couponid;
-	}
-
-	@Override
-	public String toString() {
-		return "Account_Order [id=" + id + ", customer_id=" + customerid + ", createdate=" + createdate
-				+ ", updatedate=" + updatedate + ", date_delivery=" + datedelivery + ", payment_method="
-				+ paymentmethod + ", total_price=" + totalprice + ", status=" + status + ", coupon=" + couponid
-				+ "]";
-	}
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "accountOrder")
+	private List<OrderDetail> listOrderDetail = new ArrayList<>();
 
 }

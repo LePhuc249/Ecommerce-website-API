@@ -1,20 +1,21 @@
 package nashtech.phucldh.ecommerce.entity;
 
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Getter
@@ -23,25 +24,18 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Entity
-@Table(name = "cart_item")
-public class CartItem {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", unique = true, nullable = false)
-	private Long id;
+@Table(name = "organization")
+public class OrganizationAddress {
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "cart_id", nullable = false)
-	private Cart cart;
-	
-	@Column(name = "product_id", unique = true, nullable = false)
-	private Integer itemid;
-	
-	@Column(name = "amount", nullable = false)
-	private Integer amount;
-	
-	@Column(name = "price", nullable = false)
-	private Float price;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", unique = true, nullable = false)
+    private Long id;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "organization_id", referencedColumnName = "id")
+    private Organization organization;
+
+    @Column(name = "address")
+    private String address;
 }
