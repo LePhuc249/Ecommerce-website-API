@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import nashtech.phucldh.ecommerce.entity.Coupons;
 
 @Repository
-public interface CouponsReponsitory extends JpaRepository<Coupons, Integer> {
+public interface CouponsReponsitory extends JpaRepository<Coupons, Long> {
 
 	List<Coupons> findByProductdiscount(Integer productdiscount);
 

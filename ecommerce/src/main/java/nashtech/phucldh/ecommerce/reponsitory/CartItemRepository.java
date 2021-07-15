@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import nashtech.phucldh.ecommerce.entity.CartItem;
 
 @Repository
-public interface CartItemRepository extends JpaRepository<CartItem, Integer>{
+public interface CartItemRepository extends JpaRepository<CartItem, Long>{
 
 }

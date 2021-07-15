@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import nashtech.phucldh.ecommerce.entity.OrderDetail;
 
 @Repository
-public interface OrderDetailRepository extends JpaRepository<OrderDetail, Integer> {
+public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long> {
 
 	@Query(value = "select item_property from order_detail where order_id=:order_id", nativeQuery = true)
 	List<String> getListItemProperty(@Param("order_id") String orderid);

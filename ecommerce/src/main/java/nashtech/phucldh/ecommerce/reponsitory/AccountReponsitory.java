@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import nashtech.phucldh.ecommerce.entity.Account;
 
 @Repository
-public interface AccountReponsitory extends JpaRepository<Account, Integer> {
+public interface AccountReponsitory extends JpaRepository<Account, Long> {
 
 	Optional<Account> findByUsername(String username);
 

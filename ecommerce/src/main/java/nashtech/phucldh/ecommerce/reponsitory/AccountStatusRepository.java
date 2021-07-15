@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import nashtech.phucldh.ecommerce.entity.AccountStatus;
 
 @Repository
-public interface AccountStatusRepository extends JpaRepository<AccountStatus, Integer>{
+public interface AccountStatusRepository extends JpaRepository<AccountStatus, Long>{
 
 }

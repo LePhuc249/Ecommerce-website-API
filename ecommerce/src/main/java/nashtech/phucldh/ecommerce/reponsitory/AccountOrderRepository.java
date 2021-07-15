@@ -10,11 +10,13 @@ import org.springframework.stereotype.Repository;
 import nashtech.phucldh.ecommerce.entity.AccountOrder;
 
 @Repository
-public interface AccountOrderRepository extends JpaRepository<AccountOrder, Integer> {
+public interface AccountOrderRepository extends JpaRepository<AccountOrder, Long> {
 
-	List<AccountOrder> findByCustomerid(String customerid);
+	@Query(value = "select from account_order where customer_id=:customer_id", nativeQuery = true)
+	List<AccountOrder> findByCustomerid(@Param("customer_id") Long customerid);
 
-	List<String> findByCouponid(String id);
+	@Query(value = "select from account_order where coupon_id=:coupon_id", nativeQuery = true)
+	List<String> findByCouponid(@Param("coupon_id") Long id);
 
 	@Query(value = "update account_order SET status=1 where id=:id", nativeQuery = true)
 	Boolean updateStatusToCancel(@Param("id") String orderID);

@@ -9,7 +9,7 @@ import nashtech.phucldh.ecommerce.entity.ERole;
 import nashtech.phucldh.ecommerce.entity.Role;
 
 @Repository
-public interface RoleRepository extends JpaRepository<Role, Integer>{
+public interface RoleRepository extends JpaRepository<Role, Long>{
 	
 	Optional<Role> findByRolename(ERole name);
 }
