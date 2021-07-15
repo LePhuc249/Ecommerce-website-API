@@ -15,22 +15,18 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class AccountOrderDTO {
 
-	private Integer id;
+	private Long id;
 
-	private Integer customer_id;
-
-	private LocalDateTime createdate;
-
-	private LocalDateTime updatedate;
+	private Long customer_id;
 
 	private String date_delivery;
 
-	private Integer payment_method;
+	private Long payment_method;
 
 	private Float total_price;
 
-	private Integer status;
+	private Long status;
 
-	private Integer coupon_id;
+	private Long coupon_id;
 
 }

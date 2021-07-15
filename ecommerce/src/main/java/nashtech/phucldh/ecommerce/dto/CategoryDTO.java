@@ -13,15 +13,9 @@ import lombok.Setter;
 @Setter
 public class CategoryDTO {
 
-	private Integer id;
+	private Long id;
 
 	private String name;
-
-	private LocalDateTime createdate;
-
-	private LocalDateTime updatedate;
-
-	private Integer create_account;
 
 	private boolean isDeleted;
 

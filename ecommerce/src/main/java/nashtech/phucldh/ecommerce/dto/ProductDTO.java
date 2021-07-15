@@ -15,11 +15,9 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class ProductDTO {
 
-	private Integer id;
+	private Long id;
 
 	private String name;
-
-	private String imgurl;
 
 	private String short_description;
 
@@ -27,15 +25,11 @@ public class ProductDTO {
 
 	private Float price;
 
-	private LocalDateTime createdate;
-
-	private LocalDateTime updatedate;
-
-	private Integer supplier_id;
+	private Long brand;
 
 	private int quantity;
 
-	private Integer category_id;
+	private Long category;
 
 	private int counter;
 

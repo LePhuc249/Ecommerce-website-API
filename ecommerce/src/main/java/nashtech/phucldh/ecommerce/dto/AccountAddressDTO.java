@@ -1,7 +1,5 @@
 package nashtech.phucldh.ecommerce.dto;
 
-import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -13,18 +11,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class OrderDetailDTO {
+public class AccountAddressDTO {
 
-	private Long id;
+    private Long id;
 
-	private Long order_id;
+    private Long accountid;
 
-	private Long item_id;
+    private String address;
 
-	private int amount;
-
-	private Float price;
-
-	private String item_property;
-	
 }

@@ -17,13 +17,9 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class PaymentMethodDTO {
 
-	private Integer id;
+	private Long id;
 
 	private String name;
-
-	private Integer createby;
-
-	private LocalDateTime createdate;
 
 	private boolean isdeleted;
 	

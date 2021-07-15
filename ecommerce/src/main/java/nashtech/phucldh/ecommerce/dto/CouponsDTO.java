@@ -13,23 +13,17 @@ import lombok.Setter;
 @Setter
 public class CouponsDTO {
 
-	private Integer id;
+	private Long id;
 
 	private String code;
 
 	private Integer discountamount;
 
-	private Integer productdiscount;
+	private Long productdiscount;
 
 	private String description;
 
 	private String expirationdate;
-
-	private Integer create_by;
-
-	private LocalDateTime createdate;
-
-	private LocalDateTime updatedate;
 
 	private boolean isDeleted;
 	

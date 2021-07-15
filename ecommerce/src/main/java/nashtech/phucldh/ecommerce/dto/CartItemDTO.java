@@ -13,11 +13,11 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class CartItemDTO {
 
-	private Integer id;
+	private Long id;
 
-	private Integer cart_id;
+	private Long cart_id;
 
-	private Integer item_id;
+	private Long item_id;
 
 	private Integer amount;
 
