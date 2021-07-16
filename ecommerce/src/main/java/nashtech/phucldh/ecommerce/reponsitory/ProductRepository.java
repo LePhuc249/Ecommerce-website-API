@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import nashtech.phucldh.ecommerce.entity.Product;
@@ -12,18 +11,16 @@ import nashtech.phucldh.ecommerce.entity.Product;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-	@Query(value = "select u from product u where u.itemname=:itemname and u.img=:img and u.description=:description and u.productname=:productname ", nativeQuery = true)
-	Product checkExistProduct(@Param("itemname") String itemName, @Param("img") String img,
-			@Param("description") String productName, @Param("productname") String description);
+	@Query(value = "select * from product u where u.name = ?1 and u.description = ?2 and u.brand = ?3", nativeQuery = true)
+	Product checkExistProduct(String itemName, String description, Long brand);
 
-	@Query(value = "select u from product u where u.status=true and u.quantity > 0", nativeQuery = true)
+	@Query(value = "select * from product u where u.isdeleted = false and u.quantity > 0", nativeQuery = true)
 	List<Product> getListForCustomer();
 
-	@Query(value = "select u from product u where u.itemname = :itemname or u.categoryid = :categoryid", nativeQuery = true)
-	List<Product> searchByNameOrCategory(@Param("itemname") String itemname, @Param("categoryid") String categoryid);
+	@Query(value = "select * from product u where u.name LIKE ?1 or u.category = ?2", nativeQuery = true)
+	List<Product> searchByNameOrCategory(String name, Long categoryid);
 
-	@Query(value = "select u from product u where u.itemname = :itemname or u.categoryid = :categoryid and u.status=true and u.quantity > 0", nativeQuery = true)
-	List<Product> searchByNameOrCategoryForCustomer(@Param("itemname") String itemname,
-			@Param("categoryid") String categoryid);
+	@Query(value = "select * from product u where u.name = ?1 or u.category = ?2 and u.isdeleted=false and u.quantity > 0", nativeQuery = true)
+	List<Product> searchByNameOrCategoryForCustomer(String name, Long categoryid);
 
 }
