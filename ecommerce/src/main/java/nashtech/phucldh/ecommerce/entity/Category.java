@@ -53,7 +53,7 @@ public class Category {
 	private LocalDateTime updatedate;
 
 	@Column(name = "create_by")
-	private Integer create_account;
+	private Long createby;
 
 	@Column(name = "isdeleted")
 	private boolean isDeleted;

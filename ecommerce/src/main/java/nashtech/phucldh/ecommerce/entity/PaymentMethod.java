@@ -33,7 +33,7 @@ public class PaymentMethod {
 	private String name;
 
 	@Column(name = "create_by")
-	private Integer createby;
+	private Long createby;
 
 	@Column(name = "create_date")
 	private LocalDateTime createdate;

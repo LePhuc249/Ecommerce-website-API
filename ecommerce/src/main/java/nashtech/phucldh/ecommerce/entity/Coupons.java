@@ -37,7 +37,7 @@ public class Coupons {
 	private Integer discountamount;
 
 	@Column(name = "product_discount")
-	private Integer productdiscount;
+	private Long productdiscount;
 
 	@Column(name = "description", unique = false, nullable = false, length = 30)
 	private String description;
@@ -46,7 +46,7 @@ public class Coupons {
 	private String expirationdate;
 
 	@Column(name = "create_by")
-	private Integer createby;
+	private Long createby;
 
 	@Column(name = "create_date")
 	private LocalDateTime createdate;
