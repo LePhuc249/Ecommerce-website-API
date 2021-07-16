@@ -37,7 +37,7 @@ public class Brand {
     @Column(name = "name")
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organization", referencedColumnName = "id")
     private Organization organization;
 

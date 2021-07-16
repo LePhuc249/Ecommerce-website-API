@@ -58,7 +58,4 @@ public class Organization {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "organization")
     private List<OrganizationAddress> listAddress = new ArrayList<>();
 
-    @OneToOne(mappedBy = "organization")
-    private Brand organization;
-
 }

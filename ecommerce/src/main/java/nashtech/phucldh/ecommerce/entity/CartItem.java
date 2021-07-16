@@ -1,6 +1,5 @@
 package nashtech.phucldh.ecommerce.entity;
 
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -36,7 +35,7 @@ public class CartItem {
 	private Cart cart;
 	
 	@Column(name = "product_id", unique = true, nullable = false)
-	private Integer itemid;
+	private Long itemid;
 	
 	@Column(name = "amount", nullable = false)
 	private Integer amount;

@@ -49,16 +49,16 @@ public class AccountOrder {
 	private String datedelivery;
 
 	@Column(name = "payment_method")
-	private Integer paymentmethod;
+	private Long paymentmethod;
 
 	@Column(name = "total_price")
 	private Float totalprice;
 	
 	@Column(name = "status")
-	private Integer status;
+	private Long status;
 	
 	@Column(name = "coupon_id")
-	private Integer couponid;
+	private Long couponid;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "accountOrder")
 	private List<OrderDetail> listOrderDetail = new ArrayList<>();

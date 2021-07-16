@@ -37,7 +37,7 @@ public class OrderDetail {
 	private AccountOrder accountOrder;
 
 	@Column(name = "item_id")
-	private Integer itemid;
+	private Long itemid;
 
 	@Column(name = "amount")
 	private int amount;
