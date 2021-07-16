@@ -103,6 +103,13 @@ public class ErrorCode {
 	public static final String ERR_UPDATE_PAYMENT_METHOD_FAIL = "ERR_UPDATE_PAYMENT_METHOD_FAIL";
 	public static final String ERR_DELETE_PAYMENT_METHOD_FAIL = "ERR_DELETE_PAYMENT_METHOD_FAIL";
 
+	// Image
+	public static final String ERR_IMAGE_NOT_FOUND = "ERR_PAYMENT_METHOD_NOT_FOUND";
+	public static final String ERR_IMAGE_EXISTED = "ERR_PAYMENT_METHOD_EXISTED";
+	public static final String ERR_CREATE_IMAGE_FAIL = "ERR_CREATE_PAYMENT_METHOD_FAIL";
+	public static final String ERR_UPDATE_IMAGE_FAIL = "ERR_UPDATE_PAYMENT_METHOD_FAIL";
+	public static final String ERR_DELETE_IMAGE_FAIL = "ERR_DELETE_PAYMENT_METHOD_FAIL";
+
 	// Role
 	public static final String ERR_ROLE_NOT_FOUND = "ERR_ROLE_NOT_FOUND";
 
