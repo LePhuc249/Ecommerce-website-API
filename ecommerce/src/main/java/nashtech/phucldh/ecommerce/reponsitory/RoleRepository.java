@@ -11,5 +11,5 @@ import nashtech.phucldh.ecommerce.entity.Role;
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long>{
 	
-	Optional<Role> findByRolename(ERole name);
+	Optional<Role> findByName(ERole name);
 }

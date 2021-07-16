@@ -7,5 +7,4 @@ import nashtech.phucldh.ecommerce.entity.PaymentMethod;
 
 @Repository
 public interface PaymentMethodRepository extends JpaRepository<PaymentMethod, Long> {
-
 }
