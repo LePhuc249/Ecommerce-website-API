@@ -8,7 +8,8 @@ import org.springframework.stereotype.Repository;
 import nashtech.phucldh.ecommerce.entity.Category;
 
 @Repository
-public interface CategoryReponsitory extends JpaRepository<Category, Long> {
+public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-	Optional<Category> findByName(String name);
+	Optional<Category> findByNameAndBrand(String name, Long brand);
+
 }
