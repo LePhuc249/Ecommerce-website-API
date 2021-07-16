@@ -31,7 +31,7 @@ public class ImageRepositoryTest {
         if (result.isPresent()){
             image = result.get();
         } else {
-            throw new DataNotFoundException(ErrorCode.ERR_ITEM_CART_NOT_FOUND); // add image to error code
+            throw new DataNotFoundException(ErrorCode.ERR_IMAGE_NOT_FOUND); // add image to error code
         }
         Assert.notNull(image);
     }
@@ -53,7 +53,7 @@ public class ImageRepositoryTest {
         if (result.isPresent()){
             image = result.get();
         } else {
-            throw new DataNotFoundException(ErrorCode.ERR_ITEM_CART_NOT_FOUND); // add image to error code
+            throw new DataNotFoundException(ErrorCode.ERR_IMAGE_NOT_FOUND); // add image to error code
         }
         image.setDescription("Updated Description");
         Assert.notNull(imageRepository.save(image));
@@ -66,7 +66,7 @@ public class ImageRepositoryTest {
         if (result.isPresent()){
             image = result.get();
         } else {
-            throw new DataNotFoundException(ErrorCode.ERR_ITEM_CART_NOT_FOUND); // add image to error code
+            throw new DataNotFoundException(ErrorCode.ERR_IMAGE_NOT_FOUND); // add image to error code
         }
         imageRepository.deleteById(image.getId());
         Optional<Image> resultAfterDelete = imageRepository.findById(Long.valueOf("93"));
