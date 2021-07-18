@@ -8,7 +8,10 @@ import java.util.List;
 
 public interface AccountAddressRepository extends JpaRepository<AccountAddress, Long> {
 
-    @Query(value = "select ad.address from account_address ad where ad.account_id = ?1", nativeQuery = true)
+    @Query(
+            value = "select address from account_address where account_id = ?1",
+            nativeQuery = true
+    )
     List<String> findAddressByAccountId(Long id);
 
 }
