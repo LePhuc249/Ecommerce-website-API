@@ -18,7 +18,7 @@ public class RoleServiceImpl implements RoleService {
 	RoleRepository roleRepository;
 
 	@Override
-	public Role getRoleById(Integer idRole) throws DataNotFoundException {
+	public Role getRoleById(Long idRole) throws DataNotFoundException {
 		Optional<Role> result = roleRepository.findById(idRole);
 		Role theRole = null;
 		if (result.isPresent()) {
