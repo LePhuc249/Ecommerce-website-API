@@ -2,6 +2,8 @@ package nashtech.phucldh.ecommerce.service;
 
 import javax.security.auth.login.AccountNotFoundException;
 
+import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
+import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
 import org.springframework.http.ResponseEntity;
 
 import nashtech.phucldh.ecommerce.entity.Account;
@@ -19,7 +21,9 @@ public interface AccountService {
     
 	public Account getAccountByEmail(String email) throws AccountNotFoundException;
 
-	public void updateStatus(Account theAccount);
+	public void updateAccount(Account theAccount) throws UpdateDataFailException;
 
-	public void deleteAccount(String username);
+	public void deleteAccount(Long id) throws AccountNotFoundException, DeleteDataFailException;
+
+	public void activeAccount(Long id) throws DeleteDataFailException, AccountNotFoundException, UpdateDataFailException;
 }
