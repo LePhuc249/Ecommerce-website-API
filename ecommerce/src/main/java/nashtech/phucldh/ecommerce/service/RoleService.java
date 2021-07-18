@@ -5,5 +5,5 @@ import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
 
 public interface RoleService {
 
-	public Role getRoleById(Integer idRole) throws DataNotFoundException;
+	public Role getRoleById(Long idRole) throws DataNotFoundException;
 }
