@@ -3,6 +3,13 @@ package nashtech.phucldh.ecommerce.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import nashtech.phucldh.ecommerce.entity.Brand;
+import nashtech.phucldh.ecommerce.entity.Category;
+import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
+import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
+import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
+import nashtech.phucldh.ecommerce.reponsitory.BrandRepository;
+import nashtech.phucldh.ecommerce.reponsitory.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,34 +25,74 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	ProductRepository productRepository;
 
+	@Autowired
+	CategoryRepository categoryRepository;
+
+	@Autowired
+	BrandRepository brandRepository;
+
 	@Override
-	public List<Product> findAll() {
-		List<Product> result = productRepository.findAll();
+	public List<Product> findAllProductForAdmin() throws DataNotFoundException {
+		List<Product> result = null;
+		try {
+			result = productRepository.findAll();
+		} catch (Exception e) {
+			throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
+		}
 		return result;
 	}
 
 	@Override
-	public List<Product> findAllForCustomer() {
-		List<Product> result = productRepository.getListForCustomer();
+	public List<Product> findAllForCustomer() throws DataNotFoundException {
+		List<Product> result = null;
+		try {
+			result = productRepository.getListForCustomer();
+		} catch (Exception e) {
+			throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
+		}
 		return result;
 	}
 
 	@Override
-	public List<Product> findByNameOrCategory(String itemname, String categoryid) {
-		List<Product> result = productRepository.searchByNameOrCategory(itemname, categoryid);
+	public List<Product> findByNameOrCategory(String itemname, Long categoryid) throws DataNotFoundException {
+		List<Product> result = null;
+		try {
+			result = productRepository.searchByNameOrCategory(itemname, categoryid);
+		} catch (Exception e) {
+			throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
+		}
 		return result;
 	}
 
 	@Override
-	public List<Product> findByNameOrCategoryForCustomer(String itemname, String categoryid) {
-		List<Product> result = productRepository.searchByNameOrCategoryForCustomer(itemname, categoryid);
+	public List<Product> findByNameOrCategoryForCustomer(String itemname, Long categoryid) throws DataNotFoundException {
+		List<Product> result = null;
+		try {
+			result = productRepository.searchByNameOrCategoryForCustomer(itemname, categoryid);
+		} catch (Exception e) {
+			throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
+		}
 		return result;
 	}
 
 	@Override
-	public boolean checkExistProduct(String itemname, String img, String discription, String productName) {
+	public boolean checkExistProduct(String itemname, String discription, Long brandId) throws DataNotFoundException {
+		Brand brand = null;
+		Optional<Brand> optionalBrand =  brandRepository.findById(brandId);
+		if (optionalBrand.isPresent()) {
+			brand = optionalBrand.get();
+		} else {
+			throw new DataNotFoundException(ErrorCode.ERR_BRAND_NOT_FOUND);
+		}
+		Category cate = null;
+		Optional<Category> optionalCate =  categoryRepository.findByBrand(brand);
+		if (optionalCate.isPresent()) {
+			cate = optionalCate.get();
+		} else {
+			throw new DataNotFoundException(ErrorCode.ERR_BRAND_NOT_FOUND);
+		}
 		boolean result = false;
-		Product theProduct = productRepository.checkExistProduct(itemname, img, discription, productName);
+		Product theProduct = productRepository.checkExistProduct(itemname, discription, brandId, cate.getId());
 		if (theProduct != null) {
 			result = true;
 		}
@@ -53,7 +100,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product getProductById(Integer productId) throws DataNotFoundException {
+	public Product getProductById(Long productId) throws DataNotFoundException {
 		Optional<Product> result = productRepository.findById(productId);
 		Product theProduct = null;
 		if (result.isPresent()) {
@@ -65,18 +112,159 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public void saveProduct(Product theProduct) {
-		productRepository.save(theProduct);
+	public void saveProduct(Product theProduct) throws CreateDataFailException {
+		try {
+			productRepository.save(theProduct);
+		} catch (Exception e) {
+			throw new CreateDataFailException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
+		}
 	}
 
 	@Override
-	public void deleteProduct(Integer productId) {
-		productRepository.deactiveProduct(productId);
+	public void deleteProduct(Long productId) throws DataNotFoundException, DeleteDataFailException {
+		Optional<Product> result = productRepository.findById(productId);
+		Product theProduct = null;
+		if (result.isPresent()) {
+			theProduct = result.get();
+		} else {
+			throw new DataNotFoundException(ErrorCode.ERR_ROLE_NOT_FOUND);
+		}
+		try {
+			productRepository.deleteProduct(productId);
+		} catch (Exception ex) {
+			throw new DeleteDataFailException(ErrorCode.ERR_DELETE_PRODUCT_FAIL);
+		}
 	}
 
 	@Override
-	public void activeProduct(Integer productId) {
-		productRepository.activeProduct(productId);
+	public void activeProduct(Long productId) throws DataNotFoundException, UpdateDataFailException {
+		Optional<Product> result = productRepository.findById(productId);
+		Product theProduct = null;
+		if (result.isPresent()) {
+			theProduct = result.get();
+		} else {
+			throw new DataNotFoundException(ErrorCode.ERR_ROLE_NOT_FOUND);
+		}
+		try {
+			productRepository.unDeleteProduct(productId);
+		} catch (Exception ex) {
+			throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_PRODUCT_FAIL);
+		}
+	}
+
+	@Override
+	public Product getProductToAdd(Long id) throws DataNotFoundException {
+		Product product = null;
+		try {
+			product = productRepository.checkProductToAddToCart(id);
+		} catch (Exception e) {
+			throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
+		}
+		return product;
+	}
+
+	@Override
+	public void updateQuantity(Long id, int quantity) throws DataNotFoundException, UpdateDataFailException {
+		Product product = null;
+		Optional<Product> optionalProduct = productRepository.findById(id);
+		if (optionalProduct.isPresent()) {
+			product = optionalProduct.get();
+		} else {
+			throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
+		}
+		try {
+			productRepository.updateQuantityProduct(product.getId(), quantity);
+		} catch (Exception e) {
+			throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_PRODUCT_FAIL);
+		}
+	}
+
+	@Override
+	public void updateCounter(Long id, int counter) throws DataNotFoundException, UpdateDataFailException {
+		Product product = null;
+		Optional<Product> optionalProduct = productRepository.findById(id);
+		if (optionalProduct.isPresent()) {
+			product = optionalProduct.get();
+		} else {
+			throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
+		}
+		try {
+			productRepository.updateCounterProduct(product.getId(), counter);
+		} catch (Exception e) {
+			throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_PRODUCT_FAIL);
+		}
+	}
+
+	@Override
+	public int getQuantityOfProduct(Long id) throws DataNotFoundException {
+		Product product = null;
+		Optional<Product> optionalProduct = productRepository.findById(id);
+		if (optionalProduct.isPresent()) {
+			product = optionalProduct.get();
+		} else {
+			throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
+		}
+		int quantity = 0;
+		try {
+			quantity = productRepository.getQuantityOfProduct(product.getId());
+		} catch (Exception e) {
+			throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
+		}
+		return quantity;
+	}
+
+	@Override
+	public int getCounterOfProduct(Long id) throws DataNotFoundException {
+		Product product = null;
+		Optional<Product> optionalProduct = productRepository.findById(id);
+		if (optionalProduct.isPresent()) {
+			product = optionalProduct.get();
+		} else {
+			throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
+		}
+		int counter = 0;
+		try {
+			counter = productRepository.getCounterOfProduct(product.getId());
+		} catch (Exception e) {
+			throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
+		}
+		return counter;
+	}
+
+	@Override
+	public int getQuantityOfProductForCustomer(Long id) throws DataNotFoundException {
+		Product product = null;
+		Optional<Product> optionalProduct = productRepository.findById(id);
+		if (optionalProduct.isPresent()) {
+			product = optionalProduct.get();
+		} else {
+			throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
+		}
+		int quantity = 0;
+		try {
+			quantity = productRepository.getQuantityOfProductForCustomer(product.getId());
+		} catch (Exception e) {
+			throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
+		}
+		return quantity;
+	}
+
+	@Override
+	public String getNameProductById(Long id) throws DataNotFoundException {
+		Product product = null;
+		Optional<Product> optionalProduct = productRepository.findById(id);
+		if (optionalProduct.isPresent()) {
+			product = optionalProduct.get();
+		} else {
+			throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
+		}
+		String name = null;
+		try {
+			name = productRepository.getNameById(product.getId());
+		} catch (Exception e) {
+			throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
+		}
+		return name;
 	}
 
 }

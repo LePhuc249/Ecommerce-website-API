@@ -3,7 +3,10 @@ package nashtech.phucldh.ecommerce.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
+import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
@@ -19,19 +22,29 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 	OrderDetailRepository orderdetailrepository;
 
 	@Override
-	public List<OrderDetail> findAll() {
-		List<OrderDetail> theListOrderdetail = orderdetailrepository.findAll();
+	public List<OrderDetail> findAllItem() throws DataNotFoundException {
+		List<OrderDetail> theListOrderdetail = null;
+		try {
+			theListOrderdetail = orderdetailrepository.findAll();
+		} catch (Exception ex) {
+			throw new DataNotFoundException(ErrorCode.ERR_ORDER_DETAIL_NOT_FOUND);
+		}
 		return theListOrderdetail;
 	}
 
 	@Override
-	public List<String> getListItemProperty(String orderID) {
-		List<String> theListProperty = orderdetailrepository.getListItemProperty(orderID);
+	public List<String> getListItemProperty(Long orderID) throws DataNotFoundException {
+		List<String> theListProperty = null;
+		try {
+			theListProperty = orderdetailrepository.getListItemProperty(orderID);
+		} catch (Exception ex) {
+			throw new DataNotFoundException(ErrorCode.ERR_ORDER_DETAIL_NOT_FOUND);
+		}
 		return theListProperty;
 	}
 
 	@Override
-	public OrderDetail getOrderdetailByCode(Integer id) throws DataNotFoundException {
+	public OrderDetail getOrderdetailByCode(Long id) throws DataNotFoundException {
 		Optional<OrderDetail> result = orderdetailrepository.findById(id);
 		OrderDetail theOrderdetail = null;
 		if (result.isPresent()) {
@@ -43,8 +56,40 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 	}
 
 	@Override
-	public void createOrderdetail(OrderDetail theOrderdetail) {
-		orderdetailrepository.save(theOrderdetail);
+	public void createOrderdetail(OrderDetail theOrderdetail) throws CreateDataFailException {
+		try {
+			orderdetailrepository.save(theOrderdetail);
+		} catch (Exception ex) {
+			throw new CreateDataFailException(ErrorCode.ERR_CREATE_ORDER_DETAIL_FAIL);
+		}
+	}
+
+	@Override
+	public List<OrderDetail> getListItemInOrder(Long orderId) throws DataNotFoundException {
+		List<OrderDetail> listDetail = null;
+		try {
+			listDetail = orderdetailrepository.getListItemInOrder(orderId);
+		} catch (Exception ex) {
+			throw new DataNotFoundException(ErrorCode.ERR_ORDER_DETAIL_NOT_FOUND);
+		}
+		return null;
+	}
+
+	@Override
+	public void updateQuantity(Long id, int quantity) throws DataNotFoundException, UpdateDataFailException {
+		Optional<OrderDetail> detailOptional = orderdetailrepository.findById(id);
+		OrderDetail detail = null;
+		if (detailOptional.isPresent()) {
+			detail = detailOptional.get();
+		} else {
+			throw new DataNotFoundException(ErrorCode.ERR_ORDER_DETAIL_NOT_FOUND);
+		}
+		boolean result = false;
+		int amount = 0;
+		amount = orderdetailrepository.updateQuantityItem(detail.getId(), quantity);
+		if (amount == 0) {
+			throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_ORDER_DETAIL_FAIL);
+		}
 	}
 
 }

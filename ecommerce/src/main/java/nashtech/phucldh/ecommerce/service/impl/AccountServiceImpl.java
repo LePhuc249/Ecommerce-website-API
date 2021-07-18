@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 
 import javax.security.auth.login.AccountNotFoundException;
 
+import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
+import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -92,7 +94,7 @@ public class AccountServiceImpl implements AccountService {
 			Set<String> strRoles = signUpRequest.getRole();
 			Set<Role> roles = new HashSet<>();
 			if (strRoles == null) {
-				Role userRole = roleRepository.findByRolename(ERole.Customer).orElseThrow(() -> {
+				Role userRole = roleRepository.findByName(ERole.Customer).orElseThrow(() -> {
 					LOGGER.info("Role %s is not found", ERole.Customer.name());
 					return new DataNotFoundException(ErrorCode.ERR_ROLE_NOT_FOUND);
 				});
@@ -102,7 +104,7 @@ public class AccountServiceImpl implements AccountService {
 					if ("admin".equals(role)) {
 						Role adminRole = null;
 						try {
-							adminRole = roleRepository.findByRolename(ERole.Admin).orElseThrow(() -> {
+							adminRole = roleRepository.findByName(ERole.Admin).orElseThrow(() -> {
 								LOGGER.info("Role %s is not found", ERole.Admin.name());
 								return new DataNotFoundException(ErrorCode.ERR_ROLE_NOT_FOUND);
 							});
@@ -114,7 +116,7 @@ public class AccountServiceImpl implements AccountService {
 					} else if ("mod".equals(role)) {
 						Role userRole = null;
 						try {
-							userRole = roleRepository.findByRolename(ERole.Manager).orElseThrow(() -> {
+							userRole = roleRepository.findByName(ERole.Manager).orElseThrow(() -> {
 								LOGGER.info("Role %s is not found", ERole.Manager.name());
 								return new DataNotFoundException(ErrorCode.ERR_ROLE_NOT_FOUND);
 							});
@@ -125,7 +127,7 @@ public class AccountServiceImpl implements AccountService {
 					} else {
 						Role userRole = null;
 						try {
-							userRole = roleRepository.findByRolename(ERole.Customer).orElseThrow(() -> {
+							userRole = roleRepository.findByName(ERole.Customer).orElseThrow(() -> {
 								LOGGER.info("Role %s is not found", ERole.Customer.name());
 								return new DataNotFoundException(ErrorCode.ERR_ROLE_NOT_FOUND);
 							});
@@ -152,20 +154,50 @@ public class AccountServiceImpl implements AccountService {
 		if (result.isPresent()) {
 			theAccount = result.get();
 		} else {
-			LOGGER.info("Can't found account have email: %s", email);
 			throw new AccountNotFoundException(ErrorCode.ERR_ACCOUNT_NOT_FOUND);
 		}
 		return theAccount;
 	}
 
 	@Override
-	public void updateStatus(Account theAccount) {
-		accountRepository.save(theAccount);
+	public void updateAccount(Account theAccount) throws UpdateDataFailException {
+		try {
+			accountRepository.save(theAccount);
+		} catch (Exception ex) {
+			throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_ACCOUNT_FAIL);
+		}
 	}
 
 	@Override
-	public void deleteAccount(String username) {
-		accountRepository.deleteByUsername(username);
+	public void deleteAccount(Long id) throws AccountNotFoundException, DeleteDataFailException {
+		Account account = null;
+		Optional<Account> accountOptional = accountRepository.findById(id);
+		if (accountOptional.isPresent()) {
+			account = accountOptional.get();
+		} else {
+			throw new AccountNotFoundException(ErrorCode.ERR_ACCOUNT_NOT_FOUND);
+		}
+		try {
+			accountRepository.updateAccountStatusToLocked(account.getId());
+		} catch (Exception ex) {
+			throw new DeleteDataFailException(ErrorCode.ERR_DELETE_ACCOUNT_FAIL);
+		}
+	}
+
+	@Override
+	public void activeAccount(Long id) throws AccountNotFoundException, UpdateDataFailException {
+		Account account = null;
+		Optional<Account> accountOptional = accountRepository.findById(id);
+		if (accountOptional.isPresent()) {
+			account = accountOptional.get();
+		} else {
+			throw new AccountNotFoundException(ErrorCode.ERR_ACCOUNT_NOT_FOUND);
+		}
+		try {
+			accountRepository.updateAccountStatusToActive(account.getId());
+		} catch (Exception ex) {
+			throw new UpdateDataFailException(ErrorCode.ERR_DELETE_ACCOUNT_FAIL);
+		}
 	}
 
 }
