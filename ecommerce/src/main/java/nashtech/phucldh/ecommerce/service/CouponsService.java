@@ -10,21 +10,22 @@ import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
 
 public interface CouponsService {
 
-	public List<Coupons> findAllCoupons() throws DataNotFoundException;
+    public List<Coupons> findAllCoupons() throws DataNotFoundException;
 
-	public List<Coupons> findByItem(Long itemID) throws DataNotFoundException;
+    public List<Coupons> findByItem(Long itemID) throws DataNotFoundException;
 
-	public Coupons getCouponById(Long id) throws DataNotFoundException;
+    public Coupons getCouponById(Long id) throws DataNotFoundException;
 
-	public Coupons getCouponByCode(String code) throws DataNotFoundException;
+    public Coupons getCouponByCode(String code) throws DataNotFoundException;
 
-	public void createCoupon(Coupons theCoupon) throws CreateDataFailException;
+    public void createCoupon(Coupons theCoupon) throws CreateDataFailException;
 
-	public void deleteCoupon(Long id) throws DataNotFoundException, DeleteDataFailException;
+    public void deleteCoupon(Long id) throws DataNotFoundException, DeleteDataFailException;
 
-	public void unDeleteCoupon(Long id) throws DataNotFoundException, DeleteDataFailException, UpdateDataFailException;
+    public void unDeleteCoupon(Long id) throws DataNotFoundException, DeleteDataFailException, UpdateDataFailException;
 
-	public Coupons getCouponCanUseByCode(String code) throws DataNotFoundException;
+    public Coupons getCouponCanUseByCode(String code) throws DataNotFoundException;
 
-	public List<Coupons> getListCouponByItem(Long itemID) throws DataNotFoundException;
+    public List<Coupons> getListCouponByItem(Long itemID) throws DataNotFoundException;
+
 }

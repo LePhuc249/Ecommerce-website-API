@@ -8,11 +8,12 @@ import java.util.List;
 
 public interface OrganizationAddressService {
 
-    public List<OrganizationAddress>  findAllAddress() throws DataNotFoundException;
+    public List<OrganizationAddress> findAllAddress() throws DataNotFoundException;
 
     public OrganizationAddress findAddressById(Long id) throws DataNotFoundException;
 
     public List<OrganizationAddress> getListAddressOfOrganization(Long id) throws DataNotFoundException;
 
     public List<String> getListStringAddress(Long id) throws DataNotFoundException;
+
 }

@@ -25,4 +25,5 @@ public interface OrganizationService {
     public void activeOrganization(Long id) throws DataNotFoundException, UpdateDataFailException;
 
     public Long getStatusOfOrganization(Long id) throws DataNotFoundException;
+
 }

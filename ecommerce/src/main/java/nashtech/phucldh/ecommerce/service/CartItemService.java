@@ -21,4 +21,5 @@ public interface CartItemService {
     public void deleteCartItem(Long cartItemID) throws DataNotFoundException, DeleteDataFailException;
 
     public void updateQuantityItemInCart(Long id, int quantity) throws DataNotFoundException, UpdateDataFailException;
+
 }

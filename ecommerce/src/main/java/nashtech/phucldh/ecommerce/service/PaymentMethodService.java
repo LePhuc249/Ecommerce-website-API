@@ -8,14 +8,15 @@ import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
 import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
 
 public interface PaymentMethodService {
-	
-	public List<PaymentMethod> findAllPayment() throws DataNotFoundException;
-	
-	public PaymentMethod getPaymentmethodById(Long idPayment) throws DataNotFoundException;
 
-	public void deletePayment(Long idPayment) throws DataNotFoundException, DeleteDataFailException;
+    public List<PaymentMethod> findAllPayment() throws DataNotFoundException;
 
-	public void unDeletePayment(Long idPayment) throws DataNotFoundException, UpdateDataFailException;
+    public PaymentMethod getPaymentmethodById(Long idPayment) throws DataNotFoundException;
 
-	public void updateNamePaymentMethod(Long idPayment, String newName) throws DataNotFoundException, UpdateDataFailException;
+    public void deletePayment(Long idPayment) throws DataNotFoundException, DeleteDataFailException;
+
+    public void unDeletePayment(Long idPayment) throws DataNotFoundException, UpdateDataFailException;
+
+    public void updateNamePaymentMethod(Long idPayment, String newName) throws DataNotFoundException, UpdateDataFailException;
+
 }
