@@ -4,11 +4,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-public class ConvertEntityDTOException extends Exception  {
-	
-	private static final long serialVersionUID = 1L;
+public class ConvertEntityDTOException extends RuntimeException {
 
-	public ConvertEntityDTOException(String message) {
-		super(message);
-	}
+    private static final long serialVersionUID = 1L;
+
+    public ConvertEntityDTOException(String message) {
+        super(message);
+    }
+
 }

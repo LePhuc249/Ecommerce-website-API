@@ -1,46 +1,22 @@
 package nashtech.phucldh.ecommerce.exception;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ErrorDetail {
 
-	public LocalDateTime time;
+    public LocalDateTime time;
 
-	private String message;
+    private String message;
 
-	private String description;
-
-	public ErrorDetail() {
-	}
-
-	public ErrorDetail(LocalDateTime time, String message, String description) {
-		this.time = time;
-		this.message = message;
-		this.description = description;
-	}
-
-	public LocalDateTime getTime() {
-		return time;
-	}
-
-	public void setTime(LocalDateTime time) {
-		this.time = time;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    private String description;
 
 }
