@@ -20,38 +20,38 @@ import nashtech.phucldh.ecommerce.sercurity.service.impl.UserDetailsServiceImpl;
 
 public class JwtAuthTokenVerifier extends OncePerRequestFilter {
 
-	@Autowired
-	private UserDetailsServiceImpl userDetailsService;
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
 
-	@Autowired
-	private JwtUtils jwtUtils;
+    @Autowired
+    private JwtUtils jwtUtils;
 
-	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-			throws ServletException, IOException, JwtException {
-		String jwt = parseJwt(request);
-		System.out.println("Jwt = " + jwt);
-		if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
-			String username = jwtUtils.getUsernameFromJwtToken(jwt);
-			UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
-					null, userDetails.getAuthorities());
-			authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-			SecurityContextHolder.getContext().setAuthentication(authentication);
-			System.out.println("SecurityContextHolder.getContext().setAuthentication(authentication)");
-		}
-		System.out.println("Before filter chain");
-		filterChain.doFilter(request, response);
-	}
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException, JwtException {
+        String jwt = parseJwt(request);
+        System.out.println("Jwt = " + jwt);
+        if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
+            String username = jwtUtils.getUsernameFromJwtToken(jwt);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
+                    null, userDetails.getAuthorities());
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            System.out.println("SecurityContextHolder.getContext().setAuthentication(authentication)");
+        }
+        System.out.println("Before filter chain");
+        filterChain.doFilter(request, response);
+    }
 
-	private String parseJwt(HttpServletRequest request) {
-		System.out.println("Request = " + request);
-		System.out.println("Authorization Header = " + jwtUtils.getAuthorizationHeader());
-		String headerAuth = request.getHeader(jwtUtils.getAuthorizationHeader());
-		System.out.println("HeaderAuth = " + headerAuth);
-		if (StringUtils.hasText(headerAuth) && headerAuth.startsWith(jwtUtils.getTokenPrefix())) {
-			return headerAuth.replace(jwtUtils.getTokenPrefix(), "");
-		}
-		return null;
-	}
+    private String parseJwt(HttpServletRequest request) {
+        System.out.println("Request = " + request);
+        System.out.println("Authorization Header = " + jwtUtils.getAuthorizationHeader());
+        String headerAuth = request.getHeader(jwtUtils.getAuthorizationHeader());
+        System.out.println("HeaderAuth = " + headerAuth);
+        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith(jwtUtils.getTokenPrefix())) {
+            return headerAuth.replace(jwtUtils.getTokenPrefix(), "");
+        }
+        return null;
+    }
 }
