@@ -14,29 +14,29 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-	Optional<Category> findByNameAndBrand(String name, Brand brand);
+    Optional<Category> findByNameAndBrand(String name, Brand brand);
 
-	Optional<Category> findByBrand(Brand brand);
+    Optional<Category> findByBrand(Brand brand);
 
-	@Modifying
-	@Transactional
-	@Query(
-			value = "Update category set isdeleted = true where id = ?1",
-			nativeQuery=true
-	)
-	int deleteCategory(Long id);
+    @Modifying
+    @Transactional
+    @Query(
+            value = "Update category set isdeleted = true where id = ?1",
+            nativeQuery = true
+    )
+    int deleteCategory(Long id);
 
-	@Modifying
-	@Transactional
-	@Query(
-			value = "Update category set isdeleted = false where id = ?1",
-			nativeQuery=true
-	)
-	int unDeleteCategory(Long id);
+    @Modifying
+    @Transactional
+    @Query(
+            value = "Update category set isdeleted = false where id = ?1",
+            nativeQuery = true
+    )
+    int unDeleteCategory(Long id);
 
-	@Query(
-			value = "Select isdeleted from category c where c.id = ?1",
-			nativeQuery=true
-	)
-	Boolean checkStatusOfCategery(Long id);
+    @Query(
+            value = "Select isdeleted from category c where c.id = ?1",
+            nativeQuery = true
+    )
+    Boolean checkStatusOfCategery(Long id);
 }

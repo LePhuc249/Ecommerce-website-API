@@ -15,7 +15,7 @@ public interface PaymentMethodRepository extends JpaRepository<PaymentMethod, Lo
     @Transactional
     @Query(
             value = "Update payment_method set isdeleted = true where id = ?1",
-            nativeQuery=true
+            nativeQuery = true
     )
     int deletePayment(Long id);
 
@@ -23,7 +23,7 @@ public interface PaymentMethodRepository extends JpaRepository<PaymentMethod, Lo
     @Transactional
     @Query(
             value = "Update payment_method set isdeleted = false where id = ?1",
-            nativeQuery=true
+            nativeQuery = true
     )
     int unDeletePayment(Long id);
 
@@ -31,7 +31,7 @@ public interface PaymentMethodRepository extends JpaRepository<PaymentMethod, Lo
     @Transactional
     @Query(
             value = "Update payment_method set name = ?2 where id = ?1",
-            nativeQuery=true
+            nativeQuery = true
     )
     int updateNamePayment(Long id, String newName);
 }
