@@ -8,11 +8,17 @@ import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
 import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
 import nashtech.phucldh.ecommerce.reponsitory.CartRepository;
 import nashtech.phucldh.ecommerce.service.CartService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class CartServiceImpl implements CartService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CartServiceImpl.class);
 
     @Autowired
     CartRepository cartRepository;
@@ -24,6 +30,7 @@ public class CartServiceImpl implements CartService {
         if (cartOptional.isPresent()) {
             cart = cartOptional.get();
         } else {
+            LOGGER.info("Can't find cart of customer: " + account.getUsername());
             throw new DataNotFoundException(ErrorCode.ERR_CART_NOT_FOUND);
         }
         return cart;
@@ -34,7 +41,8 @@ public class CartServiceImpl implements CartService {
         try {
             cartRepository.save(cart);
         } catch (Exception ex) {
-            throw new CreateDataFailException(ErrorCode.ERR_CREATE_ACCOUNT_ORDER_FAIL); // add cart error
+            LOGGER.info("Can't create cart ");
+            throw new CreateDataFailException(ErrorCode.ERR_CREATE_CART_FAIL);
         }
     }
 
@@ -45,12 +53,15 @@ public class CartServiceImpl implements CartService {
         if (cartOptional.isPresent()) {
             cart = cartOptional.get();
         } else {
+            LOGGER.info("Can't find cart with id " + cartID);
             throw new DataNotFoundException(ErrorCode.ERR_CART_NOT_FOUND);
         }
         try {
             cartRepository.deleteById(cartID);
         } catch (Exception ex) {
-            throw new DeleteDataFailException(ErrorCode.ERR_CREATE_ACCOUNT_ORDER_FAIL); // add cart error
+            LOGGER.info("Can't delete cart " + cartID);
+            throw new DeleteDataFailException(ErrorCode.ERR_DELETE_CART_FAIL);
         }
     }
+
 }

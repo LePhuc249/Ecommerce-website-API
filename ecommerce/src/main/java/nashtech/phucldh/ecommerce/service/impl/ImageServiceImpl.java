@@ -8,12 +8,18 @@ import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
 import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
 import nashtech.phucldh.ecommerce.reponsitory.ImageRepository;
 import nashtech.phucldh.ecommerce.service.ImageService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ImageServiceImpl implements ImageService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ImageServiceImpl.class);
 
     @Autowired
     ImageRepository imageRepository;
@@ -24,6 +30,7 @@ public class ImageServiceImpl implements ImageService {
         try {
             listAllImage = imageRepository.findAll();
         } catch (Exception e) {
+            LOGGER.info("Can't find all image ");
             throw new DataNotFoundException(ErrorCode.ERR_IMAGE_NOT_FOUND);
         }
         return listAllImage;
@@ -36,6 +43,7 @@ public class ImageServiceImpl implements ImageService {
         if (imageOptional.isPresent()) {
             image = imageOptional.get();
         } else {
+            LOGGER.info("Can't find image by id " + id);
             throw new DataNotFoundException(ErrorCode.ERR_IMAGE_NOT_FOUND);
         }
         return image;
@@ -48,6 +56,7 @@ public class ImageServiceImpl implements ImageService {
         if (imageOptional.isPresent()) {
             image = imageOptional.get();
         } else {
+            LOGGER.info("Can't find image by url " + url);
             throw new DataNotFoundException(ErrorCode.ERR_IMAGE_NOT_FOUND);
         }
         return image;
@@ -58,7 +67,8 @@ public class ImageServiceImpl implements ImageService {
     public void addNewImage(Image image) throws CreateDataFailException {
         try {
             imageRepository.save(image);
-        } catch (Exception ex ) {
+        } catch (Exception ex) {
+            LOGGER.info("Can't create new image ");
             throw new CreateDataFailException(ErrorCode.ERR_CREATE_IMAGE_FAIL);
         }
     }
@@ -70,11 +80,13 @@ public class ImageServiceImpl implements ImageService {
         if (imageOptional.isPresent()) {
             tempImage = imageOptional.get();
         } else {
+            LOGGER.info("Can't find image by id " + image.getId());
             throw new DataNotFoundException(ErrorCode.ERR_IMAGE_NOT_FOUND);
         }
         try {
             imageRepository.save(image);
         } catch (Exception ex) {
+            LOGGER.info("Can't update image ");
             throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_IMAGE_FAIL);
         }
     }
@@ -86,11 +98,13 @@ public class ImageServiceImpl implements ImageService {
         if (imageOptional.isPresent()) {
             image = imageOptional.get();
         } else {
+            LOGGER.info("Can't find image by id " + image.getId());
             throw new DataNotFoundException(ErrorCode.ERR_IMAGE_NOT_FOUND);
         }
         try {
             imageRepository.deleteImage(id);
         } catch (Exception ex) {
+            LOGGER.info("Can't delete image ");
             throw new DeleteDataFailException(ErrorCode.ERR_DELETE_IMAGE_FAIL);
         }
     }
@@ -102,11 +116,13 @@ public class ImageServiceImpl implements ImageService {
         if (imageOptional.isPresent()) {
             image = imageOptional.get();
         } else {
+            LOGGER.info("Can't find image by id " + image.getId());
             throw new DataNotFoundException(ErrorCode.ERR_IMAGE_NOT_FOUND);
         }
         try {
             imageRepository.unDeleteImage(id);
         } catch (Exception ex) {
+            LOGGER.info("Can't update image ");
             throw new DeleteDataFailException(ErrorCode.ERR_DELETE_IMAGE_FAIL);
         }
     }
@@ -118,12 +134,15 @@ public class ImageServiceImpl implements ImageService {
         if (imageOptional.isPresent()) {
             image = imageOptional.get();
         } else {
+            LOGGER.info("Can't find image by id " + image.getId());
             throw new DataNotFoundException(ErrorCode.ERR_IMAGE_NOT_FOUND);
         }
         try {
             imageRepository.updateImageURL(id, url);
         } catch (Exception ex) {
+            LOGGER.info("Can't update image ");
             throw new DeleteDataFailException(ErrorCode.ERR_DELETE_IMAGE_FAIL);
         }
     }
+
 }
