@@ -26,7 +26,7 @@ public class AccountRepositoryTest {
         account.setFullname("Test Add Full name");
         account.setEmail("Test Add Email");
         account.setPhone("Test Phone");
-        account.setStatus(2);
+        account.setStatus(Long.valueOf("2"));
         Assert.notNull(accountRepository.save(account));
     }
 
@@ -39,7 +39,7 @@ public class AccountRepositoryTest {
         } else {
             throw new AccountNotFoundException(ErrorCode.ERR_ACCOUNT_NOT_FOUND);
         }
-        account.setStatus(3);
+        account.setStatus(Long.valueOf("3"));
         Assert.notNull(accountRepository.save(account));
     }
 
@@ -66,7 +66,7 @@ public class AccountRepositoryTest {
 
     @Test
     public void checkFunctionFindByEmail() {
-        Optional<Account> result = accountRepository.findByEmail("admin@gmail.com");
+        Optional<Account> result = accountRepository.findByEmail("manager1@gmail.com");
         Assert.notNull(result);
     }
 
@@ -92,6 +92,20 @@ public class AccountRepositoryTest {
     public void getListAccount() {
         List<Account> list = accountRepository.findAll();
         boolean result = (list.size() == 20);
+        Assert.isTrue(result);
+    }
+
+    @Test
+    public void checkFunctionUpdateAccountStatusToActive() {
+        int num = accountRepository.updateAccountStatusToActive(Long.valueOf("2"));
+        boolean result = (num > 0);
+        Assert.isTrue(result);
+    }
+
+    @Test
+    public void checkFunctionUpdateAccountStatusToLocked() {
+        int num = accountRepository.updateAccountStatusToLocked(Long.valueOf("2"));
+        boolean result = (num > 0);
         Assert.isTrue(result);
     }
 

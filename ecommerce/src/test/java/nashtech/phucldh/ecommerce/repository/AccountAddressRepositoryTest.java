@@ -73,7 +73,7 @@ public class AccountAddressRepositoryTest {
         if (list.size() == 0) {
             throw new DataNotFoundException(ErrorCode.ERR_ACCOUNT_ADDRESS_NOT_FOUND);
         }
-        boolean result = (list.size() == 2);
+        boolean result = (list.size() == 1);
         Assert.isTrue(result);
     }
 

@@ -27,7 +27,7 @@ public class OrganizationRepositoryTest {
     public void addOrganization() {
         Organization organization = new Organization();
         organization.setName("Apple");
-        organization.setCreateby(1);
+        organization.setCreateby(Long.valueOf("1"));
         organization.setDeleted(false);
         Assert.notNull(organizationRepository.save(organization));
     }

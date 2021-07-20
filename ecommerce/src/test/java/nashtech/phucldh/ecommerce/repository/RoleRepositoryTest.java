@@ -30,4 +30,26 @@ public class RoleRepositoryTest {
         List<Role> list = roleRepository.findAll();
         Assert.notNull(list);
     }
+
+    @Test
+    public void testAddRole() {
+        int num = 0;
+        num = roleRepository.addNewAccountRole(Long.valueOf("1"), Long.valueOf("3"));
+        boolean result = false;
+        if (num > 0) {
+            result = true;
+        }
+        Assert.isTrue(result);
+    }
+
+    @Test
+    public void testDeleteRole() {
+        int num = 0;
+        num = roleRepository.deleteAccountRole(Long.valueOf("1"), Long.valueOf("3"));
+        boolean result = false;
+        if (num > 0) {
+            result = true;
+        }
+        Assert.isTrue(result);
+    }
 }

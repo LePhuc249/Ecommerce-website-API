@@ -92,4 +92,10 @@ public class CategoryRepositoryTest {
         boolean checkExist = resultAfterDelete.isPresent();
         Assert.isTrue(!checkExist);
     }
+
+    @Test
+    public void checkStatusCategory() {
+        boolean result = categoryRepository.checkStatusOfCategery(Long.valueOf("1"));
+        Assert.isTrue(!result);
+    }
 }

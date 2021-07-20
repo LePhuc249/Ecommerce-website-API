@@ -73,7 +73,7 @@ public class ProductRepositoryTest {
 
     @Test
     public void checkFunctionCheckExistProduct() {
-        Product product = productRepository.checkExistProduct("Corona", "Corona beer", Long.valueOf("9"));
+        Product product = productRepository.checkExistProduct("Corona", "Corona beer", Long.valueOf("9"), Long.valueOf("1"));
         boolean result = false;
         if (product != null) {
             result = true;
