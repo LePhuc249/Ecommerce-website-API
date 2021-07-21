@@ -14,11 +14,17 @@ import nashtech.phucldh.ecommerce.exception.DuplicateDataException;
 import nashtech.phucldh.ecommerce.payload.request.LoginRequest;
 import nashtech.phucldh.ecommerce.payload.request.SignUpRequest;
 
+import java.util.List;
+
 public interface AccountService {
 
-    public ResponseEntity<?> authenticateAccount(LoginRequest loginRequest) throws AccountAuthenticationException;
+    public Boolean authenticateAccount(LoginRequest loginRequest) throws AccountAuthenticationException;
 
-    public ResponseEntity<?> registerAccount(SignUpRequest signUpRequest) throws CreateDataFailException, DuplicateDataException, DataNotFoundException;
+    public Boolean registerAccount(SignUpRequest signUpRequest) throws CreateDataFailException, DuplicateDataException, DataNotFoundException;
+
+    public List<Account> getAllAccount() throws DataNotFoundException;
+
+    public Account getAccountDetail(Long accountId) throws DataNotFoundException;
 
     public Account getAccountByEmail(String email) throws AccountNotFoundException;
 

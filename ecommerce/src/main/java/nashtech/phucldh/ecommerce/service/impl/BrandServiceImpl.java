@@ -89,6 +89,15 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
+    public Brand checkExistedBrand(String name, Long organizationId) {
+        Brand brand = null;
+        if (name != null && organizationId != null) {
+            brand = brandRepository.checkExistedBrand(name, organizationId);
+        }
+        return brand;
+    }
+
+    @Override
     public void addNewBrand(Brand brand) throws CreateDataFailException {
         try {
             brandRepository.save(brand);

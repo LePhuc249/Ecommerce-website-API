@@ -99,16 +99,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category getCategoryByNameAndBrand(String name, Brand brand) throws DataNotFoundException {
-        Optional<Category> result = categoryRepository.findByNameAndBrand(name, brand);
-        Category theCategory = null;
-        if (result.isPresent()) {
-            theCategory = result.get();
-        } else {
-            LOGGER.info("Can't find category with name " + name + " and brand " + brand.getName());
+    public Category getCategoryByNameAndBrand(String name, Long brandId) throws DataNotFoundException {
+        Category result = categoryRepository.checkExistCategory(name, brandId);
+        if (result == null) {
+            LOGGER.info("Can't find category with name " + name + " and brand " + brandId);
             throw new DataNotFoundException(ErrorCode.ERR_CATEGORY_NOT_FOUND);
         }
-        return theCategory;
+        return result;
     }
 
     @Override

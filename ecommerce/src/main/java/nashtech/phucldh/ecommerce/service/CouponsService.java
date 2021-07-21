@@ -20,6 +20,8 @@ public interface CouponsService {
 
     public void createCoupon(Coupons theCoupon) throws CreateDataFailException;
 
+    public void updateCoupon(Coupons theCoupon) throws UpdateDataFailException;
+
     public void deleteCoupon(Long id) throws DataNotFoundException, DeleteDataFailException;
 
     public void unDeleteCoupon(Long id) throws DataNotFoundException, DeleteDataFailException, UpdateDataFailException;

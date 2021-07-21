@@ -86,6 +86,21 @@ public class CouponsServiceImpl implements CouponsService {
     }
 
     @Override
+    public void updateCoupon(Coupons theCoupon) throws UpdateDataFailException {
+        try {
+            Optional<Coupons> tempOptional = couponsRepository.findById(theCoupon.getId());
+            if (!tempOptional.isPresent()) {
+                LOGGER.info("Can't find coupon by id " + theCoupon.getId());
+                throw new DataNotFoundException(ErrorCode.ERR_COUPONS_NOT_FOUND);
+            }
+            couponsRepository.save(theCoupon);
+        } catch (Exception ex) {
+            LOGGER.info("Can't create new coupon ");
+            throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_COUPONS_FAIL);
+        }
+    }
+
+    @Override
     public void deleteCoupon(Long id) throws DataNotFoundException, DeleteDataFailException {
         Coupons coupon = null;
         Optional<Coupons> couponOptional = couponsRepository.findById(id);

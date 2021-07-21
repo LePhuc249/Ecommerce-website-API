@@ -63,6 +63,18 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    public Organization checkExistedOrganization(String name, Long imageId) {
+        Organization organization = null;
+        if (name != null && imageId != null) {
+            organization = organizationRepository.checkExistedOrganization(name, imageId);
+        } else {
+            LOGGER.info("Must input both of name and image");
+            throw new DataNotFoundException(ErrorCode.ERR_ORGANIZATION_NOT_FOUND);
+        }
+        return organization;
+    }
+
+    @Override
     public void createOrganization(Organization organization) throws CreateDataFailException {
         try {
             organizationRepository.save(organization);

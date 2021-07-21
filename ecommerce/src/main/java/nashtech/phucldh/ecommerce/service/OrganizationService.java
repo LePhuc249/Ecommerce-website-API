@@ -16,6 +16,8 @@ public interface OrganizationService {
 
     public Organization getOrganizationByName(String name) throws DataNotFoundException;
 
+    public Organization checkExistedOrganization(String name, Long imageId);
+
     public void createOrganization(Organization organization) throws CreateDataFailException;
 
     public void updateOrganization(Organization organization) throws DataNotFoundException, UpdateDataFailException;

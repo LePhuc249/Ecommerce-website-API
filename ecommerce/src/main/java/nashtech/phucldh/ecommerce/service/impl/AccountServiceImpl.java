@@ -65,7 +65,8 @@ public class AccountServiceImpl implements AccountService {
     Role roles = null;
 
     @Override
-    public ResponseEntity<?> authenticateAccount(LoginRequest loginRequest) throws AccountAuthenticationException {
+    public Boolean authenticateAccount(LoginRequest loginRequest) throws AccountAuthenticationException {
+        boolean result = false;
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -74,17 +75,17 @@ public class AccountServiceImpl implements AccountService {
             UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
             List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
                     .collect(Collectors.toList());
-            return ResponseEntity.ok().header(jwtUtils.getAuthorizationHeader(), jwtUtils.getTokenPrefix() + jwt)
-                    .body(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getFullname(), userDetails.getEmail(),
-                            roles.get(0)));
+            result = true;
         } catch (Exception e) {
             LOGGER.info("Account Authentication Error");
             throw new AccountAuthenticationException(ErrorCode.ERR_ACCOUNT_LOGIN_FAIL);
         }
+        return result;
     }
 
     @Override
-    public ResponseEntity<?> registerAccount(SignUpRequest signUpRequest) throws CreateDataFailException {
+    public Boolean registerAccount(SignUpRequest signUpRequest) throws CreateDataFailException {
+        boolean result = false;
         try {
             boolean existedEmail = accountRepository.existsByUsername(signUpRequest.getUsername());
             if (existedEmail) {
@@ -107,11 +108,42 @@ public class AccountServiceImpl implements AccountService {
             roles.add(userRole);
             theAccount.setRoles(roles);
             accountRepository.save(theAccount);
-            return ResponseEntity.ok(new MessageResponse("Account registered successfully!"));
+            result = true;
         } catch (Exception ex) {
             LOGGER.info("Fail to create new account " + signUpRequest.getUsername());
             throw new CreateDataFailException(ErrorCode.ERR_ACCOUNT_SIGNUP_FAIL);
         }
+        return result;
+    }
+
+    @Override
+    public List<Account> getAllAccount() throws DataNotFoundException {
+        List<Account> list = null;
+        try {
+            list = accountRepository.findAll();
+        } catch (Exception ex) {
+            LOGGER.info("Can't find all account");
+            throw new DataNotFoundException(ErrorCode.ERR_ACCOUNT_NOT_FOUND);
+        }
+        return list;
+    }
+
+    @Override
+    public Account getAccountDetail(Long accountId) throws DataNotFoundException {
+        Account account = null;
+        try {
+            Optional<Account> optinalAccount = accountRepository.findById(accountId);
+            if (optinalAccount.isPresent()) {
+                account = optinalAccount.get();
+            } else {
+                LOGGER.info("Can't find account with id: " + accountId);
+                throw new DataNotFoundException(ErrorCode.ERR_ACCOUNT_NOT_FOUND);
+            }
+        } catch (Exception ex) {
+            LOGGER.info("Can't find account with id: " + accountId);
+            throw new DataNotFoundException(ErrorCode.ERR_ACCOUNT_NOT_FOUND);
+        }
+        return account;
     }
 
     @Override

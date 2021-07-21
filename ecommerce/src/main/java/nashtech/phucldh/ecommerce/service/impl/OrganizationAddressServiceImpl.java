@@ -2,7 +2,10 @@ package nashtech.phucldh.ecommerce.service.impl;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
 import nashtech.phucldh.ecommerce.entity.OrganizationAddress;
+import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
+import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
+import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
 import nashtech.phucldh.ecommerce.reponsitory.OrganizationAddressRepository;
 import nashtech.phucldh.ecommerce.service.OrganizationAddressService;
 import org.slf4j.Logger;
@@ -68,6 +71,55 @@ public class OrganizationAddressServiceImpl implements OrganizationAddressServic
             throw new DataNotFoundException(ErrorCode.ERR_ORGANIZATION_ADDRESS_NOT_FOUND);
         }
         return listAddress;
+    }
+
+    @Override
+    public OrganizationAddress getOrganizationAddress(Long id, String address) throws DataNotFoundException {
+        OrganizationAddress organizationAddress =null;
+        if (id != null && address != null) {
+            organizationAddress = organizationAddressRepository.getOrganizationAddress(id, address);
+        }
+        return organizationAddress;
+    }
+
+    @Override
+    public void createNewAddress(OrganizationAddress organizationAddress) throws CreateDataFailException {
+        try {
+             organizationAddressRepository.save(organizationAddress);
+        } catch (Exception e) {
+            LOGGER.info("Create organization address fail ");
+            throw new CreateDataFailException(ErrorCode.ERR_CREATE_ORGANIZATION_ADDRESS_FAIL);
+        }
+    }
+
+    @Override
+    public void updateAddress(OrganizationAddress organization) throws UpdateDataFailException {
+        try {
+            Optional<OrganizationAddress> optionalOrganizationAddress = organizationAddressRepository.findById(organization.getId());
+            if (!optionalOrganizationAddress.isPresent()) {
+                LOGGER.info("Can't find the organization address");
+                throw new DataNotFoundException(ErrorCode.ERR_ORGANIZATION_ADDRESS_NOT_FOUND);
+            }
+            organizationAddressRepository.save(organization);
+        } catch (Exception e) {
+            LOGGER.info("Update organization address fail ");
+            throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_ORGANIZATION_ADDRESS_FAIL);
+        }
+    }
+
+    @Override
+    public void deleteAddress(Long organizationAddressID) throws DeleteDataFailException {
+        try {
+            Optional<OrganizationAddress> optionalOrganizationAddress = organizationAddressRepository.findById(organizationAddressID);
+            if (!optionalOrganizationAddress.isPresent()) {
+                LOGGER.info("Can't find the organization address");
+                throw new DataNotFoundException(ErrorCode.ERR_ORGANIZATION_ADDRESS_NOT_FOUND);
+            }
+            organizationAddressRepository.deleteById(organizationAddressID);
+        } catch (Exception e) {
+            LOGGER.info("Create organization address fail ");
+            throw new DeleteDataFailException(ErrorCode.ERR_DELETE_ORGANIZATION_ADDRESS_FAIL);
+        }
     }
 
 }

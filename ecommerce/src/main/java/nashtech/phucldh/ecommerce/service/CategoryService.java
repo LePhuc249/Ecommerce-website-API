@@ -12,7 +12,7 @@ public interface CategoryService {
 
     public List<Category> findAll() throws DataNotFoundException;
 
-    public Category getCategoryByNameAndBrand(String name, Brand brand) throws DataNotFoundException;
+    public Category getCategoryByNameAndBrand(String name, Long brandId) throws DataNotFoundException;
 
     public Category findById(Long categoryid) throws DataNotFoundException;
 

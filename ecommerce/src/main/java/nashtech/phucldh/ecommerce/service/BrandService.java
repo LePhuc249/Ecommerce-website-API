@@ -18,6 +18,8 @@ public interface BrandService {
 
     public Brand getBrandByOrganization(Long organizationId) throws DataNotFoundException;
 
+    public Brand checkExistedBrand(String name, Long organizationId);
+
     public void addNewBrand(Brand brand) throws CreateDataFailException;
 
     public void updateBrand(Brand brand) throws DataNotFoundException, UpdateDataFailException;
