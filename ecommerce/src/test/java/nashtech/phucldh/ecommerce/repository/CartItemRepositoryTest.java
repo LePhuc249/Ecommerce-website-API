@@ -26,15 +26,16 @@ public class CartItemRepositoryTest {
     ProductRepository productRepository;
 
     @Test
-    public void addItem() {
-        Cart cart = cartRepository.findById(Long.valueOf("123")).get();
+    public void saveCart() {
+        Cart cart = cartRepository.findById(Long.valueOf("159")).get();
         Product product = productRepository.findById(Long.valueOf("1")).get();
         CartItem item = new CartItem();
-        item.setCart(cart);
-        item.setItemid(product.getId());
+        item.setProduct(product);
         item.setAmount(1);
         item.setPrice(product.getPrice());
-        Assert.notNull(cartItemRepository.save(item));
+        cart.getListItem().add(item);
+        item.setCart(cart);
+        Assert.notNull(cartRepository.save(cart));
     }
 
     @Test
