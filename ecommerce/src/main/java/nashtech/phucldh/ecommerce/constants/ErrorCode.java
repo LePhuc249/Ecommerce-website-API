@@ -32,6 +32,7 @@ public class ErrorCode {
     public static final String ERR_ACCOUNT_EXISTED = "ERR_ACCOUNT_EXISTED"; // should use in service to check exist account
     public static final String ERR_EMAIL_ALREADY_TAKEN = "ERR_EMAIL_ALREADY_TAKEN"; // should use in service to check exist email
     public static final String ERR_USERNAME_ALREADY_TAKEN = "ERR_EMAIL_ALREADY_TAKEN";
+    public static final String ERR_CREATE_ACCOUNT_FAIL = "ERR_CREATE_ACCOUNT_FAIL";
     public static final String ERR_UPDATE_ACCOUNT_FAIL = "ERR_UPDATE_ACCOUNT_FAIL";
     public static final String ERR_DELETE_ACCOUNT_FAIL = "ERR_DELETE_ACCOUNT_FAIL";
 
