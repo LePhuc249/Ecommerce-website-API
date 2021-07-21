@@ -16,10 +16,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -27,40 +30,49 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Entity
-@Table(name = "account_order")
+@Table(
+        name = "account_order",
+		indexes = {
+				@Index(name = "account_order_index", columnList = "id")
+		}
+)
 public class AccountOrder {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", unique = true, nullable = false)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "customer_id", nullable = false)
-	private Account account;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id")
+    private Account account;
 
-	@Column(name = "create_date")
-	private LocalDateTime createdate;
+    @Column(name = "create_date")
+    private LocalDateTime createdate;
 
-	@Column(name = "update_date")
-	private LocalDateTime updatedate;
+    @Column(name = "update_date")
+    private LocalDateTime updatedate;
 
-	@Column(name = "date_delivery", nullable = false, length = 20)
-	private String datedelivery;
+    @NotBlank(message = "Date delivery is mandatory")
+    @Size(min = 5, max = 20, message = "Date delivery must be between 5 and 20 characters")
+    @Column(name = "date_delivery")
+    private String datedelivery;
 
-	@Column(name = "payment_method")
-	private Long paymentmethod;
+    @NotBlank(message = "Payment method is mandatory")
+    @Column(name = "payment_method")
+    private Long paymentmethod;
 
-	@Column(name = "total_price")
-	private Float totalprice;
-	
-	@Column(name = "status")
-	private Long status;
-	
-	@Column(name = "coupon_id")
-	private Long couponid;
+    @Column(name = "total_price")
+    private Float totalprice;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "accountOrder")
-	private List<OrderDetail> listOrderDetail = new ArrayList<>();
+    @NotBlank(message = "Status is mandatory")
+    @Column(name = "status")
+    private Long status;
+
+    @Column(name = "coupon_id")
+    private Long couponid;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "accountOrder")
+    private List<OrderDetail> listOrderDetail = new ArrayList<>();
 
 }

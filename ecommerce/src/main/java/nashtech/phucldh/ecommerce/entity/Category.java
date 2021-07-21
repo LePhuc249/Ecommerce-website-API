@@ -17,10 +17,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -28,37 +31,44 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Entity
-@Table(name = "category")
+@Table(
+        name = "category",
+		indexes = {
+				@Index(name = "category_index", columnList = "id, name, brand")
+		}
+)
 public class Category {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", unique = true, nullable = false)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
 
-	@Column(name = "name", unique = true, nullable = false, length = 20)
-	private String name;
+    @NotBlank(message = "Category name is mandatory")
+    @Size(min = 5, max = 20, message = "Category name must be between 5 and 20 characters")
+    @Column(name = "name")
+    private String name;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "brand", nullable = false)
-	private Brand brand;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "brand")
+    private Brand brand;
 
-	@Column(name = "parent_category")
-	private Integer parentCategory;
+    @Column(name = "parent_category")
+    private Integer parentCategory;
 
-	@Column(name = "create_date")
-	private LocalDateTime createdate;
+    @Column(name = "create_date")
+    private LocalDateTime createdate;
 
-	@Column(name = "update_date")
-	private LocalDateTime updatedate;
+    @Column(name = "update_date")
+    private LocalDateTime updatedate;
 
-	@Column(name = "create_by")
-	private Long createby;
+    @Column(name = "create_by")
+    private Long createby;
 
-	@Column(name = "isdeleted")
-	private boolean isDeleted;
+    @Column(name = "isdeleted")
+    private boolean isDeleted;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
-	private List<Product> listProduct = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
+    private List<Product> listProduct = new ArrayList<>();
 
 }

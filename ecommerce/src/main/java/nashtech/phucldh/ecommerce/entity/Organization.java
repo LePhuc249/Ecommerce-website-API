@@ -17,10 +17,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -28,14 +31,21 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Entity
-@Table(name = "organization")
+@Table(
+        name = "organization",
+        indexes = {
+                @Index(name = "organization_index", columnList = "id, name, image")
+        }
+)
 public class Organization {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", unique = true, nullable = false)
+    @Column(name = "id")
     private Long id;
 
+    @NotBlank(message = "Organization name is mandatory")
+    @Size(min = 5, max = 100, message = "Organization name must be between 5 and 100 characters")
     @Column(name = "name")
     private String name;
 
@@ -50,7 +60,7 @@ public class Organization {
     private LocalDateTime updatedate;
 
     @Column(name = "create_by")
-    private Integer createby;
+    private Long createby;
 
     @Column(name = "isdeleted")
     private boolean isDeleted;

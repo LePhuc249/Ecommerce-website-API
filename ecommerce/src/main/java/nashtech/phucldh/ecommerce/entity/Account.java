@@ -12,12 +12,16 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -31,49 +35,65 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Entity
-@Table(name = "account")
+@Table(
+        name = "account",
+        indexes = {
+                @Index(name = "mulitIndex1", columnList = "id, username, password, email")
+        }
+)
 public class Account {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", unique = true, nullable = false)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
 
-	@Column(name = "username", unique = true, nullable = false, length = 30)
-	private String username;
+    @NotBlank(message = "Username is mandatory")
+    @Size(min = 5, max = 30, message = "Username must be between 5 and 30 characters")
+    @Column(name = "username")
+    private String username;
 
-	@Column(name = "password", nullable = false, length = 100)
-	private String password;
+    @NotBlank(message = "Password is mandatory")
+    @Size(min = 10, max = 100, message = "Password must be between 10 and 100 characters")
+    @Column(name = "password")
+    private String password;
 
-	@Column(name = "fullname", nullable = false, length = 50)
-	private String fullname;
+    @NotBlank(message = "Full name is mandatory")
+    @Size(min = 5, max = 50, message = "Full name must be between 5 and 50 characters")
+    @Column(name = "fullname")
+    private String fullname;
 
-	@Column(name = "email", unique = true, nullable = false, length = 50)
-	private String email;
+    @NotBlank(message = "Email is mandatory")
+    @Email(message = "Email should be valid")
+    @Size(min = 5, max = 50, message = "Email must be between 5 and 50 characters")
+    @Column(name = "email")
+    private String email;
 
-	@Column(name = "phone", unique = true, nullable = false, length = 20)
-	private String phone;
+    @NotBlank(message = "Phone is mandatory")
+    @Size(min = 10, max = 15, message = "Phone must be between 10 and 15 number")
+    @Column(name = "phone")
+    private String phone;
 
-	@Column(name = "create_date")
-	private LocalDateTime createdate;
+    @Column(name = "create_date")
+    private LocalDateTime createdate;
 
-	@Column(name = "update_date")
-	private LocalDateTime updatedate;
+    @Column(name = "update_date")
+    private LocalDateTime updatedate;
 
-	@Column(name = "status")
-	private Integer status;
+    @Column(name = "status")
+    private Long status;
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "account_role", joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Set<Role> roles = new HashSet<>();
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "account_role", joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
-	private List<AccountAddress> listAddress = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
+    private List<AccountAddress> listAddress = new ArrayList<>();
 
-	@OneToOne(mappedBy = "account")
-	private Cart cart;
+    @OneToOne(mappedBy = "account")
+    private Cart cart;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
-	private List<AccountOrder> listOrder = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
+    private List<AccountOrder> listOrder = new ArrayList<>();
 
 }

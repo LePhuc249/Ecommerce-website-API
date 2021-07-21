@@ -13,7 +13,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -21,24 +24,31 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Entity
-@Table(name = "payment_method")
+@Table(
+        name = "payment_method",
+		indexes = {
+				@Index(name = "payment_method_index", columnList = "id, name")
+		}
+)
 public class PaymentMethod {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", unique = true, nullable = false)
-	private Long id;
-	
-	@Column(name = "name", unique = true, nullable = false, length = 50)
-	private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
 
-	@Column(name = "create_by")
-	private Long createby;
+    @NotBlank(message = "Payment method name is mandatory")
+    @Size(min = 5, max = 50, message = "Payment method name must be between 5 and 50 characters")
+    @Column(name = "name")
+    private String name;
 
-	@Column(name = "create_date")
-	private LocalDateTime createdate;
+    @Column(name = "create_by")
+    private Long createby;
 
-	@Column(name = "isdeleted")
-	private boolean isDeleted;
+    @Column(name = "create_date")
+    private LocalDateTime createdate;
+
+    @Column(name = "isdeleted")
+    private boolean isDeleted;
 
 }

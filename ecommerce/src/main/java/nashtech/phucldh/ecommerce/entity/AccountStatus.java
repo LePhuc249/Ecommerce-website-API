@@ -11,7 +11,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -19,15 +22,22 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Entity
-@Table(name = "account_status")
+@Table(
+        name = "account_status",
+        indexes = {
+                @Index(name = "Index", columnList = "id")
+        }
+)
 public class AccountStatus {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", unique = true, nullable = false)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
 
-	@Column(name = "status", unique = true, nullable = false, length = 20)
-	private String status;
+    @NotBlank(message = "Status name is mandatory")
+    @Size(min = 5, max = 20, message = "Status name must be between 5 and 20 characters")
+    @Column(name = "status")
+    private String status;
 
 }

@@ -17,6 +17,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.OneToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
@@ -29,26 +30,31 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Entity
-@Table(name = "cart")
+@Table(
+        name = "cart",
+		indexes = {
+				@Index(name = "cart_index", columnList = "id, customer_id")
+		}
+)
 public class Cart {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", unique = true, nullable = false)
-	private Long id;
 
-	@OneToOne
-	@JoinColumn(name = "customer_id", referencedColumnName = "id")
-	private Account account;
-	
-	@Column(name = "create_date")
-	private LocalDateTime createdate;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
 
-	@Column(name = "update_date")
-	private LocalDateTime updatedate;
+    @OneToOne
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    private Account account;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "id", insertable = false, updatable = false)
-	private List<CartItem> listItem = new ArrayList<>();
+    @Column(name = "create_date")
+    private LocalDateTime createdate;
+
+    @Column(name = "update_date")
+    private LocalDateTime updatedate;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id")
+    private List<CartItem> listItem = new ArrayList<>();
 
 }

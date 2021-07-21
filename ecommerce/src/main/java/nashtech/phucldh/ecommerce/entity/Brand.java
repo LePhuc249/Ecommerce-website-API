@@ -13,10 +13,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,14 +29,21 @@ import java.util.List;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Entity
-@Table(name = "brand")
+@Table(
+        name = "brand",
+        indexes = {
+                @Index(name = "brand_index", columnList = "id, name, organization")
+        }
+)
 public class Brand {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", unique = true, nullable = false)
+    @Column(name = "id")
     private Long id;
 
+    @NotBlank(message = "Brand name is mandatory")
+    @Size(min = 5, max = 50, message = "Brand name must be between 5 and 50 characters")
     @Column(name = "name")
     private String name;
 

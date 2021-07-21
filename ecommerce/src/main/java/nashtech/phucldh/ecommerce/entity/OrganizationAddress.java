@@ -12,9 +12,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -22,18 +25,25 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Entity
-@Table(name = "organization_address")
+@Table(
+        name = "organization_address",
+        indexes = {
+                @Index(name = "organization_address_index", columnList = "id, organization_id")
+        }
+)
 public class OrganizationAddress {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", unique = true, nullable = false)
+    @Column(name = "id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "organization_id", nullable = false)
+    @JoinColumn(name = "organization_id")
     private Organization organization;
 
+    @NotBlank(message = "Organization address is mandatory")
+    @Size(min = 5, max = 100, message = "Organization address must be between 5 and 100 characters")
     @Column(name = "address")
     private String address;
 }

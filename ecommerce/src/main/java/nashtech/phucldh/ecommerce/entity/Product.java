@@ -17,11 +17,16 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -29,55 +34,68 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Entity
-@Table(name = "product")
+@Table(
+        name = "product",
+		indexes = {
+				@Index(name = "product_index", columnList = "id, name, brand, category")
+		}
+)
 public class Product {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", unique = true, nullable = false)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
 
-	@Column(name = "name", unique = true, nullable = false, length = 50)
-	private String name;
-	
-	@Column(name = "short_description", nullable = false, length = 100)
-	private String shortdescription;
+    @NotBlank(message = "Product name is mandatory")
+    @Size(min = 5, max = 50, message = "Product name must be between 5 and 50 characters")
+    @Column(name = "name")
+    private String name;
 
-	@Column(name = "description", nullable = false, length = 100)
-	private String description;
+    @NotBlank(message = "Short description is mandatory")
+    @Size(min = 5, max = 50, message = "Short description must be between 5 and 50 characters")
+    @Column(name = "short_description")
+    private String shortdescription;
 
-	@Column(name = "price")
-	private Float price;
+    @NotBlank(message = "Description is mandatory")
+    @Size(min = 5, max = 100, message = "Description must be between 5 and 100 characters")
+    @Column(name = "description")
+    private String description;
 
-	@Column(name = "create_date")
-	private LocalDateTime createdate;
+    @Column(name = "price")
+    private Float price;
 
-	@Column(name = "update_date")
-	private LocalDateTime updatedate;
+    @Column(name = "create_date")
+    private LocalDateTime createdate;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "brand", nullable = false)
-	private Brand brand;
+    @Column(name = "update_date")
+    private LocalDateTime updatedate;
 
-	@Column(name = "quantity")
-	private int quantity;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "brand")
+    private Brand brand;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "category", nullable = false)
-	private Category category;
+    @Min(value = 0, message = "Quantity should not be less than 0")
+    @Column(name = "quantity")
+    private int quantity;
 
-	@Column(name = "counter")
-	private int counter;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category")
+    private Category category;
 
-	@Column(name = "isdeleted")
-	private boolean isDeleted;
+    @Min(value = 0, message = "Counter should not be less than 0")
+    @Column(name = "counter")
+    private int counter;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinTable(
-		name = "product_image",
-		joinColumns = @JoinColumn(name = "product_id"),
-		inverseJoinColumns = @JoinColumn(name = "image_id")
-	)
-	private List<Image> image = new ArrayList<>();
+    @Column(name = "isdeleted")
+    private boolean isDeleted;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "product_image",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "image_id")
+    )
+    private List<Image> image = new ArrayList<>();
 
 }
