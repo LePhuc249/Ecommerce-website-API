@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,8 +15,10 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class RoleDTO {
 
-	private Long id;
+    @NotBlank(message = "Role id is mandatory")
+    private Long id;
 
-	private String name;
+    @NotBlank(message = "Role name is mandatory")
+    private String name;
 
 }

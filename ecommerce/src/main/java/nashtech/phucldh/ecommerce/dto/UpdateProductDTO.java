@@ -8,14 +8,13 @@ import lombok.Setter;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class ProductDTO {
+public class UpdateProductDTO {
 
     @NotBlank(message = "Product id is mandatory")
     private Long id;
@@ -31,10 +30,6 @@ public class ProductDTO {
 
     @NotBlank(message = "Product price is mandatory")
     private Float price;
-
-    private LocalDateTime createdate;
-
-    private LocalDateTime updatedate;
 
     @NotBlank(message = "Product brand is mandatory")
     private Long brand;

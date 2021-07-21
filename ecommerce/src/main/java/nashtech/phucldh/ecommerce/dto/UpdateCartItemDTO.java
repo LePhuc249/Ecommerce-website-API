@@ -14,18 +14,15 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class CartItemDTO {
+public class UpdateCartItemDTO {
 
-    @NotBlank(message = "Cart item id is mandatory")
-    private Long id;
+    @NotBlank(message = "User id is mandatory")
+    private Long user_id;
 
     @NotBlank(message = "Item id is mandatory")
     private Long item_id;
 
     @Min(value = 0, message = "Amount should not be less than 0")
     private Integer amount;
-
-    @NotBlank(message = "Price id is mandatory")
-    private Float price;
 
 }

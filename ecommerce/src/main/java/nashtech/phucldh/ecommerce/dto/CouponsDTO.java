@@ -1,11 +1,12 @@
 package nashtech.phucldh.ecommerce.dto;
 
-import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,18 +14,30 @@ import lombok.Setter;
 @Setter
 public class CouponsDTO {
 
-	private Long id;
+    @NotBlank(message = "Coupon id is mandatory")
+    private Long id;
 
-	private String code;
+    @NotBlank(message = "Coupon code is mandatory")
+    private String code;
 
-	private Integer discountamount;
+    @NotBlank(message = "Discount amount is mandatory")
+    private Integer discountamount;
 
-	private Long productdiscount;
+    @NotBlank(message = "Product discount is mandatory")
+    private Long productdiscount;
 
-	private String description;
+    @NotBlank(message = "Description is mandatory")
+    private String description;
 
-	private String expirationdate;
+    @NotBlank(message = "Expiration date is mandatory")
+    private String expirationdate;
 
-	private boolean isDeleted;
-	
+    private Long createby;
+
+    private LocalDateTime createdate;
+
+    private LocalDateTime updatedate;
+
+    private boolean isDeleted;
+
 }

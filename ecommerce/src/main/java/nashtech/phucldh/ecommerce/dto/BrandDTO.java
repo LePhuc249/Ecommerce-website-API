@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,10 +15,13 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class BrandDTO {
 
+    @NotBlank(message = "Brand id is mandatory")
     private Long id;
 
+    @NotBlank(message = "Brand name is mandatory")
     private String name;
 
-    private String organization;
+    @NotBlank(message = "Organization of brand is mandatory")
+    private Long organization;
 
 }

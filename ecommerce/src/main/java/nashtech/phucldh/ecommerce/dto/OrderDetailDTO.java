@@ -1,12 +1,13 @@
 package nashtech.phucldh.ecommerce.dto;
 
-import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
@@ -15,16 +16,22 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class OrderDetailDTO {
 
-	private Long id;
+    @NotBlank(message = "Order Detail id is mandatory")
+    private Long id;
 
-	private Long order_id;
+    @NotBlank(message = "Order id is mandatory")
+    private Long order_id;
 
-	private Long item_id;
+    @NotBlank(message = "Order Detail item id is mandatory")
+    private Long item_id;
 
-	private int amount;
+    @Min(value = 0, message = "Amount should not be less than 0")
+    private int amount;
 
-	private Float price;
+    @NotBlank(message = "Order item price is mandatory")
+    private Float price;
 
-	private String item_property;
-	
+    @NotBlank(message = "Order item property is mandatory")
+    private String item_property;
+
 }

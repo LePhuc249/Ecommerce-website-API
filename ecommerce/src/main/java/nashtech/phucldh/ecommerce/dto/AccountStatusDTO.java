@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,8 +15,10 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class AccountStatusDTO {
 
-	private Long id;
-	
-	private String status;
-	
+    @NotBlank(message = "Id account status is mandatory")
+    private Long id;
+
+    @NotBlank(message = "Status account name is mandatory")
+    private String status;
+
 }

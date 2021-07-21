@@ -1,14 +1,12 @@
 package nashtech.phucldh.ecommerce.dto;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.UUID;
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
@@ -17,10 +15,10 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class PaymentMethodDTO {
 
-	private Long id;
+    @NotBlank(message = "Payment method id is mandatory")
+    private Long id;
 
-	private String name;
+    @NotBlank(message = "Payment method name is mandatory")
+    private String name;
 
-	private boolean isdeleted;
-	
 }

@@ -13,12 +13,12 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class OrderStatusDTO {
+public class RemoveCartItemDTO {
 
-    @NotBlank(message = "Order status id is mandatory")
-    private Long id;
+    @NotBlank(message = "User id is mandatory")
+    private Long user_id;
 
-    @NotBlank(message = "Order status name is mandatory")
-    private String name;
+    @NotBlank(message = "Item id is mandatory")
+    private Long item_id;
 
 }
