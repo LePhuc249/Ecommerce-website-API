@@ -35,4 +35,11 @@ public interface OrganizationRepository extends JpaRepository<Organization, Long
             nativeQuery = true
     )
     Long getStatusOfOrganization(Long organizationId);
+
+    @Query(
+            value = "Select * from organization where name = ?1 and image = ?2",
+            nativeQuery = true
+    )
+    Organization checkExistedOrganization(String name, Long imageId);
+
 }

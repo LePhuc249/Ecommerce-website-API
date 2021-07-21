@@ -22,4 +22,10 @@ public interface OrganizationAddressRepository extends JpaRepository<Organizatio
     )
     List<String> getListAddressOfOrganization(Long organizationId);
 
+    @Query(
+            value = "select * from organization_address where organization_id = ?1 and address = ?2",
+            nativeQuery = true
+    )
+    OrganizationAddress getOrganizationAddress(Long organizationId, String address);
+
 }

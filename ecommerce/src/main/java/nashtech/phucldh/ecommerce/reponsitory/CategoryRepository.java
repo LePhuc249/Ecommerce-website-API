@@ -35,8 +35,15 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     int unDeleteCategory(Long id);
 
     @Query(
-            value = "Select isdeleted from category c where c.id = ?1",
+            value = "Select isdeleted from category where id = ?1",
             nativeQuery = true
     )
     Boolean checkStatusOfCategery(Long id);
+
+    @Query(
+            value = "Select * from category where name = ?1 and brand = ?2",
+            nativeQuery = true
+    )
+    Category checkExistCategory(String name, Long brandId);
+
 }
