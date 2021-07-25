@@ -16,25 +16,21 @@ import javax.validation.constraints.NotBlank;
 @EqualsAndHashCode
 public class PagingProductDTO {
 
-    @NotBlank(message = "Product id is mandatory")
     private Long id;
 
     @NotBlank(message = "Product name is mandatory")
     private String name;
 
     @NotBlank(message = "Product short description is mandatory")
-    private String short_description;
+    private String shortDescription;
 
-    @NotBlank(message = "Product price is mandatory")
     private Float price;
 
-    @NotBlank(message = "Product brand is mandatory")
     private Long brand;
 
     @Min(value = 0, message = "Quantity should not be less than 0")
     private int quantity;
 
-    @NotBlank(message = "Product category is mandatory")
     private Long category;
 
     @Min(value = 0, message = "Counter should not be less than 0")

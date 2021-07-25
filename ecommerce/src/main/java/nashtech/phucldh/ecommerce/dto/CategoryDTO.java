@@ -14,22 +14,16 @@ import java.time.LocalDateTime;
 @Setter
 public class CategoryDTO {
 
-    @NotBlank(message = "Category id is mandatory")
     private Long id;
 
     @NotBlank(message = "Category name is mandatory")
     private String name;
 
-    @NotBlank(message = "Category brand is mandatory")
-    private Long brandId;
+    private LocalDateTime createDate;
 
-    private Integer parentCategory;
+    private LocalDateTime updateDate;
 
-    private LocalDateTime createdate;
-
-    private LocalDateTime updatedate;
-
-    private Long createby;
+    private Long createBy;
 
     private boolean isDeleted;
 

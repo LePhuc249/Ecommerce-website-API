@@ -15,7 +15,6 @@ import javax.validation.constraints.NotBlank;
 @EqualsAndHashCode
 public class AccountStatusDTO {
 
-    @NotBlank(message = "Id account status is mandatory")
     private Long id;
 
     @NotBlank(message = "Status account name is mandatory")

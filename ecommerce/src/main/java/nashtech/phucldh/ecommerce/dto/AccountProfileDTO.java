@@ -18,14 +18,13 @@ import java.util.Set;
 @EqualsAndHashCode
 public class AccountProfileDTO {
 
-    @NotBlank(message = "Id account is mandatory")
     private Long id;
 
     @NotBlank(message = "User name is mandatory")
-    private String username;
+    private String userName;
 
     @NotBlank(message = "Full name is mandatory")
-    private String fullname;
+    private String fullName;
 
     @NotBlank(message = "Email is mandatory")
     private String email;
@@ -33,9 +32,9 @@ public class AccountProfileDTO {
     @NotBlank(message = "Phone is mandatory")
     private String phone;
 
-    private LocalDateTime createdate;
+    private LocalDateTime createDate;
 
-    private LocalDateTime updatedate;
+    private LocalDateTime updateDate;
 
     private Long status;
 

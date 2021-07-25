@@ -15,7 +15,6 @@ import javax.validation.constraints.NotBlank;
 @EqualsAndHashCode
 public class RoleDTO {
 
-    @NotBlank(message = "Role id is mandatory")
     private Long id;
 
     @NotBlank(message = "Role name is mandatory")

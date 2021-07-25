@@ -15,13 +15,11 @@ import javax.validation.constraints.NotBlank;
 @EqualsAndHashCode
 public class BrandDTO {
 
-    @NotBlank(message = "Brand id is mandatory")
     private Long id;
 
     @NotBlank(message = "Brand name is mandatory")
     private String name;
 
-    @NotBlank(message = "Organization of brand is mandatory")
-    private Long organization;
+    private Long organizationId;
 
 }

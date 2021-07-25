@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -16,31 +17,33 @@ import javax.validation.constraints.NotBlank;
 @EqualsAndHashCode
 public class ProductDetailDTO {
 
-    @NotBlank(message = "Product detail id is mandatory")
     private Long id;
 
     @NotBlank(message = "Product detail name is mandatory")
     private String name;
 
     @NotBlank(message = "Product detail short description is mandatory")
-    private String short_description;
+    private String shortDescription;
 
     @NotBlank(message = "Product detail description is mandatory")
     private String description;
 
-    @NotBlank(message = "Product detail price is mandatory")
     private Float price;
 
-    @NotBlank(message = "Product detail brand is mandatory")
-    private Long brand;
+    private LocalDateTime createDate;
+
+    private LocalDateTime updateDate;
+
+    private Long brandId;
 
     @Min(value = 0, message = "Quantity should not be less than 0")
     private int quantity;
 
-    @NotBlank(message = "Product detail category is mandatory")
-    private Long category;
+    private Long categoryId;
 
     @Min(value = 0, message = "Counter should not be less than 0")
     private int counter;
+
+    private boolean isDeleted;
 
 }

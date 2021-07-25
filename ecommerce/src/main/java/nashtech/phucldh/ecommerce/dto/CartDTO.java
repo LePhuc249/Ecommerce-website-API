@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
@@ -18,11 +17,9 @@ import javax.validation.constraints.NotBlank;
 @EqualsAndHashCode
 public class CartDTO {
 
-    @NotBlank(message = "Cart id is mandatory")
     private Long id;
 
-    @NotBlank(message = "Customer id is mandatory")
-    private Long customer_id;
+    private Long customerId;
 
     private List<CartItemDTO> cartItems = new ArrayList<>();
 

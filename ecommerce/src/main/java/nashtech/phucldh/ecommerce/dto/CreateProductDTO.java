@@ -19,24 +19,19 @@ public class CreateProductDTO {
     private String name;
 
     @NotBlank(message = "Short description is mandatory")
-    private String short_description;
+    private String shortDescription;
 
     @NotBlank(message = "Description is mandatory")
     private String description;
 
-    @NotBlank(message = "Product price is mandatory")
     private Float price;
 
-    @NotBlank(message = "Product brand is mandatory")
     private Long brand;
 
-    @NotBlank(message = "Product quantity is mandatory")
     private int quantity;
 
-    @NotBlank(message = "Product category is mandatory")
     private Long category;
 
-    @NotBlank(message = "Product counter is mandatory")
     private int counter;
 
     private boolean isDeleted;

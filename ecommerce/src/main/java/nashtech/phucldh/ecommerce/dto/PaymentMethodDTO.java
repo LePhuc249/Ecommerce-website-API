@@ -15,7 +15,6 @@ import javax.validation.constraints.NotBlank;
 @EqualsAndHashCode
 public class PaymentMethodDTO {
 
-    @NotBlank(message = "Payment method id is mandatory")
     private Long id;
 
     @NotBlank(message = "Payment method name is mandatory")

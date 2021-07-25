@@ -15,12 +15,11 @@ import javax.validation.constraints.NotBlank;
 @EqualsAndHashCode
 public class ImageDTO {
 
-    @NotBlank(message = "Image id is mandatory")
     private Long id;
 
     @NotBlank(message = "Image url is mandatory")
     private String urlImage;
 
-    private boolean isdeleted;
+    private boolean isDeleted;
 
 }

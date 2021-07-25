@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,13 +13,10 @@ import javax.validation.constraints.NotBlank;
 @EqualsAndHashCode
 public class AddCartItemDTO {
 
-    @NotBlank(message = "Id account is mandatory")
-    private Long user_id;
+    private Long userId;
 
-    @NotBlank(message = "Id cart is mandatory")
-    private Long cart_id;
+    private Long cartId;
 
-    @NotBlank(message = "Id item is mandatory")
-    private Long item_id;
+    private Long itemId;
 
 }

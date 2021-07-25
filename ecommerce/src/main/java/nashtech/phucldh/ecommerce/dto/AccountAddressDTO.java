@@ -16,7 +16,6 @@ import javax.validation.constraints.Size;
 @EqualsAndHashCode
 public class AccountAddressDTO {
 
-    @NotBlank(message = "Id account is mandatory")
     private Long id;
 
     @NotBlank(message = "Address is mandatory")

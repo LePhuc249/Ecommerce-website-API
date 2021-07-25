@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,10 +13,8 @@ import javax.validation.constraints.NotBlank;
 @EqualsAndHashCode
 public class RemoveCartItemDTO {
 
-    @NotBlank(message = "User id is mandatory")
-    private Long user_id;
+    private Long userId;
 
-    @NotBlank(message = "Item id is mandatory")
-    private Long item_id;
+    private Long itemId;
 
 }

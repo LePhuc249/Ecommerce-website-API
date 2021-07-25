@@ -19,18 +19,17 @@ import javax.validation.constraints.NotBlank;
 @EqualsAndHashCode
 public class AccountDTO {
 
-    @NotBlank(message = "Id account is mandatory")
     private Long id;
 
     @NotBlank(message = "Username is mandatory")
-    private String username;
+    private String userName;
 
     @NotBlank(message = "Full name is mandatory")
-    private String fullname;
+    private String fullName;
 
-    private LocalDateTime createdate;
+    private LocalDateTime createDate;
 
-    private LocalDateTime updatedate;
+    private LocalDateTime updateDate;
 
     private Long status;
 

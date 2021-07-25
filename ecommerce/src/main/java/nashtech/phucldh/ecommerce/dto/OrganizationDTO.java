@@ -16,19 +16,18 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 public class OrganizationDTO {
 
-    @NotBlank(message = "Organization id is mandatory")
     private Long id;
 
     @NotBlank(message = "Organization name is mandatory")
     private String name;
 
-    private Long imageId;
+    private Long imageOrganizationId;
 
-    private LocalDateTime createdate;
+    private LocalDateTime createDate;
 
-    private LocalDateTime updatedate;
+    private LocalDateTime updateDate;
 
-    private Long createby;
+    private Long createBy;
 
     private boolean isDeleted;
 

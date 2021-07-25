@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
@@ -14,29 +15,27 @@ import java.time.LocalDateTime;
 @Setter
 public class CouponsDTO {
 
-    @NotBlank(message = "Coupon id is mandatory")
     private Long id;
 
     @NotBlank(message = "Coupon code is mandatory")
     private String code;
 
-    @NotBlank(message = "Discount amount is mandatory")
-    private Integer discountamount;
+    @Min(value = 0, message = "Discount amount aleast 0")
+    private Integer discountAmount;
 
-    @NotBlank(message = "Product discount is mandatory")
-    private Long productdiscount;
+    private Long productDiscount;
 
     @NotBlank(message = "Description is mandatory")
     private String description;
 
     @NotBlank(message = "Expiration date is mandatory")
-    private String expirationdate;
+    private String expirationDate;
 
-    private Long createby;
+    private Long createBy;
 
-    private LocalDateTime createdate;
+    private LocalDateTime createDate;
 
-    private LocalDateTime updatedate;
+    private LocalDateTime updateDate;
 
     private boolean isDeleted;
 

@@ -15,11 +15,9 @@ import javax.validation.constraints.NotBlank;
 @EqualsAndHashCode
 public class OrganizationAddressDTO {
 
-    @NotBlank(message = "Organization address id is mandatory")
     private Long id;
 
-    @NotBlank(message = "Organization id is mandatory")
-    private Long organization;
+    private Long organizationId;
 
     @NotBlank(message = "Organization address is mandatory")
     private String address;

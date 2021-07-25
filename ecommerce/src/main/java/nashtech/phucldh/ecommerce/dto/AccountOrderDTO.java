@@ -21,24 +21,24 @@ public class AccountOrderDTO {
     private Long id;
 
     @NotBlank(message = "Account id is mandatory")
-    private Long customer_id;
+    private Long customerId;
 
-    private LocalDateTime createdate;
+    private LocalDateTime createDate;
 
-    private LocalDateTime updatedate;
+    private LocalDateTime updateDate;
 
     @NotBlank(message = "Date delivery is mandatory")
     @Size(min = 5, max = 20, message = "Date delivery must be between 5 and 20 characters")
-    private String date_delivery;
+    private String dateDelivery;
 
     @NotBlank(message = "Payment method is mandatory")
-    private Long payment_method;
+    private Long paymentMethod;
 
-    private Float total_price;
+    private Float totalPrice;
 
     @NotBlank(message = "Status is mandatory")
     private Long status;
 
-    private Long coupon_id;
+    private Long couponId;
 
 }
