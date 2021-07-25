@@ -1,16 +1,23 @@
 package nashtech.phucldh.ecommerce.service.impl;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
+
 import nashtech.phucldh.ecommerce.entity.CartItem;
+
 import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
 import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
 import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
-import nashtech.phucldh.ecommerce.reponsitory.CartItemRepository;
+
+import nashtech.phucldh.ecommerce.repository.CartItemRepository;
+
 import nashtech.phucldh.ecommerce.service.CartItemService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,7 +33,7 @@ public class CartItemServiceImpl implements CartItemService {
 
     @Override
     public List<CartItem> findAllItem() throws DataNotFoundException {
-        List<CartItem> cartItem = null;
+        List<CartItem> cartItem;
         try {
             cartItem = cartItemRepository.findAll();
         } catch (Exception e) {
@@ -38,7 +45,7 @@ public class CartItemServiceImpl implements CartItemService {
 
     @Override
     public List<CartItem> getListItemOfCart(Long cartID) throws DataNotFoundException {
-        List<CartItem> cartItem = null;
+        List<CartItem> cartItem;
         try {
             cartItem = cartItemRepository.getListItem(cartID);
         } catch (Exception e) {
@@ -49,7 +56,20 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     @Override
-    public void createNewItemInCart(CartItem cartItem) throws CreateDataFailException {
+    public CartItem checkCartItem(Long cartID, Long productID) throws DataNotFoundException {
+        CartItem item;
+        try {
+            item = cartItemRepository.getByCartAndProduct(cartID, productID);
+        } catch (Exception e) {
+            LOGGER.info("Can't find item in cart ");
+            throw new DataNotFoundException(ErrorCode.ERR_ITEM_CART_NOT_FOUND);
+        }
+        return item;
+    }
+
+    @Override
+    public Boolean createNewItemInCart(CartItem cartItem) throws CreateDataFailException {
+        boolean result;
         Optional<CartItem> cartItemOptional = cartItemRepository.findById(cartItem.getId());
         if (cartItemOptional.isPresent()) {
             LOGGER.info("Item have been in cart ");
@@ -57,14 +77,17 @@ public class CartItemServiceImpl implements CartItemService {
         }
         try {
             cartItemRepository.save(cartItem);
+            result = true;
         } catch (Exception e) {
             LOGGER.info("Can't create new item in cart id " + cartItem.getCart().getId());
             throw new CreateDataFailException(ErrorCode.ERR_ADD_ITEM_CART_FAIL);
         }
+        return result;
     }
 
     @Override
-    public void updateNewItemInCart(CartItem cartItem) throws DataNotFoundException, UpdateDataFailException {
+    public Boolean updateNewItemInCart(CartItem cartItem) throws DataNotFoundException, UpdateDataFailException {
+        boolean result;
         CartItem tempCart = null;
         Optional<CartItem> cartItemOptional = cartItemRepository.findById(cartItem.getId());
         if (cartItemOptional.isPresent()) {
@@ -75,14 +98,17 @@ public class CartItemServiceImpl implements CartItemService {
         }
         try {
             cartItemRepository.save(cartItem);
+            result = true;
         } catch (Exception e) {
             LOGGER.info("Can't update item in cart with cart item id " + cartItem.getId());
             throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_CART_FAIL);
         }
+        return result;
     }
 
     @Override
-    public void deleteCartItem(Long cartItemID) throws DataNotFoundException, DeleteDataFailException {
+    public Boolean deleteCartItem(Long cartItemID) throws DataNotFoundException, DeleteDataFailException {
+        boolean result;
         CartItem cart = null;
         Optional<CartItem> cartItemOptional = cartItemRepository.findById(cartItemID);
         if (cartItemOptional.isPresent()) {
@@ -93,14 +119,17 @@ public class CartItemServiceImpl implements CartItemService {
         }
         try {
             cartItemRepository.deleteById(cartItemID);
+            result = true;
         } catch (Exception e) {
             LOGGER.info("Can't update item in cart with cart item id " + cartItemID);
             throw new DeleteDataFailException(ErrorCode.ERR_REMOVE_ITEM_CART_FAIL);
         }
+        return result;
     }
 
     @Override
-    public void updateQuantityItemInCart(Long id, int quantity) throws DataNotFoundException, UpdateDataFailException {
+    public Boolean updateQuantityItemInCart(Long id, int quantity) throws DataNotFoundException, UpdateDataFailException {
+        boolean result;
         CartItem cart = null;
         Optional<CartItem> cartItemOptional = cartItemRepository.findById(id);
         if (cartItemOptional.isPresent()) {
@@ -111,10 +140,12 @@ public class CartItemServiceImpl implements CartItemService {
         }
         try {
             cartItemRepository.updateItemQuantity(id, quantity);
+            result = true;
         } catch (Exception e) {
             LOGGER.info("Can't update item quantity in cart with cart item id " + id);
             throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_CART_FAIL);
         }
+        return result;
     }
 
 }

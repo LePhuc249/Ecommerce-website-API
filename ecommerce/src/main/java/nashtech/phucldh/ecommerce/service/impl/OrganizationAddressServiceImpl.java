@@ -1,16 +1,33 @@
 package nashtech.phucldh.ecommerce.service.impl;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
+
+import nashtech.phucldh.ecommerce.converter.OrganizationAddressConverter;
+
+import nashtech.phucldh.ecommerce.dto.OrganizationAddressDTO;
+
 import nashtech.phucldh.ecommerce.entity.OrganizationAddress;
+
 import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
 import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
+import nashtech.phucldh.ecommerce.exception.DuplicateDataException;
 import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
-import nashtech.phucldh.ecommerce.reponsitory.OrganizationAddressRepository;
+
+import nashtech.phucldh.ecommerce.repository.OrganizationAddressRepository;
+
 import nashtech.phucldh.ecommerce.service.OrganizationAddressService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,9 +41,12 @@ public class OrganizationAddressServiceImpl implements OrganizationAddressServic
     @Autowired
     OrganizationAddressRepository organizationAddressRepository;
 
+    @Autowired
+    OrganizationAddressConverter organizationAddressConverter;
+
     @Override
     public List<OrganizationAddress> findAllAddress() throws DataNotFoundException {
-        List<OrganizationAddress> listAllOrganizationAddress = null;
+        List<OrganizationAddress> listAllOrganizationAddress;
         try {
             listAllOrganizationAddress = organizationAddressRepository.findAll();
         } catch (Exception e) {
@@ -38,11 +58,8 @@ public class OrganizationAddressServiceImpl implements OrganizationAddressServic
 
     @Override
     public OrganizationAddress findAddressById(Long id) throws DataNotFoundException {
-        OrganizationAddress organizationAddress = null;
-        Optional<OrganizationAddress> imageOptional = organizationAddressRepository.findById(id);
-        if (imageOptional.isPresent()) {
-            organizationAddress = imageOptional.get();
-        } else {
+        OrganizationAddress organizationAddress = organizationAddressRepository.getOrganizationAddressById(id);
+        if (organizationAddress == null) {
             LOGGER.info("Can't find organization address ");
             throw new DataNotFoundException(ErrorCode.ERR_ORGANIZATION_ADDRESS_NOT_FOUND);
         }
@@ -51,7 +68,7 @@ public class OrganizationAddressServiceImpl implements OrganizationAddressServic
 
     @Override
     public List<OrganizationAddress> getListAddressOfOrganization(Long id) throws DataNotFoundException {
-        List<OrganizationAddress> listOrganizationAddress = null;
+        List<OrganizationAddress> listOrganizationAddress;
         try {
             listOrganizationAddress = organizationAddressRepository.getAddressByOrganization(id);
         } catch (Exception e) {
@@ -63,7 +80,7 @@ public class OrganizationAddressServiceImpl implements OrganizationAddressServic
 
     @Override
     public List<String> getListStringAddress(Long id) throws DataNotFoundException {
-        List<String> listAddress = null;
+        List<String> listAddress;
         try {
             listAddress = organizationAddressRepository.getListAddressOfOrganization(id);
         } catch (Exception e) {
@@ -75,7 +92,7 @@ public class OrganizationAddressServiceImpl implements OrganizationAddressServic
 
     @Override
     public OrganizationAddress getOrganizationAddress(Long id, String address) throws DataNotFoundException {
-        OrganizationAddress organizationAddress =null;
+        OrganizationAddress organizationAddress = null;
         if (id != null && address != null) {
             organizationAddress = organizationAddressRepository.getOrganizationAddress(id, address);
         }
@@ -83,32 +100,46 @@ public class OrganizationAddressServiceImpl implements OrganizationAddressServic
     }
 
     @Override
-    public void createNewAddress(OrganizationAddress organizationAddress) throws CreateDataFailException {
+    public Boolean createNewAddress(OrganizationAddressDTO organizationAddressDTO) throws CreateDataFailException {
+        boolean result;
         try {
-             organizationAddressRepository.save(organizationAddress);
+            OrganizationAddress organizationAddress = organizationAddressConverter.convertOrganizationDTOToEntity(organizationAddressDTO);
+            OrganizationAddress temp = getOrganizationAddress(organizationAddress.getId(), organizationAddress.getAddress());
+            if (temp != null) {
+                LOGGER.info("Organization address have been existed");
+                throw new DuplicateDataException(ErrorCode.ERR_ORGANIZATION_ADDRESS_EXISTED);
+            }
+            organizationAddressRepository.save(organizationAddress);
+            result = true;
         } catch (Exception e) {
             LOGGER.info("Create organization address fail ");
             throw new CreateDataFailException(ErrorCode.ERR_CREATE_ORGANIZATION_ADDRESS_FAIL);
         }
+        return result;
     }
 
     @Override
-    public void updateAddress(OrganizationAddress organization) throws UpdateDataFailException {
+    public Boolean updateAddress(OrganizationAddressDTO organizationAddressDTO) throws UpdateDataFailException {
+        boolean result;
         try {
-            Optional<OrganizationAddress> optionalOrganizationAddress = organizationAddressRepository.findById(organization.getId());
-            if (!optionalOrganizationAddress.isPresent()) {
+            OrganizationAddress organizationAddress = organizationAddressConverter.convertOrganizationDTOToEntity(organizationAddressDTO);
+            OrganizationAddress temp = findAddressById(organizationAddress.getId());
+            if (temp == null) {
                 LOGGER.info("Can't find the organization address");
                 throw new DataNotFoundException(ErrorCode.ERR_ORGANIZATION_ADDRESS_NOT_FOUND);
             }
-            organizationAddressRepository.save(organization);
+            organizationAddressRepository.save(organizationAddress);
+            result = true;
         } catch (Exception e) {
             LOGGER.info("Update organization address fail ");
             throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_ORGANIZATION_ADDRESS_FAIL);
         }
+        return result;
     }
 
     @Override
-    public void deleteAddress(Long organizationAddressID) throws DeleteDataFailException {
+    public Boolean deleteAddress(Long organizationAddressID) throws DeleteDataFailException {
+        boolean result;
         try {
             Optional<OrganizationAddress> optionalOrganizationAddress = organizationAddressRepository.findById(organizationAddressID);
             if (!optionalOrganizationAddress.isPresent()) {
@@ -116,10 +147,19 @@ public class OrganizationAddressServiceImpl implements OrganizationAddressServic
                 throw new DataNotFoundException(ErrorCode.ERR_ORGANIZATION_ADDRESS_NOT_FOUND);
             }
             organizationAddressRepository.deleteById(organizationAddressID);
+            result = true;
         } catch (Exception e) {
             LOGGER.info("Create organization address fail ");
             throw new DeleteDataFailException(ErrorCode.ERR_DELETE_ORGANIZATION_ADDRESS_FAIL);
         }
+        return result;
+    }
+
+    @Override
+    public Page<OrganizationAddress> getPaginationOrganizationAddress(int pageNo, String valueSort) {
+        Pageable pageable = PageRequest.of(pageNo - 1, 5, Sort.by(valueSort).ascending());
+        Page<OrganizationAddress> page = organizationAddressRepository.findAll(pageable);
+        return page;
     }
 
 }

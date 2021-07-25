@@ -1,16 +1,23 @@
 package nashtech.phucldh.ecommerce.service.impl;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
+
 import nashtech.phucldh.ecommerce.entity.Image;
+
 import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
 import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
 import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
-import nashtech.phucldh.ecommerce.reponsitory.ImageRepository;
+
+import nashtech.phucldh.ecommerce.repository.ImageRepository;
+
 import nashtech.phucldh.ecommerce.service.ImageService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,7 +33,7 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public List<Image> getAllImage() throws DataNotFoundException {
-        List<Image> listAllImage = null;
+        List<Image> listAllImage;
         try {
             listAllImage = imageRepository.findAll();
         } catch (Exception e) {
@@ -38,7 +45,7 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public Image getImage(Long id) throws DataNotFoundException {
-        Image image = null;
+        Image image;
         Optional<Image> imageOptional = imageRepository.findById(id);
         if (imageOptional.isPresent()) {
             image = imageOptional.get();
@@ -51,7 +58,7 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public Image getImageByURL(String url) throws DataNotFoundException {
-        Image image = null;
+        Image image;
         Optional<Image> imageOptional = imageRepository.findByUrl(url);
         if (imageOptional.isPresent()) {
             image = imageOptional.get();
@@ -64,17 +71,21 @@ public class ImageServiceImpl implements ImageService {
 
 
     @Override
-    public void addNewImage(Image image) throws CreateDataFailException {
+    public Boolean addNewImage(Image image) throws CreateDataFailException {
+        boolean result;
         try {
             imageRepository.save(image);
+            result = true;
         } catch (Exception ex) {
             LOGGER.info("Can't create new image ");
             throw new CreateDataFailException(ErrorCode.ERR_CREATE_IMAGE_FAIL);
         }
+        return result;
     }
 
     @Override
-    public void updateImage(Image image) throws DataNotFoundException, UpdateDataFailException {
+    public Boolean updateImage(Image image) throws DataNotFoundException, UpdateDataFailException {
+        boolean result;
         Image tempImage = null;
         Optional<Image> imageOptional = imageRepository.findById(image.getId());
         if (imageOptional.isPresent()) {
@@ -85,14 +96,17 @@ public class ImageServiceImpl implements ImageService {
         }
         try {
             imageRepository.save(image);
+            result = true;
         } catch (Exception ex) {
             LOGGER.info("Can't update image ");
             throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_IMAGE_FAIL);
         }
+        return result;
     }
 
     @Override
-    public void deleteImage(Long id) throws DataNotFoundException, DeleteDataFailException {
+    public Boolean deleteImage(Long id) throws DataNotFoundException, DeleteDataFailException {
+        boolean result;
         Image image = null;
         Optional<Image> imageOptional = imageRepository.findById(id);
         if (imageOptional.isPresent()) {
@@ -103,14 +117,17 @@ public class ImageServiceImpl implements ImageService {
         }
         try {
             imageRepository.deleteImage(id);
+            result = true;
         } catch (Exception ex) {
             LOGGER.info("Can't delete image ");
             throw new DeleteDataFailException(ErrorCode.ERR_DELETE_IMAGE_FAIL);
         }
+        return result;
     }
 
     @Override
-    public void activeImage(Long id) throws DataNotFoundException, DeleteDataFailException {
+    public Boolean activeImage(Long id) throws DataNotFoundException, DeleteDataFailException {
+        boolean result;
         Image image = null;
         Optional<Image> imageOptional = imageRepository.findById(id);
         if (imageOptional.isPresent()) {
@@ -121,14 +138,17 @@ public class ImageServiceImpl implements ImageService {
         }
         try {
             imageRepository.unDeleteImage(id);
+            result = true;
         } catch (Exception ex) {
             LOGGER.info("Can't update image ");
             throw new DeleteDataFailException(ErrorCode.ERR_DELETE_IMAGE_FAIL);
         }
+        return result;
     }
 
     @Override
-    public void updateImageUrl(Long id, String url) throws DataNotFoundException, DeleteDataFailException {
+    public Boolean updateImageUrl(Long id, String url) throws DataNotFoundException, DeleteDataFailException {
+        boolean result;
         Image image = null;
         Optional<Image> imageOptional = imageRepository.findById(id);
         if (imageOptional.isPresent()) {
@@ -139,10 +159,12 @@ public class ImageServiceImpl implements ImageService {
         }
         try {
             imageRepository.updateImageURL(id, url);
+            result = true;
         } catch (Exception ex) {
             LOGGER.info("Can't update image ");
             throw new DeleteDataFailException(ErrorCode.ERR_DELETE_IMAGE_FAIL);
         }
+        return result;
     }
 
 }

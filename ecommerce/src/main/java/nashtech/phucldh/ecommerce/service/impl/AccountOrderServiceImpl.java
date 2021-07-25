@@ -1,20 +1,23 @@
 package nashtech.phucldh.ecommerce.service.impl;
 
-import java.util.List;
-import java.util.Optional;
-
-import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
-import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
 import nashtech.phucldh.ecommerce.entity.AccountOrder;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
-import nashtech.phucldh.ecommerce.reponsitory.AccountOrderRepository;
+import nashtech.phucldh.ecommerce.repository.AccountOrderRepository;
 import nashtech.phucldh.ecommerce.service.AccountOrderService;
+
+import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
+import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccountOrderServiceImpl implements AccountOrderService {
@@ -61,13 +64,16 @@ public class AccountOrderServiceImpl implements AccountOrderService {
     }
 
     @Override
-    public void createNewOrder(AccountOrder newUserOrder) throws CreateDataFailException {
+    public Boolean createNewOrder(AccountOrder newUserOrder) throws CreateDataFailException {
+        boolean result = false;
         try {
             userorderRepository.save(newUserOrder);
+            result = true;
         } catch (Exception ex) {
             LOGGER.info("Can't create a new order");
             throw new CreateDataFailException(ErrorCode.ERR_CREATE_ACCOUNT_ORDER_FAIL);
         }
+        return result;
     }
 
     @Override
@@ -84,7 +90,7 @@ public class AccountOrderServiceImpl implements AccountOrderService {
     }
 
     @Override
-    public boolean updateStatusToFinish(Long orderId) throws UpdateDataFailException {
+    public Boolean updateStatusToFinish(Long orderId) throws UpdateDataFailException {
         boolean result = false;
         int value = 0;
         try {
@@ -100,7 +106,7 @@ public class AccountOrderServiceImpl implements AccountOrderService {
     }
 
     @Override
-    public boolean updateStatusToCancel(Long orderId) throws UpdateDataFailException {
+    public Boolean updateStatusToCancel(Long orderId) throws UpdateDataFailException {
         boolean result = false;
         int value = 0;
         try {
@@ -116,7 +122,7 @@ public class AccountOrderServiceImpl implements AccountOrderService {
     }
 
     @Override
-    public boolean updateStatusToConfirm(Long orderId) throws UpdateDataFailException {
+    public Boolean updateStatusToConfirm(Long orderId) throws UpdateDataFailException {
         boolean result = false;
         int value = 0;
         try {
@@ -132,7 +138,7 @@ public class AccountOrderServiceImpl implements AccountOrderService {
     }
 
     @Override
-    public boolean updateStatusToProcess(Long orderId) throws UpdateDataFailException {
+    public Boolean updateStatusToProcess(Long orderId) throws UpdateDataFailException {
         boolean result = false;
         int value = 0;
         try {

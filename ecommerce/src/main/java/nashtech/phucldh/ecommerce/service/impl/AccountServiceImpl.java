@@ -1,46 +1,55 @@
 package nashtech.phucldh.ecommerce.service.impl;
 
+import nashtech.phucldh.ecommerce.entity.Account;
+import nashtech.phucldh.ecommerce.entity.ERole;
+import nashtech.phucldh.ecommerce.entity.Role;
+
+import nashtech.phucldh.ecommerce.payload.request.LoginRequest;
+import nashtech.phucldh.ecommerce.payload.request.SignUpRequest;
+import nashtech.phucldh.ecommerce.payload.response.JwtResponse;
+
+import nashtech.phucldh.ecommerce.repository.AccountReponsitory;
+import nashtech.phucldh.ecommerce.repository.RoleRepository;
+
+import nashtech.phucldh.ecommerce.sercurity.jwt.JwtUtils;
+import nashtech.phucldh.ecommerce.sercurity.service.impl.UserDetailsImpl;
+
+import nashtech.phucldh.ecommerce.service.AccountService;
+
+import nashtech.phucldh.ecommerce.exception.DuplicateDataException;
+import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
+import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
+
+import nashtech.phucldh.ecommerce.constants.ErrorCode;
+
+import nashtech.phucldh.ecommerce.exception.AccountAuthenticationException;
+import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
+import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.GrantedAuthority;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import org.springframework.stereotype.Service;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.security.auth.login.AccountNotFoundException;
+
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import javax.security.auth.login.AccountNotFoundException;
-
-import nashtech.phucldh.ecommerce.exception.AccountAuthenticationException;
-import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
-import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import nashtech.phucldh.ecommerce.entity.Account;
-import nashtech.phucldh.ecommerce.entity.ERole;
-import nashtech.phucldh.ecommerce.entity.Role;
-import nashtech.phucldh.ecommerce.payload.request.LoginRequest;
-import nashtech.phucldh.ecommerce.payload.request.SignUpRequest;
-import nashtech.phucldh.ecommerce.payload.response.JwtResponse;
-import nashtech.phucldh.ecommerce.payload.response.MessageResponse;
-import nashtech.phucldh.ecommerce.reponsitory.AccountReponsitory;
-import nashtech.phucldh.ecommerce.reponsitory.RoleRepository;
-import nashtech.phucldh.ecommerce.sercurity.jwt.JwtUtils;
-import nashtech.phucldh.ecommerce.sercurity.service.impl.UserDetailsImpl;
-import nashtech.phucldh.ecommerce.service.AccountService;
-import nashtech.phucldh.ecommerce.exception.DuplicateDataException;
-import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
-import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
-import nashtech.phucldh.ecommerce.constants.ErrorCode;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -62,11 +71,8 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     JwtUtils jwtUtils;
 
-    Role roles = null;
-
     @Override
-    public Boolean authenticateAccount(LoginRequest loginRequest) throws AccountAuthenticationException {
-        boolean result = false;
+    public JwtResponse authenticateAccount(LoginRequest loginRequest) throws AccountAuthenticationException {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -75,31 +81,30 @@ public class AccountServiceImpl implements AccountService {
             UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
             List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
                     .collect(Collectors.toList());
-            result = true;
+            return new JwtResponse(jwt, userDetails.getUsername(), userDetails.getFullname(), userDetails.getEmail(), roles);
         } catch (Exception e) {
             LOGGER.info("Account Authentication Error");
             throw new AccountAuthenticationException(ErrorCode.ERR_ACCOUNT_LOGIN_FAIL);
         }
-        return result;
     }
 
     @Override
     public Boolean registerAccount(SignUpRequest signUpRequest) throws CreateDataFailException {
         boolean result = false;
         try {
-            boolean existedEmail = accountRepository.existsByUsername(signUpRequest.getUsername());
+            boolean existedEmail = accountRepository.existsByUserName(signUpRequest.getUsername());
             if (existedEmail) {
                 LOGGER.info("Username " + signUpRequest.getUsername() + " is already taken");
                 throw new DuplicateDataException(ErrorCode.ERR_USERNAME_ALREADY_TAKEN);
             }
             Account theAccount = new Account();
-            theAccount.setUsername(signUpRequest.getUsername());
+            theAccount.setUserName(signUpRequest.getUsername());
             theAccount.setPassword(encoder.encode(signUpRequest.getPassword()));
-            theAccount.setFullname(signUpRequest.getFullname());
+            theAccount.setFullName(signUpRequest.getFullname());
             theAccount.setEmail(signUpRequest.getEmail());
             theAccount.setPhone(signUpRequest.getPhoneNumber());
-            theAccount.setCreatedate(LocalDateTime.now());
-            theAccount.setStatus(signUpRequest.getStatus());
+            theAccount.setCreateDate(LocalDateTime.now());
+            theAccount.setStatus(Long.valueOf("1"));
             Set<Role> roles = new HashSet<>();
             Role userRole = roleRepository.findByName(ERole.Customer).orElseThrow(() -> {
                 LOGGER.info("Role is not found", ERole.Customer.name());
@@ -149,7 +154,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account getAccountByEmail(String email) throws AccountNotFoundException {
         Optional<Account> result = accountRepository.findByEmail(email);
-        Account theAccount = null;
+        Account theAccount;
         if (result.isPresent()) {
             theAccount = result.get();
         } else {
@@ -161,8 +166,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account getAccountByUsername(String username) throws AccountNotFoundException {
-        Optional<Account> result = accountRepository.findByUsername(username);
-        Account theAccount = null;
+        Optional<Account> result = accountRepository.findByUserName(username);
+        Account theAccount;
         if (result.isPresent()) {
             theAccount = result.get();
         } else {
@@ -173,54 +178,63 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void updateAccount(Account theAccount) throws UpdateDataFailException {
+    public Boolean updateAccount(Account theAccount) throws UpdateDataFailException {
+        boolean result;
         try {
             accountRepository.save(theAccount);
+            result = true;
         } catch (Exception ex) {
-            LOGGER.info("Update account with this username %s fail", theAccount.getUsername());
+            LOGGER.info("Update account with this username %s fail", theAccount.getUserName());
             throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_ACCOUNT_FAIL);
         }
+        return result;
     }
 
     @Override
-    public void deleteAccount(Long id) throws AccountNotFoundException, DeleteDataFailException {
-        Account account = null;
-        Optional<Account> accountOptional = accountRepository.findById(id);
-        if (accountOptional.isPresent()) {
-            account = accountOptional.get();
-        } else {
-            LOGGER.info("Can't find account with this id %s fail", id);
-            throw new AccountNotFoundException(ErrorCode.ERR_ACCOUNT_NOT_FOUND);
-        }
+    public Boolean deleteAccount(Long id) throws DeleteDataFailException {
+        boolean result;
+        Account account;
         try {
+            Optional<Account> accountOptional = accountRepository.findById(id);
+            if (accountOptional.isPresent()) {
+                account = accountOptional.get();
+            } else {
+                LOGGER.info("Can't find account with the id: " + id);
+                throw new AccountNotFoundException(ErrorCode.ERR_ACCOUNT_NOT_FOUND);
+            }
             accountRepository.updateAccountStatusToLocked(account.getId());
+            result = true;
         } catch (Exception ex) {
-            LOGGER.info("Delete account with this username %s fail", account.getUsername());
+            LOGGER.info("Can't lock account with the id: " + id);
             throw new DeleteDataFailException(ErrorCode.ERR_DELETE_ACCOUNT_FAIL);
         }
+        return result;
     }
 
     @Override
-    public void activeAccount(Long id) throws AccountNotFoundException, UpdateDataFailException {
-        Account account = null;
-        Optional<Account> accountOptional = accountRepository.findById(id);
-        if (accountOptional.isPresent()) {
-            account = accountOptional.get();
-        } else {
-            LOGGER.info("Can't find account with this id %s fail", id);
-            throw new AccountNotFoundException(ErrorCode.ERR_ACCOUNT_NOT_FOUND);
-        }
+    public Boolean activeAccount(Long id) throws UpdateDataFailException {
+        boolean result;
+        Account account;
         try {
+            Optional<Account> accountOptional = accountRepository.findById(id);
+            if (accountOptional.isPresent()) {
+                account = accountOptional.get();
+            } else {
+                LOGGER.info("Can't find account with the id: " + id);
+                throw new AccountNotFoundException(ErrorCode.ERR_ACCOUNT_NOT_FOUND);
+            }
             accountRepository.updateAccountStatusToActive(account.getId());
+            result = true;
         } catch (Exception ex) {
-            LOGGER.info("Update status account with this username %s fail", account.getUsername());
+            LOGGER.info("Can't unlock account with the id: " + id);
             throw new UpdateDataFailException(ErrorCode.ERR_DELETE_ACCOUNT_FAIL);
         }
+        return result;
     }
 
     @Override
     public Long getStatusAccount(Long id) throws AccountNotFoundException {
-        Account account = null;
+        Account account;
         Optional<Account> accountOptional = accountRepository.findById(id);
         if (accountOptional.isPresent()) {
             account = accountOptional.get();
