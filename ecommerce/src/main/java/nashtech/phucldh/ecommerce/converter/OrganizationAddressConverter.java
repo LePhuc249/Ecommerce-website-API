@@ -1,19 +1,29 @@
 package nashtech.phucldh.ecommerce.converter;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
+
 import nashtech.phucldh.ecommerce.dto.OrganizationAddressDTO;
+
 import nashtech.phucldh.ecommerce.entity.Organization;
 import nashtech.phucldh.ecommerce.entity.OrganizationAddress;
+
 import nashtech.phucldh.ecommerce.exception.ConvertEntityDTOException;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
-import nashtech.phucldh.ecommerce.reponsitory.OrganizationRepository;
+
+import nashtech.phucldh.ecommerce.repository.OrganizationRepository;
+
 import org.modelmapper.ModelMapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class OrganizationAddressConverter {
@@ -40,7 +50,7 @@ public class OrganizationAddressConverter {
         try {
             OrganizationAddress organizationAddress = modelMapper.map(dtoOrganizationAddress, OrganizationAddress.class);
             Organization organization = null;
-            Optional<Organization> optionalOrganization = organizationRepository.findById(dtoOrganizationAddress.getOrganization());
+            Optional<Organization> optionalOrganization = organizationRepository.findById(dtoOrganizationAddress.getOrganizationId());
             if (optionalOrganization.isPresent()) {
                 organization = optionalOrganization.get();
             } else {
@@ -54,4 +64,18 @@ public class OrganizationAddressConverter {
             throw new ConvertEntityDTOException(ErrorCode.ERR_CONVERTER_DTO_ENTITY_FAIL);
         }
     }
+
+    public OrganizationAddressDTO toDTO(OrganizationAddress entity) {
+        OrganizationAddressDTO dto = new OrganizationAddressDTO();
+        dto.setId(entity.getId());
+        dto.setOrganizationId(entity.getOrganization().getId());
+        dto.setAddress(entity.getAddress());
+        return dto;
+    }
+
+    public List<OrganizationAddressDTO> toDTOList(List<OrganizationAddress> entityList) {
+        List<OrganizationAddressDTO> dtoList = entityList.stream().map(entity -> toDTO(entity)).collect(Collectors.toList());
+        return dtoList;
+    }
+
 }

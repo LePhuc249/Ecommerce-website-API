@@ -1,15 +1,22 @@
 package nashtech.phucldh.ecommerce.converter;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
+
 import nashtech.phucldh.ecommerce.dto.CartDTO;
 import nashtech.phucldh.ecommerce.dto.CartItemDTO;
+
 import nashtech.phucldh.ecommerce.entity.Cart;
 import nashtech.phucldh.ecommerce.entity.CartItem;
+
 import nashtech.phucldh.ecommerce.exception.ConvertEntityDTOException;
+
 import org.modelmapper.ModelMapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -27,7 +34,7 @@ public class CartConverter {
         try {
             CartDTO cartDTO = new CartDTO();
             cartDTO.setId(cart.getId());
-            cartDTO.setCustomer_id(cart.getAccount().getId());
+            cartDTO.setCustomerId(cart.getAccount().getId());
             List<CartItemDTO> cartItems = cart.getListItem().stream().map(this::convertCartItemToDto).collect(Collectors.toList());
             cartDTO.setCartItems(cartItems);
             return cartDTO;
@@ -41,7 +48,7 @@ public class CartConverter {
         try {
             CartItemDTO cartItemDTO = new CartItemDTO();
             cartItemDTO.setId(cartItem.getId());
-            cartItemDTO.setItem_id(cartItem.getProduct().getId());
+            cartItemDTO.setItemId(cartItem.getProduct().getId());
             cartItemDTO.setPrice(cartItem.getPrice());
             cartItemDTO.setAmount(cartItem.getAmount());
             return cartItemDTO;

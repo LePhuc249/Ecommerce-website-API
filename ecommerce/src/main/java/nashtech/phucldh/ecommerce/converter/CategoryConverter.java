@@ -1,19 +1,24 @@
 package nashtech.phucldh.ecommerce.converter;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
+
 import nashtech.phucldh.ecommerce.dto.CategoryDTO;
-import nashtech.phucldh.ecommerce.entity.Brand;
+
 import nashtech.phucldh.ecommerce.entity.Category;
+
 import nashtech.phucldh.ecommerce.exception.ConvertEntityDTOException;
-import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
-import nashtech.phucldh.ecommerce.reponsitory.BrandRepository;
+
 import org.modelmapper.ModelMapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class CategoryConverter {
@@ -23,21 +28,9 @@ public class CategoryConverter {
     @Autowired
     private ModelMapper modelMapper;
 
-    @Autowired
-    private BrandRepository brandRepository;
-
     public Category convertCategoryToEntity(CategoryDTO categoryDTO) throws ConvertEntityDTOException {
         try {
             Category category = modelMapper.map(categoryDTO, Category.class);
-            Brand brand = null;
-            Optional<Brand> optionalBrand = brandRepository.findById(categoryDTO.getBrandId());
-            if (optionalBrand.isPresent()) {
-                brand = optionalBrand.get();
-            } else {
-                LOGGER.info("Can't find the brand");
-                throw new DataNotFoundException(ErrorCode.ERR_CATEGORY_NOT_FOUND);
-            }
-            category.setBrand(brand);
             return category;
         } catch (Exception ex) {
             LOGGER.info("Fail to convert CategoryDTO to Category");
@@ -54,4 +47,21 @@ public class CategoryConverter {
             throw new ConvertEntityDTOException(ErrorCode.ERR_CONVERTER_DTO_ENTITY_FAIL);
         }
     }
+
+    public CategoryDTO toDTO(Category entity) {
+        CategoryDTO dto = new CategoryDTO();
+        dto.setId(entity.getId());
+        dto.setName(entity.getName());
+        dto.setCreateBy(entity.getCreateBy());
+        dto.setUpdateDate(entity.getUpdateDate());
+        dto.setCreateBy(entity.getCreateBy());
+        dto.setDeleted(entity.isDeleted());
+        return dto;
+    }
+
+    public List<CategoryDTO> toDTOList(List<Category> entityList) {
+        List<CategoryDTO> dtoList = entityList.stream().map(entity -> toDTO(entity)).collect(Collectors.toList());
+        return dtoList;
+    }
+
 }

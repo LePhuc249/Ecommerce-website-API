@@ -1,22 +1,28 @@
 package nashtech.phucldh.ecommerce.converter;
 
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
+
 import nashtech.phucldh.ecommerce.dto.AccountProfileDTO;
 import nashtech.phucldh.ecommerce.dto.RoleDTO;
+import nashtech.phucldh.ecommerce.dto.AccountDTO;
+
 import nashtech.phucldh.ecommerce.entity.ERole;
 import nashtech.phucldh.ecommerce.entity.Role;
+import nashtech.phucldh.ecommerce.entity.Account;
+
 import nashtech.phucldh.ecommerce.exception.ConvertEntityDTOException;
+
 import org.modelmapper.ModelMapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Component;
 
-import nashtech.phucldh.ecommerce.dto.AccountDTO;
-import nashtech.phucldh.ecommerce.entity.Account;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class AccountConverter {
@@ -109,4 +115,5 @@ public class AccountConverter {
             throw new ConvertEntityDTOException(ErrorCode.ERR_CONVERTER_DTO_ENTITY_FAIL);
         }
     }
+
 }

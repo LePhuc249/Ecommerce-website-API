@@ -1,15 +1,24 @@
 package nashtech.phucldh.ecommerce.converter;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
+
 import nashtech.phucldh.ecommerce.dto.CouponsDTO;
+
 import nashtech.phucldh.ecommerce.entity.Coupons;
+
 import nashtech.phucldh.ecommerce.exception.ConvertEntityDTOException;
-import nashtech.phucldh.ecommerce.reponsitory.CouponsRepository;
+
 import org.modelmapper.ModelMapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class CouponsConverter {
@@ -18,9 +27,6 @@ public class CouponsConverter {
 
     @Autowired
     private ModelMapper modelMapper;
-
-    @Autowired
-    private CouponsRepository couponsRepository;
 
     public CouponsDTO convertCouponsToDTO(Coupons coupon) {
         try {
@@ -41,4 +47,24 @@ public class CouponsConverter {
             throw new ConvertEntityDTOException(ErrorCode.ERR_CONVERTER_DTO_ENTITY_FAIL);
         }
     }
+
+    public CouponsDTO toDTO(Coupons entity) {
+        CouponsDTO dto = new CouponsDTO();
+        dto.setId(entity.getId());
+        dto.setCode(entity.getCode());
+        dto.setDiscountAmount(entity.getDiscountAmount());
+        dto.setProductDiscount(entity.getProductDiscount());
+        dto.setDescription(entity.getDescription());
+        dto.setCreateBy(entity.getCreateBy());
+        dto.setUpdateDate(entity.getUpdateDate());
+        dto.setCreateBy(entity.getCreateBy());
+        dto.setDeleted(entity.isDeleted());
+        return dto;
+    }
+
+    public List<CouponsDTO> toDTOList(List<Coupons> entityList) {
+        List<CouponsDTO> dtoList = entityList.stream().map(entity -> toDTO(entity)).collect(Collectors.toList());
+        return dtoList;
+    }
+
 }
