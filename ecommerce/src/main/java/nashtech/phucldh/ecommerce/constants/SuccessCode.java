@@ -5,7 +5,6 @@ public class SuccessCode {
     // User AUTH
     public static final String USER_SIGNUP_SUCCESS = "USER_SIGNUP_SUCCESS";
     public static final String USER_LOGIN_SUCCESS = "USER_LOGIN_SUCCESS";
-    public static final String USER_CREATE_SUCCESS = "USER_CREATE_SUCCESS";
 
     // Account
     public static final String ACCOUNT_DELETE_SUCCESS = "ACCOUNT_DELETE_SUCCESS";

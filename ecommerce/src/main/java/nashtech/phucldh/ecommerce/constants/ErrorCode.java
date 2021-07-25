@@ -4,14 +4,14 @@ public class ErrorCode {
 
     // Category
     public static final String ERR_CATEGORY_NOT_FOUND = "ERR_CATEGORY_NOT_FOUND";
-    public static final String ERR_CATEGORY_EXISTED = "ERR_CATEGORY_EXISTED"; // should use in service to check exist category
+    public static final String ERR_CATEGORY_EXISTED = "ERR_CATEGORY_EXISTED";
     public static final String ERR_CREATE_CATEGORY_FAIL = "ERR_CREATE_CATEGORY_FAIL";
     public static final String ERR_UPDATE_CATEGORY_FAIL = "ERR_UPDATE_CATEGORY_FAIL";
     public static final String ERR_DELETE_CATEGORY_FAIL = "ERR_DELETE_CATEGORY_FAIL";
 
     // Product
     public static final String ERR_PRODUCT_NOT_FOUND = "ERR_PRODUCT_NOT_FOUND";
-    public static final String ERR_PRODUCT_EXISTED = "ERR_PRODUCT_EXISTED"; // should use in service to check exist product
+    public static final String ERR_PRODUCT_EXISTED = "ERR_PRODUCT_EXISTED";
     public static final String ERR_CREATE_PRODUCT_FAIL = "ERR_CREATE_PRODUCT_FAIL";
     public static final String ERR_UPDATE_PRODUCT_FAIL = "ERR_UPDATE_PRODUCT_FAIL";
     public static final String ERR_DELETE_PRODUCT_FAIL = "ERR_DELETE_PRODUCT_FAIL";
@@ -55,21 +55,20 @@ public class ErrorCode {
 
     // Brand
     public static final String ERR_BRAND_NOT_FOUND = "ERR_BRAND_NOT_FOUND";
-    public static final String ERR_BRAND_EXISTED = "ERR_BRAND_EXISTED"; // should use in service to check exist account brand
+    public static final String ERR_BRAND_EXISTED = "ERR_BRAND_EXISTED";
     public static final String ERR_CREATE_BRAND_FAIL = "ERR_CREATE_BRAND_FAIL";
     public static final String ERR_UPDATE_BRAND_FAIL = "ERR_UPDATE_BRAND_FAIL";
     public static final String ERR_DELETE_BRAND_FAIL = "ERR_DELETE_BRAND_FAIL";
 
     // Coupons
     public static final String ERR_COUPONS_NOT_FOUND = "ERR_COUPONS_NOT_FOUND";
-    public static final String ERR_COUPONS_EXISTED = "ERR_COUPONS_EXISTED"; // should use in service to check exist account coupon
+    public static final String ERR_COUPONS_EXISTED = "ERR_COUPONS_EXISTED";
     public static final String ERR_CREATE_COUPONS_FAIL = "ERR_CREATE_COUPONS_FAIL";
     public static final String ERR_UPDATE_COUPONS_FAIL = "ERR_UPDATE_COUPONS_FAIL";
     public static final String ERR_DELETE_COUPONS_FAIL = "ERR_DELETE_COUPONS_FAIL";
 
     // Order Detail
     public static final String ERR_ORDER_DETAIL_NOT_FOUND = "ERR_ORDER_DETAIL_NOT_FOUND";
-    public static final String ERR_ORDER_DETAIL_EXISTED = "ERR_ORDER_DETAIL_EXISTED"; // should use in service to check exist account order detail
     public static final String ERR_CREATE_ORDER_DETAIL_FAIL = "ERR_CREATE_ORDER_DETAIL_FAIL";
     public static final String ERR_UPDATE_ORDER_DETAIL_FAIL = "ERR_UPDATE_ORDER_DETAIL_FAIL";
 
@@ -80,14 +79,14 @@ public class ErrorCode {
 
     // Organization
     public static final String ERR_ORGANIZATION_NOT_FOUND = "ERR_ORGANIZATION_NOT_FOUND";
-    public static final String ERR_ORGANIZATION_EXISTED = "ERR_ORGANIZATION_EXISTED"; // should use in service to check exist organization
+    public static final String ERR_ORGANIZATION_EXISTED = "ERR_ORGANIZATION_EXISTED";
     public static final String ERR_CREATE_ORGANIZATION_FAIL = "ERR_CREATE_ORGANIZATION_FAIL";
     public static final String ERR_UPDATE_ORGANIZATION_FAIL = "ERR_UPDATE_ORGANIZATION_FAIL";
     public static final String ERR_DELETE_ORGANIZATION_FAIL = "ERR_DELETE_ORGANIZATION_FAIL";
 
     // Organization Address
     public static final String ERR_ORGANIZATION_ADDRESS_NOT_FOUND = "ERR_ORGANIZATION_ADDRESS_NOT_FOUND";
-    public static final String ERR_ORGANIZATION_ADDRESS_EXISTED = "ERR_ORGANIZATION_ADDRESS_EXISTED"; // should use in service to check exist organization address
+    public static final String ERR_ORGANIZATION_ADDRESS_EXISTED = "ERR_ORGANIZATION_ADDRESS_EXISTED";
     public static final String ERR_CREATE_ORGANIZATION_ADDRESS_FAIL = "ERR_CREATE_ORGANIZATION_ADDRESS_FAIL";
     public static final String ERR_UPDATE_ORGANIZATION_ADDRESS_FAIL = "ERR_UPDATE_ORGANIZATION_ADDRESS_FAIL";
     public static final String ERR_DELETE_ORGANIZATION_ADDRESS_FAIL = "ERR_DELETE_ORGANIZATION_ADDRESS_FAIL";
