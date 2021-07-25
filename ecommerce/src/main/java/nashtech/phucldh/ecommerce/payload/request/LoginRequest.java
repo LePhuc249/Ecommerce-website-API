@@ -17,11 +17,10 @@ import javax.validation.constraints.Pattern;
 public class LoginRequest {
 
     @NotBlank
-    @Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9\\.]{7,30}", message = "Invalid username!")
+    @Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9\\.]{4,30}", message = "Invalid username!")
     private String username;
 
-    @NotBlank
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{7,100}$", message = "Invalid password!")
+    @NotBlank(message = "Password can't blank")
     private String password;
 
 }

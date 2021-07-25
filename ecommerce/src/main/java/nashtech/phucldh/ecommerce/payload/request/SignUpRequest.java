@@ -38,6 +38,4 @@ public class SignUpRequest {
     @Pattern(regexp = "[0-9]{7,12}", message = "Invalid phone number!")
     private String phoneNumber;
 
-    private Long status;
-
 }
