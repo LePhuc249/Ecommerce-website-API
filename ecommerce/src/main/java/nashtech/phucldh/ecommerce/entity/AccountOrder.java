@@ -12,7 +12,6 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,6 +20,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -43,36 +43,36 @@ public class AccountOrder {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "customer_id")
     private Account account;
 
     @Column(name = "create_date")
-    private LocalDateTime createdate;
+    private LocalDateTime createDate;
 
     @Column(name = "update_date")
-    private LocalDateTime updatedate;
+    private LocalDateTime updateDate;
 
     @NotBlank(message = "Date delivery is mandatory")
     @Size(min = 5, max = 20, message = "Date delivery must be between 5 and 20 characters")
     @Column(name = "date_delivery")
-    private String datedelivery;
+    private String dateDelivery;
 
     @NotBlank(message = "Payment method is mandatory")
     @Column(name = "payment_method")
-    private Long paymentmethod;
+    private Long paymentMethod;
 
     @Column(name = "total_price")
-    private Float totalprice;
+    private Float totalPrice;
 
     @NotBlank(message = "Status is mandatory")
     @Column(name = "status")
     private Long status;
 
     @Column(name = "coupon_id")
-    private Long couponid;
+    private Long couponId;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "accountOrder")
+    @OneToMany(mappedBy = "accountOrder")
     private List<OrderDetail> listOrderDetail = new ArrayList<>();
 
 }

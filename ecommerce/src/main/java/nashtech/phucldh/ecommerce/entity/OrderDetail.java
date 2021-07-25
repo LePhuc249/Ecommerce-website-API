@@ -10,7 +10,6 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,7 +17,7 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -42,13 +41,13 @@ public class OrderDetail {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "order_id")
     private AccountOrder accountOrder;
 
     @NotBlank(message = "Item id is mandatory")
     @Column(name = "item_id")
-    private Long itemid;
+    private Long itemId;
 
     @Min(value = 0, message = "Amount should not be less than 0")
     @Column(name = "amount")
@@ -60,9 +59,9 @@ public class OrderDetail {
     @NotBlank(message = "Item id is mandatory")
     @Size(min = 5, max = 100, message = "Item property must be between 5 and 100 characters")
     @Column(name = "item_property")
-    private String itemproperty;
+    private String itemProperty;
 
     @Column(name = "create_date")
-    private LocalDateTime createdate;
+    private LocalDateTime createDate;
 
 }

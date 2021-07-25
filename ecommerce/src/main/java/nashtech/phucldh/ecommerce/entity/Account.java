@@ -19,6 +19,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -51,7 +52,7 @@ public class Account {
     @NotBlank(message = "Username is mandatory")
     @Size(min = 5, max = 30, message = "Username must be between 5 and 30 characters")
     @Column(name = "username")
-    private String username;
+    private String userName;
 
     @NotBlank(message = "Password is mandatory")
     @Size(min = 10, max = 100, message = "Password must be between 10 and 100 characters")
@@ -61,7 +62,7 @@ public class Account {
     @NotBlank(message = "Full name is mandatory")
     @Size(min = 5, max = 50, message = "Full name must be between 5 and 50 characters")
     @Column(name = "fullname")
-    private String fullname;
+    private String fullName;
 
     @NotBlank(message = "Email is mandatory")
     @Email(message = "Email should be valid")
@@ -75,25 +76,25 @@ public class Account {
     private String phone;
 
     @Column(name = "create_date")
-    private LocalDateTime createdate;
+    private LocalDateTime createDate;
 
     @Column(name = "update_date")
-    private LocalDateTime updatedate;
+    private LocalDateTime updateDate;
 
     @Column(name = "status")
     private Long status;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "account_role", joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
+    @OneToMany(mappedBy = "account")
     private List<AccountAddress> listAddress = new ArrayList<>();
 
     @OneToOne(mappedBy = "account")
     private Cart cart;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
+    @OneToMany(mappedBy = "account")
     private List<AccountOrder> listOrder = new ArrayList<>();
 
 }

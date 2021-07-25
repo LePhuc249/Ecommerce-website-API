@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,13 +14,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -47,14 +44,11 @@ public class Brand {
     @Column(name = "name")
     private String name;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "organization", referencedColumnName = "id")
     private Organization organization;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "brand")
-    private List<Category> listCategory = new ArrayList<>();
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "brand")
-    private List<Product> listProduct = new ArrayList<>();
+//    @OneToMany()
+//    private List<Category> listCategory = new ArrayList<>();
 
 }

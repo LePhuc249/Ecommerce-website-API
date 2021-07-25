@@ -2,7 +2,6 @@ package nashtech.phucldh.ecommerce.entity;
 
 import java.time.LocalDateTime;
 
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -17,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -50,13 +50,13 @@ public class Image {
     private String description;
 
     @Column(name = "create_date")
-    private LocalDateTime createdate;
+    private LocalDateTime createDate;
 
     @Column(name = "update_date")
-    private LocalDateTime updatedate;
+    private LocalDateTime updateDate;
 
     @Column(name = "create_by")
-    private Integer createby;
+    private Integer createBy;
 
     @Column(name = "isdeleted")
     private boolean isDeleted;

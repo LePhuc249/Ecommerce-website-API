@@ -2,7 +2,6 @@ package nashtech.phucldh.ecommerce.entity;
 
 import java.time.LocalDateTime;
 
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -16,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -44,27 +44,26 @@ public class Coupons {
     private String code;
 
     @Column(name = "discount_amount")
-    private Integer discountamount;
+    private Integer discountAmount;
 
-    @NotBlank(message = "Product discount is mandatory")
     @Column(name = "product_discount")
-    private Long productdiscount;
+    private Long productDiscount;
 
     @Size(min = 5, max = 50, message = "Coupon discription must be between 5 and 50 characters")
     @Column(name = "description")
     private String description;
 
     @Column(name = "expiration_date")
-    private String expirationdate;
+    private String expirationDate;
 
     @Column(name = "create_by")
-    private Long createby;
+    private Long createBy;
 
     @Column(name = "create_date")
-    private LocalDateTime createdate;
+    private LocalDateTime createDate;
 
     @Column(name = "update_date")
-    private LocalDateTime updatedate;
+    private LocalDateTime updateDate;
 
     @Column(name = "isdeleted")
     private boolean isDeleted;

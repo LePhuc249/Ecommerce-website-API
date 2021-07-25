@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -13,14 +12,12 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.OneToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.CascadeType;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
@@ -48,13 +45,12 @@ public class Cart {
     private Account account;
 
     @Column(name = "create_date")
-    private LocalDateTime createdate;
+    private LocalDateTime createDate;
 
     @Column(name = "update_date")
-    private LocalDateTime updatedate;
+    private LocalDateTime updateDate;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
+    @OneToMany(mappedBy="cart")
     private List<CartItem> listItem = new ArrayList<>();
 
 }

@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -43,10 +44,10 @@ public class OrderStatus {
     private String name;
 
     @Column(name = "create_by")
-    private Long createby;
+    private Long createBy;
 
     @Column(name = "create_date")
-    private LocalDateTime createdate;
+    private LocalDateTime createDate;
 
     @Column(name = "isdeleted")
     private boolean isDeleted;

@@ -13,15 +13,13 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -34,7 +32,7 @@ import javax.validation.constraints.Size;
 @Table(
         name = "category",
 		indexes = {
-				@Index(name = "category_index", columnList = "id, name, brand")
+				@Index(name = "category_index", columnList = "id, name")
 		}
 )
 public class Category {
@@ -49,26 +47,19 @@ public class Category {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "brand")
-    private Brand brand;
-
-    @Column(name = "parent_category")
-    private Integer parentCategory;
-
     @Column(name = "create_date")
-    private LocalDateTime createdate;
+    private LocalDateTime createDate;
 
     @Column(name = "update_date")
-    private LocalDateTime updatedate;
+    private LocalDateTime updateDate;
 
     @Column(name = "create_by")
-    private Long createby;
+    private Long createBy;
 
     @Column(name = "isdeleted")
     private boolean isDeleted;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
+    @OneToMany(mappedBy = "category")
     private List<Product> listProduct = new ArrayList<>();
 
 }
