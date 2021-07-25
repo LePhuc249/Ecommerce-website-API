@@ -1,22 +1,28 @@
 package nashtech.phucldh.ecommerce.sercurity;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import nashtech.phucldh.ecommerce.sercurity.jwt.JwtAuthEntryPoint;
 import nashtech.phucldh.ecommerce.sercurity.jwt.JwtAuthTokenVerifier;
+
 import nashtech.phucldh.ecommerce.sercurity.service.impl.UserDetailsServiceImpl;
 
 import org.springframework.security.authentication.AuthenticationManager;
+
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
@@ -47,8 +53,11 @@ public class ApplicationSecurityConfiguaration extends WebSecurityConfigurerAdap
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/", "index", "/css/*", "/js/*").permitAll()
                 .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/api/admin/**").permitAll()
+                .antMatchers("/api/home/**").permitAll()
+                .antMatchers("/api/manager/**").permitAll()
+                .antMatchers("/api/customer/**").permitAll()
                 .anyRequest().authenticated();
-
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
@@ -64,7 +73,7 @@ public class ApplicationSecurityConfiguaration extends WebSecurityConfigurerAdap
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/swagger-ui/**", "/v3/api-docs/**");
     }
 
