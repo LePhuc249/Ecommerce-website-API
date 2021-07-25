@@ -1,10 +1,15 @@
 package nashtech.phucldh.ecommerce.service;
 
+import nashtech.phucldh.ecommerce.dto.BrandDTO;
+
 import nashtech.phucldh.ecommerce.entity.Brand;
+
 import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
 import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
 import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
+
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -20,10 +25,14 @@ public interface BrandService {
 
     public Brand checkExistedBrand(String name, Long organizationId);
 
-    public void addNewBrand(Brand brand) throws CreateDataFailException;
+    public Brand checkExistedBrandByIdAndOrganization(Long id, Long organizationId);
 
-    public void updateBrand(Brand brand) throws DataNotFoundException, UpdateDataFailException;
+    public Boolean addNewBrand(BrandDTO brandDTO) throws CreateDataFailException;
 
-    public void deleteBrand(Long id) throws DataNotFoundException, DeleteDataFailException;
+    public Boolean updateBrand(BrandDTO brandDTO) throws DataNotFoundException, UpdateDataFailException;
+
+    public Boolean deleteBrand(Long id) throws DataNotFoundException, DeleteDataFailException;
+
+    public Page<Brand> getPaginationBrand(int pageNo, String valueSort);
 
 }

@@ -1,10 +1,14 @@
 package nashtech.phucldh.ecommerce.service;
 
+import nashtech.phucldh.ecommerce.dto.OrganizationDTO;
 import nashtech.phucldh.ecommerce.entity.Organization;
+
 import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
 import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
 import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
+
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -18,14 +22,16 @@ public interface OrganizationService {
 
     public Organization checkExistedOrganization(String name, Long imageId);
 
-    public void createOrganization(Organization organization) throws CreateDataFailException;
+    public Boolean createOrganization(OrganizationDTO dtoOrganization) throws CreateDataFailException;
 
-    public void updateOrganization(Organization organization) throws DataNotFoundException, UpdateDataFailException;
+    public Boolean updateOrganization(OrganizationDTO dtoOrganization) throws DataNotFoundException, UpdateDataFailException;
 
-    public void deleteOrganization(Long id) throws DataNotFoundException, DeleteDataFailException;
+    public Boolean deleteOrganization(Long id) throws DataNotFoundException, DeleteDataFailException;
 
-    public void activeOrganization(Long id) throws DataNotFoundException, UpdateDataFailException;
+    public Boolean activeOrganization(Long id) throws DataNotFoundException, UpdateDataFailException;
 
     public Long getStatusOfOrganization(Long id) throws DataNotFoundException;
+
+    public Page<Organization> getPaginationOrganization(int pageNo, String valueSort);
 
 }

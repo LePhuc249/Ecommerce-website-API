@@ -1,6 +1,7 @@
 package nashtech.phucldh.ecommerce.service;
 
 import nashtech.phucldh.ecommerce.entity.Image;
+
 import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
 import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
@@ -16,14 +17,14 @@ public interface ImageService {
 
     public Image getImageByURL(String url) throws DataNotFoundException;
 
-    public void addNewImage(Image image) throws CreateDataFailException;
+    public Boolean addNewImage(Image image) throws CreateDataFailException;
 
-    public void updateImage(Image image) throws DataNotFoundException, UpdateDataFailException;
+    public Boolean updateImage(Image image) throws DataNotFoundException, UpdateDataFailException;
 
-    public void deleteImage(Long id) throws DataNotFoundException, DeleteDataFailException;
+    public Boolean deleteImage(Long id) throws DataNotFoundException, DeleteDataFailException;
 
-    public void activeImage(Long id) throws DataNotFoundException, DeleteDataFailException;
+    public Boolean activeImage(Long id) throws DataNotFoundException, DeleteDataFailException;
 
-    public void updateImageUrl(Long id, String url) throws DataNotFoundException, DeleteDataFailException;
+    public Boolean updateImageUrl(Long id, String url) throws DataNotFoundException, DeleteDataFailException;
 
 }
