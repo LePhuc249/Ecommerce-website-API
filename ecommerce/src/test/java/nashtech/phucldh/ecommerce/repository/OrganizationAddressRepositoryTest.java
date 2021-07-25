@@ -1,14 +1,18 @@
 package nashtech.phucldh.ecommerce.repository;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
+
 import nashtech.phucldh.ecommerce.entity.Organization;
 import nashtech.phucldh.ecommerce.entity.OrganizationAddress;
+
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
-import nashtech.phucldh.ecommerce.reponsitory.OrganizationAddressRepository;
-import nashtech.phucldh.ecommerce.reponsitory.OrganizationRepository;
+
 import org.junit.jupiter.api.Test;
+
 import org.modelmapper.internal.util.Assert;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
@@ -31,7 +35,7 @@ public class OrganizationAddressRepositoryTest {
 
     @Test
     public void getAddress() throws DataNotFoundException {
-        OrganizationAddress address = null;
+        OrganizationAddress address;
         Optional<OrganizationAddress> result = organizationAddressRepository.findById(Long.valueOf("1"));
         if (result.isPresent()){
             address = result.get();
@@ -43,7 +47,7 @@ public class OrganizationAddressRepositoryTest {
 
     @Test
     public void addAddress() throws DataNotFoundException {
-        Organization organization = null;
+        Organization organization;
         Optional<Organization> result = organizationRepository.findById(Long.valueOf("1"));
         if (result.isPresent()){
             organization = result.get();
@@ -58,7 +62,7 @@ public class OrganizationAddressRepositoryTest {
 
     @Test
     public void updateAddress() throws DataNotFoundException {
-        OrganizationAddress address = null;
+        OrganizationAddress address;
         Optional<OrganizationAddress> result = organizationAddressRepository.findById(Long.valueOf("1"));
         if (result.isPresent()){
             address = result.get();
@@ -71,7 +75,7 @@ public class OrganizationAddressRepositoryTest {
 
     @Test
     public void deleteAddress() throws DataNotFoundException {
-        OrganizationAddress address = null;
+        OrganizationAddress address;
         Optional<OrganizationAddress> result = organizationAddressRepository.findById(Long.valueOf("1"));
         if (result.isPresent()){
             address = result.get();
@@ -83,4 +87,5 @@ public class OrganizationAddressRepositoryTest {
         boolean checkExist = resultAfterDelete.isPresent();
         Assert.isTrue(!checkExist);
     }
+
 }

@@ -1,12 +1,17 @@
 package nashtech.phucldh.ecommerce.repository;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
+
 import nashtech.phucldh.ecommerce.entity.AccountStatus;
+
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
-import nashtech.phucldh.ecommerce.reponsitory.AccountStatusRepository;
+
 import org.junit.jupiter.api.Test;
+
 import org.modelmapper.internal.util.Assert;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
@@ -27,7 +32,7 @@ public class AccountStatusRepositoryTest {
 
     @Test
     public void updateStatus() throws DataNotFoundException {
-        AccountStatus status = null;
+        AccountStatus status;
         Optional<AccountStatus> result = accountStatusRepository.findById(Long.valueOf("27"));
         if (result.isPresent()){
             status = result.get();
@@ -65,4 +70,5 @@ public class AccountStatusRepositoryTest {
         boolean result = (list.size() == 3);
         Assert.isTrue(result);
     }
+
 }

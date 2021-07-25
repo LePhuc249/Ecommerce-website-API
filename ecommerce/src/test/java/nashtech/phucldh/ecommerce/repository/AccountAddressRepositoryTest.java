@@ -1,17 +1,22 @@
 package nashtech.phucldh.ecommerce.repository;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
+
 import nashtech.phucldh.ecommerce.entity.Account;
 import nashtech.phucldh.ecommerce.entity.AccountAddress;
+
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
-import nashtech.phucldh.ecommerce.reponsitory.AccountAddressRepository;
-import nashtech.phucldh.ecommerce.reponsitory.AccountReponsitory;
+
 import org.junit.jupiter.api.Test;
+
 import org.modelmapper.internal.util.Assert;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.security.auth.login.AccountNotFoundException;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +32,7 @@ public class AccountAddressRepositoryTest {
     @Test
     public void addAddress() throws AccountNotFoundException {
         AccountAddress address = new AccountAddress();
-        Account theAccount = null;
+        Account theAccount;
         Optional<Account> result = accountRepository.findById(Long.valueOf("1"));
         if (result.isPresent()) {
             theAccount = result.get();
@@ -41,7 +46,7 @@ public class AccountAddressRepositoryTest {
 
     @Test
     public void updateAddress() throws DataNotFoundException {
-        AccountAddress address = null;
+        AccountAddress address;
         Optional<AccountAddress> result = accountaddressRepository.findById(Long.valueOf("21"));
         if (result.isPresent()) {
             address = result.get();
@@ -54,7 +59,7 @@ public class AccountAddressRepositoryTest {
 
     @Test
     public void deleteAddress() throws DataNotFoundException {
-        AccountAddress address = null;
+        AccountAddress address;
         Optional<AccountAddress> result = accountaddressRepository.findById(Long.valueOf("24"));
         if (result.isPresent()) {
             address = result.get();
@@ -89,4 +94,5 @@ public class AccountAddressRepositoryTest {
         Optional<AccountAddress> result = accountaddressRepository.findById(Long.valueOf("20"));
         Assert.notNull(result);
     }
+
 }

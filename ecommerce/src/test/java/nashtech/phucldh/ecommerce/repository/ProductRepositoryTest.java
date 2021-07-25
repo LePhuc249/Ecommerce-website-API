@@ -3,12 +3,13 @@ package nashtech.phucldh.ecommerce.repository;
 import nashtech.phucldh.ecommerce.entity.Brand;
 import nashtech.phucldh.ecommerce.entity.Category;
 import nashtech.phucldh.ecommerce.entity.Product;
-import nashtech.phucldh.ecommerce.reponsitory.BrandRepository;
-import nashtech.phucldh.ecommerce.reponsitory.CategoryRepository;
-import nashtech.phucldh.ecommerce.reponsitory.ProductRepository;
+
 import org.junit.jupiter.api.Test;
+
 import org.modelmapper.internal.util.Assert;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
@@ -44,7 +45,7 @@ public class ProductRepositoryTest {
         Category category = categoryRepository.findById(Long.valueOf("1")).get();
         Product product = new Product();
         product.setName("New Product");
-        product.setShortdescription("Test short ");
+        product.setShortDescription("Test short ");
         product.setDescription("Test description");
         product.setPrice(Float.valueOf(10));
         product.setBrand(brand);
@@ -73,7 +74,7 @@ public class ProductRepositoryTest {
 
     @Test
     public void checkFunctionCheckExistProduct() {
-        Product product = productRepository.checkExistProduct("Corona", "Corona beer", Long.valueOf("9"), Long.valueOf("1"));
+        Product product = productRepository.checkExistProduct("Corona", "Corona beer", Long.valueOf("9"));
         boolean result = false;
         if (product != null) {
             result = true;
@@ -110,4 +111,5 @@ public class ProductRepositoryTest {
         }
         Assert.isTrue(result);
     }
+
 }

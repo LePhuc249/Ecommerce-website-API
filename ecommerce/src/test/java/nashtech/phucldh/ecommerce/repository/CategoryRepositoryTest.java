@@ -1,14 +1,17 @@
 package nashtech.phucldh.ecommerce.repository;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
-import nashtech.phucldh.ecommerce.entity.Brand;
+
 import nashtech.phucldh.ecommerce.entity.Category;
+
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
-import nashtech.phucldh.ecommerce.reponsitory.BrandRepository;
-import nashtech.phucldh.ecommerce.reponsitory.CategoryRepository;
+
 import org.junit.jupiter.api.Test;
+
 import org.modelmapper.internal.util.Assert;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
@@ -31,7 +34,7 @@ public class CategoryRepositoryTest {
 
     @Test
     public void getCategoryById() throws DataNotFoundException {
-        Category category = null;
+        Category category;
         Optional<Category> result = categoryRepository.findById(Long.valueOf("1"));
         if (result.isPresent()){
             category = result.get();
@@ -43,9 +46,8 @@ public class CategoryRepositoryTest {
 
     @Test
     public void testFunctionGetByNameAndBrand() throws DataNotFoundException {
-        Category category = null;
-        Brand brand = brandRepository.getById(Long.valueOf("5"));
-        Optional<Category> result = categoryRepository.findByNameAndBrand("Beer", brand);
+        Category category;
+        Optional<Category> result = categoryRepository.findByName("Beer");
         if (result.isPresent()){
             category = result.get();
         } else {
@@ -56,18 +58,16 @@ public class CategoryRepositoryTest {
 
     @Test
     public void addCategory() {
-        Brand brand = brandRepository.getById(Long.valueOf("4"));
         Category category = new Category();
         category.setName("Wine");
-        category.setBrand(brand);
-        category.setCreateby(Long.valueOf("1"));
+        category.setCreateBy(Long.valueOf("1"));
         category.setDeleted(false);
         Assert.notNull(categoryRepository.save(category));
     }
 
     @Test
     public void updateCategory() throws DataNotFoundException {
-        Category category = null;
+        Category category;
         Optional<Category> result = categoryRepository.findById(Long.valueOf("98"));
         if (result.isPresent()){
             category = result.get();
@@ -80,7 +80,7 @@ public class CategoryRepositoryTest {
 
     @Test
     public void deleteCategory() throws DataNotFoundException {
-        Category category = null;
+        Category category;
         Optional<Category> result = categoryRepository.findById(Long.valueOf("98"));
         if (result.isPresent()){
             category = result.get();
@@ -98,4 +98,5 @@ public class CategoryRepositoryTest {
         boolean result = categoryRepository.checkStatusOfCategery(Long.valueOf("1"));
         Assert.isTrue(!result);
     }
+
 }

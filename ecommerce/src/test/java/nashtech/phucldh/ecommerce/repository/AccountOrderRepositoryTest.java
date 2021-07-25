@@ -4,13 +4,13 @@ import nashtech.phucldh.ecommerce.entity.Account;
 import nashtech.phucldh.ecommerce.entity.AccountOrder;
 import nashtech.phucldh.ecommerce.entity.OrderStatus;
 import nashtech.phucldh.ecommerce.entity.PaymentMethod;
-import nashtech.phucldh.ecommerce.reponsitory.AccountOrderRepository;
-import nashtech.phucldh.ecommerce.reponsitory.AccountReponsitory;
-import nashtech.phucldh.ecommerce.reponsitory.OrderStatusRepository;
-import nashtech.phucldh.ecommerce.reponsitory.PaymentMethodRepository;
+
 import org.junit.jupiter.api.Test;
+
 import org.modelmapper.internal.util.Assert;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
@@ -37,10 +37,10 @@ public class AccountOrderRepositoryTest {
         OrderStatus status = orderStatusRepository.findById(Long.valueOf("1")).get();
         AccountOrder order = new AccountOrder();
         order.setAccount(account);
-        order.setDatedelivery("2021-07-30");
-        order.setPaymentmethod(payment.getId());
+        order.setDateDelivery("2021-07-30");
+        order.setPaymentMethod(payment.getId());
         order.setStatus(status.getId());
-        order.setTotalprice(Float.valueOf(100));
+        order.setTotalPrice(Float.valueOf(100));
         Assert.notNull(accountOrderRepository.save(order));
     }
 
@@ -60,4 +60,5 @@ public class AccountOrderRepositoryTest {
         boolean checkExist = result.isPresent();
         Assert.isTrue(!checkExist);
     }
+
 }

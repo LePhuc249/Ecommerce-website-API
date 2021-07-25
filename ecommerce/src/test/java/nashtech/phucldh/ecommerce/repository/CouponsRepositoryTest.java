@@ -1,12 +1,17 @@
 package nashtech.phucldh.ecommerce.repository;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
+
 import nashtech.phucldh.ecommerce.entity.Coupons;
+
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
-import nashtech.phucldh.ecommerce.reponsitory.CouponsRepository;
+
 import org.junit.jupiter.api.Test;
+
 import org.modelmapper.internal.util.Assert;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
@@ -26,7 +31,7 @@ public class CouponsRepositoryTest {
 
     @Test
     public void getCouponById() throws DataNotFoundException {
-        Coupons coupons = null;
+        Coupons coupons;
         Optional<Coupons> result = couponsRepository.findById(Long.valueOf("1"));
         if (result.isPresent()){
             coupons = result.get();
@@ -38,13 +43,13 @@ public class CouponsRepositoryTest {
 
     @Test
     public void testFunctionFindByProductdiscount() throws DataNotFoundException {
-        List<Coupons> result = couponsRepository.findByProductdiscount(Long.valueOf("1"));
+        List<Coupons> result = couponsRepository.findByProductDiscount(Long.valueOf("1"));
         Assert.notNull(result);
     }
 
     @Test
     public void testFunctionFindByCode() throws DataNotFoundException {
-        Coupons coupons = null;
+        Coupons coupons;
         Optional<Coupons> result = couponsRepository.findByCode("ABC10");
         if (result.isPresent()){
             coupons = result.get();
@@ -58,18 +63,18 @@ public class CouponsRepositoryTest {
     public void addCoupon() {
         Coupons coupons = new Coupons();
         coupons.setCode("NEW");
-        coupons.setDiscountamount(15);
-        coupons.setProductdiscount(Long.valueOf("1"));
+        coupons.setDiscountAmount(15);
+        coupons.setProductDiscount(Long.valueOf("1"));
         coupons.setDescription("Demo Description");
-        coupons.setExpirationdate("2021-12-31");
-        coupons.setCreateby(Long.valueOf("1"));
+        coupons.setExpirationDate("2021-12-31");
+        coupons.setCreateBy(Long.valueOf("1"));
         coupons.setDeleted(false);
         Assert.notNull(couponsRepository.save(coupons));
     }
 
     @Test
     public void updateCoupon() throws DataNotFoundException {
-        Coupons coupons = null;
+        Coupons coupons;
         Optional<Coupons> result = couponsRepository.findById(Long.valueOf("97"));
         if (result.isPresent()){
             coupons = result.get();
@@ -82,7 +87,7 @@ public class CouponsRepositoryTest {
 
     @Test
     public void deleteCoupon() throws DataNotFoundException {
-        Coupons coupons = null;
+        Coupons coupons;
         Optional<Coupons> result = couponsRepository.findById(Long.valueOf("97"));
         if (result.isPresent()){
             coupons = result.get();
@@ -94,4 +99,5 @@ public class CouponsRepositoryTest {
         boolean checkExist = resultAfterDelete.isPresent();
         Assert.isTrue(!checkExist);
     }
+
 }

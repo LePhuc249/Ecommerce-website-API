@@ -1,12 +1,17 @@
 package nashtech.phucldh.ecommerce.repository;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
+
 import nashtech.phucldh.ecommerce.entity.Image;
+
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
-import nashtech.phucldh.ecommerce.reponsitory.ImageRepository;
+
 import org.junit.jupiter.api.Test;
+
 import org.modelmapper.internal.util.Assert;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
@@ -26,7 +31,7 @@ public class ImageRepositoryTest {
 
     @Test
     public void getImage() throws DataNotFoundException {
-        Image image = null;
+        Image image;
         Optional<Image> result = imageRepository.findById(Long.valueOf("1"));
         if (result.isPresent()){
             image = result.get();
@@ -41,14 +46,14 @@ public class ImageRepositoryTest {
         Image image = new Image();
         image.setUrl("Test url");
         image.setDescription("Test description");
-        image.setCreateby(1);
+        image.setCreateBy(1);
         image.setDeleted(false);
         Assert.notNull(imageRepository.save(image));
     }
 
     @Test
     public void updateImage() throws DataNotFoundException {
-        Image image = null;
+        Image image;
         Optional<Image> result = imageRepository.findById(Long.valueOf("93"));
         if (result.isPresent()){
             image = result.get();
@@ -61,7 +66,7 @@ public class ImageRepositoryTest {
 
     @Test
     public void deleteImage() throws DataNotFoundException {
-        Image image = null;
+        Image image;
         Optional<Image> result = imageRepository.findById(Long.valueOf("93"));
         if (result.isPresent()){
             image = result.get();
@@ -73,4 +78,5 @@ public class ImageRepositoryTest {
         boolean checkExist = resultAfterDelete.isPresent();
         Assert.isTrue(!checkExist);
     }
+
 }

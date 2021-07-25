@@ -3,12 +3,13 @@ package nashtech.phucldh.ecommerce.repository;
 import nashtech.phucldh.ecommerce.entity.AccountOrder;
 import nashtech.phucldh.ecommerce.entity.OrderDetail;
 import nashtech.phucldh.ecommerce.entity.Product;
-import nashtech.phucldh.ecommerce.reponsitory.AccountOrderRepository;
-import nashtech.phucldh.ecommerce.reponsitory.OrderDetailRepository;
-import nashtech.phucldh.ecommerce.reponsitory.ProductRepository;
+
 import org.junit.jupiter.api.Test;
+
 import org.modelmapper.internal.util.Assert;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
@@ -32,9 +33,9 @@ public class OrderDetailRepositoryTest {
         OrderDetail detail = new OrderDetail();
         detail.setAccountOrder(order);
         detail.setAmount(1);
-        detail.setItemid(product.getId());
+        detail.setItemId(product.getId());
         detail.setPrice(product.getPrice());
-        detail.setItemproperty("Detail: " + product.getDescription());
+        detail.setItemProperty("Detail: " + product.getDescription());
         Assert.notNull(orderdetailrepository.save(detail));
     }
 
@@ -53,4 +54,5 @@ public class OrderDetailRepositoryTest {
         boolean checkExist = result.isPresent();
         Assert.isTrue(!checkExist);
     }
+
 }

@@ -1,14 +1,18 @@
 package nashtech.phucldh.ecommerce.repository;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
+
 import nashtech.phucldh.ecommerce.entity.Brand;
 import nashtech.phucldh.ecommerce.entity.Organization;
+
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
-import nashtech.phucldh.ecommerce.reponsitory.BrandRepository;
-import nashtech.phucldh.ecommerce.reponsitory.OrganizationRepository;
+
 import org.junit.jupiter.api.Test;
+
 import org.modelmapper.internal.util.Assert;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
@@ -31,7 +35,7 @@ public class BrandRepositoryTest {
 
     @Test
     public void getBrandById() throws DataNotFoundException {
-        Brand brand = null;
+        Brand brand;
         Optional<Brand> result = brandRepository.findById(Long.valueOf("1"));
         if (result.isPresent()){
             brand = result.get();
@@ -43,7 +47,7 @@ public class BrandRepositoryTest {
 
     @Test
     public void getBrandByName() throws DataNotFoundException {
-        Brand brand = null;
+        Brand brand;
         Optional<Brand> result = brandRepository.findByName("Fres");
         if (result.isPresent()){
             brand = result.get();
@@ -55,14 +59,14 @@ public class BrandRepositoryTest {
 
     @Test
     public void getBrandByOrganization() throws DataNotFoundException {
-        Organization organization = null;
+        Organization organization;
         Optional<Organization> result = organizationRepository.findById(Long.valueOf("2"));
         if (result.isPresent()) {
             organization = result.get();
         } else {
             throw new DataNotFoundException(ErrorCode.ERR_ORGANIZATION_NOT_FOUND);
         }
-        Brand brand = null;
+        Brand brand;
         Optional<Brand> brandResult = brandRepository.findByOrganization(organization);
         if (brandResult.isPresent()) {
             brand = brandResult.get();
@@ -83,7 +87,7 @@ public class BrandRepositoryTest {
 
     @Test
     public void updateBrand() throws DataNotFoundException {
-        Brand brand = null;
+        Brand brand;
         Optional<Brand> result = brandRepository.findById(Long.valueOf("109"));
         if (result.isPresent()) {
             brand = result.get();
@@ -96,7 +100,7 @@ public class BrandRepositoryTest {
 
     @Test
     public void deleteBrand() throws DataNotFoundException {
-        Brand brand = null;
+        Brand brand;
         Optional<Brand> result = brandRepository.findById(Long.valueOf("112"));
         if (result.isPresent()) {
             brand = result.get();
@@ -108,4 +112,5 @@ public class BrandRepositoryTest {
         boolean checkExist = resultAfterDelete.isPresent();
         Assert.isTrue(!checkExist);
     }
+
 }

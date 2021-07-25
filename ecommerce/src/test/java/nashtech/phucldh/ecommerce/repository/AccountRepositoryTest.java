@@ -1,14 +1,19 @@
 package nashtech.phucldh.ecommerce.repository;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
+
 import nashtech.phucldh.ecommerce.entity.Account;
-import nashtech.phucldh.ecommerce.reponsitory.AccountReponsitory;
+
 import org.junit.jupiter.api.Test;
+
 import org.modelmapper.internal.util.Assert;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.security.auth.login.AccountNotFoundException;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -21,9 +26,9 @@ public class AccountRepositoryTest {
     @Test
     public void addAccount() {
         Account account = new Account();
-        account.setUsername("Test Add Username");
+        account.setUserName("Test Add Username");
         account.setPassword("Test Add Password");
-        account.setFullname("Test Add Full name");
+        account.setFullName("Test Add Full name");
         account.setEmail("Test Add Email");
         account.setPhone("Test Phone");
         account.setStatus(Long.valueOf("2"));
@@ -32,7 +37,7 @@ public class AccountRepositoryTest {
 
     @Test
     public void updateAccount() throws AccountNotFoundException {
-        Account account = null;
+        Account account;
         Optional<Account> result = accountRepository.findById(Long.valueOf("26"));
         if (result.isPresent()){
             account = result.get();
@@ -60,7 +65,7 @@ public class AccountRepositoryTest {
 
     @Test
     public void checkFunctionFindByUsername() {
-        Optional<Account> result = accountRepository.findByUsername("admin");
+        Optional<Account> result = accountRepository.findByUserName("admin");
         Assert.notNull(result);
     }
 
@@ -72,13 +77,13 @@ public class AccountRepositoryTest {
 
     @Test
     public void checkFunctionFindByUsernameAndPassword() {
-        Optional<Account> result = accountRepository.findByUsernameAndPassword("admin", "admin");
+        Optional<Account> result = accountRepository.findByUserNameAndPassword("admin", "admin");
         Assert.notNull(result);
     }
 
     @Test
     public void checkFunctionExistsByUsername() {
-        boolean result = accountRepository.existsByUsername("admin");
+        boolean result = accountRepository.existsByUserName("admin");
         Assert.isTrue(result);
     }
 

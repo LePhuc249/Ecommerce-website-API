@@ -1,14 +1,18 @@
 package nashtech.phucldh.ecommerce.repository;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
+
 import nashtech.phucldh.ecommerce.entity.Image;
 import nashtech.phucldh.ecommerce.entity.Organization;
+
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
-import nashtech.phucldh.ecommerce.reponsitory.ImageRepository;
-import nashtech.phucldh.ecommerce.reponsitory.OrganizationRepository;
+
 import org.junit.jupiter.api.Test;
+
 import org.modelmapper.internal.util.Assert;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
@@ -27,21 +31,21 @@ public class OrganizationRepositoryTest {
     public void addOrganization() {
         Organization organization = new Organization();
         organization.setName("Apple");
-        organization.setCreateby(Long.valueOf("1"));
+        organization.setCreateBy(Long.valueOf("1"));
         organization.setDeleted(false);
         Assert.notNull(organizationRepository.save(organization));
     }
 
     @Test
     public void updateOrganization() throws DataNotFoundException {
-        Organization organization = null;
+        Organization organization;
         Optional<Organization> result = organizationRepository.findById(Long.valueOf("40"));
         if (result.isPresent()){
             organization = result.get();
         } else {
             throw new DataNotFoundException(ErrorCode.ERR_ORGANIZATION_NOT_FOUND);
         }
-        Image image = null;
+        Image image;
         Optional<Image> resultImage = imageRepository.findById(Long.valueOf("1"));
         if (result.isPresent()){
             image = resultImage.get();
@@ -54,7 +58,7 @@ public class OrganizationRepositoryTest {
 
     @Test
     public void deleteOrganization() throws DataNotFoundException {
-        Organization organization = null;
+        Organization organization;
         Optional<Organization> result = organizationRepository.findById(Long.valueOf("111"));
         if (result.isPresent()){
             organization = result.get();

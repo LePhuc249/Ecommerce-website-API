@@ -1,10 +1,6 @@
 package nashtech.phucldh.ecommerce.repository;
 
-import nashtech.phucldh.ecommerce.constants.ErrorCode;
-import nashtech.phucldh.ecommerce.entity.ERole;
 import nashtech.phucldh.ecommerce.entity.Role;
-import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
-import nashtech.phucldh.ecommerce.reponsitory.RoleRepository;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.internal.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,21 +3,29 @@ package nashtech.phucldh.ecommerce.service;
 import nashtech.phucldh.ecommerce.entity.Account;
 import nashtech.phucldh.ecommerce.entity.ERole;
 import nashtech.phucldh.ecommerce.entity.Role;
-import nashtech.phucldh.ecommerce.reponsitory.AccountReponsitory;
-import nashtech.phucldh.ecommerce.reponsitory.RoleRepository;
+
+import nashtech.phucldh.ecommerce.repository.AccountReponsitory;
+import nashtech.phucldh.ecommerce.repository.RoleRepository;
+
 import nashtech.phucldh.ecommerce.service.impl.AccountServiceImpl;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import static org.mockito.ArgumentMatchers.any;
+
 import static org.mockito.Mockito.when;
+
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.security.auth.login.AccountNotFoundException;
+
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Random;
@@ -57,25 +65,25 @@ public class AccountServiceTest {
         Account account = new Account();
         long generatedLong = new Random().nextLong();
         account.setId(generatedLong);
-        account.setUsername("MokitoTest");
-        account.setFullname("abc");
+        account.setUserName("MokitoTest");
+        account.setFullName("abc");
         account.setEmail("abc@gmail.com");
         account.setRoles(roles);
 
         Account account2 = new Account();
         long generatedLong2 = new Random().nextLong();
         account2.setId(generatedLong2);
-        account2.setFullname("test");
+        account2.setFullName("test");
         account2.setEmail("test@gmail.com");
         account2.setRoles(roles);
 
         Account account3 = new Account();
         account3.setId(Long.valueOf("1000"));
-        account3.setFullname("test2");
+        account3.setFullName("test2");
         account3.setEmail("test2@gmail.com");
         account3.setRoles(roles2);
 
-        when(accountReponsitory.findByUsername(account.getUsername())).thenReturn(Optional.of(account));
+        when(accountReponsitory.findByUserName(account.getUserName())).thenReturn(Optional.of(account));
 
         when(accountReponsitory.findByEmail(account2.getEmail())).thenReturn(Optional.of(account2));
 

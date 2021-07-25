@@ -3,13 +3,15 @@ package nashtech.phucldh.ecommerce.repository;
 import nashtech.phucldh.ecommerce.entity.Cart;
 import nashtech.phucldh.ecommerce.entity.CartItem;
 import nashtech.phucldh.ecommerce.entity.Product;
-import nashtech.phucldh.ecommerce.reponsitory.CartItemRepository;
-import nashtech.phucldh.ecommerce.reponsitory.CartRepository;
-import nashtech.phucldh.ecommerce.reponsitory.ProductRepository;
+
 import org.junit.jupiter.api.Test;
+
 import org.modelmapper.internal.util.Assert;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -26,16 +28,16 @@ public class CartItemRepositoryTest {
     ProductRepository productRepository;
 
     @Test
+    @Transactional
     public void saveCart() {
-        Cart cart = cartRepository.findById(Long.valueOf("159")).get();
+        Cart cart = cartRepository.findById(Long.valueOf("77")).get();
         Product product = productRepository.findById(Long.valueOf("1")).get();
         CartItem item = new CartItem();
         item.setProduct(product);
         item.setAmount(1);
         item.setPrice(product.getPrice());
-        cart.getListItem().add(item);
         item.setCart(cart);
-        Assert.notNull(cartRepository.save(cart));
+        Assert.notNull(cartItemRepository.save(item));
     }
 
     @Test
@@ -53,4 +55,5 @@ public class CartItemRepositoryTest {
         boolean checkExist = result.isPresent();
         Assert.isTrue(checkExist);
     }
+
 }
