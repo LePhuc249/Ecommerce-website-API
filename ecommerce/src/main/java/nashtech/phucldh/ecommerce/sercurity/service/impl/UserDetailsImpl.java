@@ -10,7 +10,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import nashtech.phucldh.ecommerce.entity.Account;
 
 import org.springframework.security.core.GrantedAuthority;
+
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class UserDetailsImpl implements UserDetails {
@@ -49,8 +51,8 @@ public class UserDetailsImpl implements UserDetails {
     public static UserDetailsImpl build(Account theAccount) {
         List<GrantedAuthority> authorities = theAccount.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
-        return new UserDetailsImpl(theAccount.getId(), theAccount.getUsername(), theAccount.getPassword(),
-                theAccount.getFullname(), theAccount.getEmail(), theAccount.getStatus(), authorities);
+        return new UserDetailsImpl(theAccount.getId(), theAccount.getUserName(), theAccount.getPassword(),
+                theAccount.getFullName(), theAccount.getEmail(), theAccount.getStatus(), authorities);
     }
 
     public Long getId() {

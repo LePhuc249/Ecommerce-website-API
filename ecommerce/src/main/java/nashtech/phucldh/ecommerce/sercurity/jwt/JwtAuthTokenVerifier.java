@@ -4,21 +4,31 @@ import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+
 import org.springframework.util.StringUtils;
+
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.JwtException;
+
 import nashtech.phucldh.ecommerce.sercurity.service.impl.UserDetailsServiceImpl;
 
 public class JwtAuthTokenVerifier extends OncePerRequestFilter {
+
+    public static final Logger LOGGER = LoggerFactory.getLogger(JwtAuthTokenVerifier.class);
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
@@ -29,29 +39,30 @@ public class JwtAuthTokenVerifier extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException, JwtException {
-        String jwt = parseJwt(request);
-        System.out.println("Jwt = " + jwt);
-        if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
-            String username = jwtUtils.getUsernameFromJwtToken(jwt);
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
-                    null, userDetails.getAuthorities());
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            System.out.println("SecurityContextHolder.getContext().setAuthentication(authentication)");
+        try {
+            String jwt = parseJwt(request);
+            if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
+                String username = jwtUtils.getUsernameFromJwtToken(jwt);
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
+                        null, userDetails.getAuthorities());
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+        } catch (JwtException ex) {
+            LOGGER.error("Cannot set user authentication: {}", ex);
+        } catch (IllegalArgumentException e) {
+            LOGGER.error("Unable to get JWT Token");
         }
-        System.out.println("Before filter chain");
         filterChain.doFilter(request, response);
     }
 
     private String parseJwt(HttpServletRequest request) {
-        System.out.println("Request = " + request);
-        System.out.println("Authorization Header = " + jwtUtils.getAuthorizationHeader());
         String headerAuth = request.getHeader(jwtUtils.getAuthorizationHeader());
-        System.out.println("HeaderAuth = " + headerAuth);
         if (StringUtils.hasText(headerAuth) && headerAuth.startsWith(jwtUtils.getTokenPrefix())) {
             return headerAuth.replace(jwtUtils.getTokenPrefix(), "");
         }
         return null;
     }
+
 }
