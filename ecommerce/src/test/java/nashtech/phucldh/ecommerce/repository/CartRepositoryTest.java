@@ -43,7 +43,7 @@ public class CartRepositoryTest {
     @Test
     public void getCartByAccount() {
         Account account = accountRepository.findById(Long.valueOf("1")).get();
-        Cart cart = cartRepository.findByAccount(account).get();
+        Cart cart = cartRepository.findByAccount(account);
         boolean result = false;
         if (cart != null) {
             result = true;
