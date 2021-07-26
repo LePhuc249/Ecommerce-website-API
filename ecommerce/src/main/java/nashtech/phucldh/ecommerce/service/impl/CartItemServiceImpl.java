@@ -70,8 +70,8 @@ public class CartItemServiceImpl implements CartItemService {
     @Override
     public Boolean createNewItemInCart(CartItem cartItem) throws CreateDataFailException {
         boolean result;
-        Optional<CartItem> cartItemOptional = cartItemRepository.findById(cartItem.getId());
-        if (cartItemOptional.isPresent()) {
+        CartItem cartItemCheck = cartItemRepository.getByCartAndProduct(cartItem.getCart().getId(), cartItem.getProduct().getId());
+        if (cartItemCheck != null) {
             LOGGER.info("Item have been in cart ");
             throw new DataNotFoundException(ErrorCode.ERR_DUPLICATE_ITEM_CART);
         }
@@ -88,12 +88,9 @@ public class CartItemServiceImpl implements CartItemService {
     @Override
     public Boolean updateNewItemInCart(CartItem cartItem) throws DataNotFoundException, UpdateDataFailException {
         boolean result;
-        CartItem tempCart = null;
-        Optional<CartItem> cartItemOptional = cartItemRepository.findById(cartItem.getId());
-        if (cartItemOptional.isPresent()) {
-            tempCart = cartItemOptional.get();
-        } else {
-            LOGGER.info("Can't find cart item with id " + cartItem.getId());
+        CartItem cartItemCheck = cartItemRepository.getByCartAndProduct(cartItem.getCart().getId(), cartItem.getProduct().getId());
+        if (cartItemCheck == null) {
+            LOGGER.info("Item can't found in cart ");
             throw new DataNotFoundException(ErrorCode.ERR_ITEM_CART_NOT_FOUND);
         }
         try {
@@ -107,21 +104,21 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     @Override
-    public Boolean deleteCartItem(Long cartItemID) throws DataNotFoundException, DeleteDataFailException {
-        boolean result;
-        CartItem cart = null;
-        Optional<CartItem> cartItemOptional = cartItemRepository.findById(cartItemID);
-        if (cartItemOptional.isPresent()) {
-            cart = cartItemOptional.get();
-        } else {
-            LOGGER.info("Can't find cart item with id " + cartItemID);
+    public Boolean deleteCartItem(Long itemID) throws DataNotFoundException, DeleteDataFailException {
+        boolean result = false;
+        CartItem cartItem = cartItemRepository.getByItemId(itemID);
+        CartItem cartItemCheck = cartItemRepository.getByCartAndProduct(cartItem.getCart().getId(), cartItem.getProduct().getId());
+        if (cartItemCheck == null) {
+            LOGGER.info("Item can't found in cart ");
             throw new DataNotFoundException(ErrorCode.ERR_ITEM_CART_NOT_FOUND);
         }
         try {
-            cartItemRepository.deleteById(cartItemID);
-            result = true;
+            int resultDelete = cartItemRepository.deleteByItemId(itemID);
+            if (resultDelete > 0) {
+                result = true;
+            }
         } catch (Exception e) {
-            LOGGER.info("Can't update item in cart with cart item id " + cartItemID);
+            LOGGER.info("Can't update item in cart with item id " + itemID);
             throw new DeleteDataFailException(ErrorCode.ERR_REMOVE_ITEM_CART_FAIL);
         }
         return result;
@@ -142,8 +139,21 @@ public class CartItemServiceImpl implements CartItemService {
             cartItemRepository.updateItemQuantity(id, quantity);
             result = true;
         } catch (Exception e) {
-            LOGGER.info("Can't update item quantity in cart with cart item id " + id);
+            LOGGER.info("Can't update item quantity in cart with item id " + id);
             throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_CART_FAIL);
+        }
+        return result;
+    }
+
+    @Override
+    public Boolean deleteAllItemInCart(Long cartId) throws DeleteDataFailException {
+        boolean result;
+        try {
+            cartItemRepository.deleteByCartId(cartId);
+            result = true;
+        } catch (Exception e) {
+            LOGGER.info("Can't update item quantity in cart with cart id " + cartId);
+            throw new DeleteDataFailException(ErrorCode.ERR_DELETE_CART_FAIL);
         }
         return result;
     }

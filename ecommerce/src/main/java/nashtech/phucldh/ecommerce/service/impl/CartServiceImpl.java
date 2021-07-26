@@ -33,14 +33,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Cart getCartOfCustomer(Account account) throws DataNotFoundException {
-        Cart cart;
-        Optional<Cart> cartOptional = cartRepository.findByAccount(account);
-        if (cartOptional.isPresent()) {
-            cart = cartOptional.get();
-        } else {
-            LOGGER.info("Can't find cart of customer: " + account.getUserName());
-            throw new DataNotFoundException(ErrorCode.ERR_CART_NOT_FOUND);
-        }
+        Cart cart = cartRepository.findByAccount(account);
         return cart;
     }
 

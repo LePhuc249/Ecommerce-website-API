@@ -1,6 +1,8 @@
 package nashtech.phucldh.ecommerce.service.impl;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
+import nashtech.phucldh.ecommerce.converter.AccountOrderConverter;
+import nashtech.phucldh.ecommerce.dto.AccountOrderDTO;
 import nashtech.phucldh.ecommerce.entity.AccountOrder;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
 import nashtech.phucldh.ecommerce.repository.AccountOrderRepository;
@@ -26,6 +28,9 @@ public class AccountOrderServiceImpl implements AccountOrderService {
 
     @Autowired
     AccountOrderRepository userorderRepository;
+
+    @Autowired
+    AccountOrderConverter accountOrderConverter;
 
     @Override
     public List<AccountOrder> findAll() throws DataNotFoundException {
@@ -64,10 +69,11 @@ public class AccountOrderServiceImpl implements AccountOrderService {
     }
 
     @Override
-    public Boolean createNewOrder(AccountOrder newUserOrder) throws CreateDataFailException {
+    public Boolean createNewOrder(AccountOrderDTO newUserOrderDTO) throws CreateDataFailException {
         boolean result = false;
         try {
-            userorderRepository.save(newUserOrder);
+            AccountOrder order = accountOrderConverter.convertAccountOrderToEntity(newUserOrderDTO);
+            userorderRepository.save(order);
             result = true;
         } catch (Exception ex) {
             LOGGER.info("Can't create a new order");
@@ -87,6 +93,12 @@ public class AccountOrderServiceImpl implements AccountOrderService {
             throw new DataNotFoundException(ErrorCode.ERR_ROLE_NOT_FOUND);
         }
         return theUserorder;
+    }
+
+    @Override
+    public AccountOrder getAccountOrder(Long accountId, int totalPrice) throws DataNotFoundException {
+        AccountOrder order = userorderRepository.getAccountOrderByAccountAndTotalPrice(accountId, totalPrice);
+        return order;
     }
 
     @Override
