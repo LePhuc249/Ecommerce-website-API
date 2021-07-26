@@ -58,14 +58,12 @@ public class AccountOrder {
     @Column(name = "date_delivery")
     private String dateDelivery;
 
-    @NotBlank(message = "Payment method is mandatory")
     @Column(name = "payment_method")
     private Long paymentMethod;
 
     @Column(name = "total_price")
     private Float totalPrice;
 
-    @NotBlank(message = "Status is mandatory")
     @Column(name = "status")
     private Long status;
 

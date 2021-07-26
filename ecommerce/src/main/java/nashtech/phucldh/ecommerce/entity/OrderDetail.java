@@ -45,7 +45,6 @@ public class OrderDetail {
     @JoinColumn(name = "order_id")
     private AccountOrder accountOrder;
 
-    @NotBlank(message = "Item id is mandatory")
     @Column(name = "item_id")
     private Long itemId;
 
