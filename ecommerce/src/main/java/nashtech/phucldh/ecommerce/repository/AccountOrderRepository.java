@@ -65,4 +65,10 @@ public interface AccountOrderRepository extends JpaRepository<AccountOrder, Long
     )
     Long getStatus(Long orderID);
 
+    @Query(
+            value = "select * from account_order where customer_id = ?1 and total_price = ?2",
+            nativeQuery = true
+    )
+    AccountOrder getAccountOrderByAccountAndTotalPrice(Long customerID, int totalPrice);
+
 }

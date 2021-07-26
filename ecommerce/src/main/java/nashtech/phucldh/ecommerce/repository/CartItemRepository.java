@@ -34,4 +34,27 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
             nativeQuery = true
     )
     CartItem getByCartAndProduct(Long cartID, Long productID);
+
+    @Modifying
+    @Transactional
+    @Query(
+            value = "Delete from cart_item where product_id = ?1",
+            nativeQuery = true
+    )
+    int deleteByItemId(Long id);
+
+    @Query(
+            value = "Select * from cart_item where product_id = ?1",
+            nativeQuery = true
+    )
+    CartItem getByItemId(Long id);
+
+    @Modifying
+    @Transactional
+    @Query(
+            value = "Delete from cart_item where cart_id = ?1",
+            nativeQuery = true
+    )
+    int deleteByCartId(Long id);
+
 }
