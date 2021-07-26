@@ -2,6 +2,7 @@ package nashtech.phucldh.ecommerce.service;
 
 import java.util.List;
 
+import nashtech.phucldh.ecommerce.dto.AccountOrderDTO;
 import nashtech.phucldh.ecommerce.entity.AccountOrder;
 
 import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
@@ -18,7 +19,9 @@ public interface AccountOrderService {
 
     public AccountOrder getOrderById(Long orderID) throws DataNotFoundException;
 
-    public Boolean createNewOrder(AccountOrder newUserOrder) throws CreateDataFailException;
+    public AccountOrder getAccountOrder(Long accountId, int totalPrice) throws DataNotFoundException;
+
+    public Boolean createNewOrder(AccountOrderDTO newUserOrderDTO) throws CreateDataFailException;
 
     public Boolean updateStatusToFinish(Long orderId) throws UpdateDataFailException;
 

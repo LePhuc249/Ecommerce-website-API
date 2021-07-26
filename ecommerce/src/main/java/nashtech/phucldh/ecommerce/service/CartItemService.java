@@ -25,4 +25,6 @@ public interface CartItemService {
 
     public Boolean updateQuantityItemInCart(Long id, int quantity) throws DataNotFoundException, UpdateDataFailException;
 
+    public Boolean deleteAllItemInCart(Long cartId) throws DeleteDataFailException;
+
 }
