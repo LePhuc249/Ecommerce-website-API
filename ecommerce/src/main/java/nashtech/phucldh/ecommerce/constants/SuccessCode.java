@@ -58,4 +58,14 @@ public class SuccessCode {
     public static final String GET_PRODUCT_SUCCESS = "GET_PRODUCT_SUCCESS";
     public static final String GET_ALL_PRODUCT_SUCCESS = "GET_ALL_PRODUCT_SUCCESS";
 
+    // Cart
+    public static final String CART_CREATE_SUCCESS = "CART_CREATE_SUCCESS";
+    public static final String CART_UPDATE_SUCCESS = "CART_UPDATE_SUCCESS";
+    public static final String CART_DELETE_SUCCESS = "CART_DELETE_SUCCESS";
+    public static final String CART_CLEAR_SUCCESS = "CART_CLEAR_SUCCESS";
+    public static final String GET_CART_SUCCESS = "GET_CART_SUCCESS";
+
+    // Order
+    public static final String ORDER_CREATE_SUCCESS = "ORDER_CREATE_SUCCESS";
+
 }

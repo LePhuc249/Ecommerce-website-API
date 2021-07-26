@@ -18,19 +18,20 @@ public class ErrorCode {
 
     // Cart
     public static final String ERR_CART_NOT_FOUND = "ERR_CART_NOT_FOUND";
-    public static final String ERR_ITEM_CART_NOT_FOUND = "ERR_ITEM_CART_NOT_FOUND";
     public static final String ERR_CREATE_CART_FAIL = "ERR_CREATE_CART_FAIL";
     public static final String ERR_DELETE_CART_FAIL = "ERR_DELETE_CART_FAIL";
+    public static final String ERR_UPDATE_CART_FAIL = "ERR_UPDATE_CART_FAIL";
+
+    // Cart Item
+    public static final String ERR_ITEM_CART_NOT_FOUND = "ERR_ITEM_CART_NOT_FOUND";
     public static final String ERR_DUPLICATE_ITEM_CART = "ERR_DUPLICATE_ITEM_CART";
     public static final String ERR_ADD_ITEM_CART_FAIL = "ERR_ADD_ITEM_CART_FAIL";
-    public static final String ERR_UPDATE_CART_FAIL = "ERR_UPDATE_CART_FAIL";
+    public static final String ERR_UPDATE_ITEM_CART_FAIL = "ERR_UPDATE_ITEM_CART_FAIL";
     public static final String ERR_REMOVE_ITEM_CART_FAIL = "ERR_REMOVE_ITEM_CART_FAIL";
 
     // Account
     public static final String ERR_ACCOUNT_NOT_FOUND = "ERR_ACCOUNT_NOT_FOUND";
     public static final String ERR_ACCOUNT_SIGNUP_FAIL = "ERR_ACCOUNT_SIGNUP_FAIL";
-    public static final String ERR_ACCOUNT_EXISTED = "ERR_ACCOUNT_EXISTED"; // should use in service to check exist account
-    public static final String ERR_EMAIL_ALREADY_TAKEN = "ERR_EMAIL_ALREADY_TAKEN"; // should use in service to check exist email
     public static final String ERR_USERNAME_ALREADY_TAKEN = "ERR_EMAIL_ALREADY_TAKEN";
     public static final String ERR_CREATE_ACCOUNT_FAIL = "ERR_CREATE_ACCOUNT_FAIL";
     public static final String ERR_UPDATE_ACCOUNT_FAIL = "ERR_UPDATE_ACCOUNT_FAIL";
@@ -38,14 +39,12 @@ public class ErrorCode {
 
     // Account Address
     public static final String ERR_ACCOUNT_ADDRESS_NOT_FOUND = "ERR_ACCOUNT_ADDRESS_NOT_FOUND";
-    public static final String ERR_ACCOUNT_ADDRESS_EXISTED = "ERR_ACCOUNT_ADDRESS_EXISTED"; // should use in service to check exist account address
     public static final String ERR_CREATE_ACCOUNT_ADDRESS_FAIL = "ERR_CREATE_ACCOUNT_ADDRESS_FAIL";
     public static final String ERR_UPDATE_ACCOUNT_ADDRESS_FAIL = "ERR_UPDATE_ACCOUNT_ADDRESS_FAIL";
     public static final String ERR_DELETE_ACCOUNT_ADDRESS_FAIL = "ERR_DELETE_ACCOUNT_ADDRESS_FAIL";
 
     // Account Order
     public static final String ERR_ACCOUNT_ORDER_NOT_FOUND = "ERR_ACCOUNT_ORDER_NOT_FOUND";
-    public static final String ERR_ACCOUNT_ORDER_EXISTED = "ERR_ACCOUNT_ORDER_EXISTED"; // should use in service to check exist account order
     public static final String ERR_CREATE_ACCOUNT_ORDER_FAIL = "ERR_CREATE_ACCOUNT_ORDER_FAIL";
     public static final String ERR_UPDATE_ACCOUNT_ORDER_FAIL = "ERR_UPDATE_ACCOUNT_ORDER_FAIL";
     public static final String ERR_DELETE_ACCOUNT_ORDER_FAIL = "ERR_DELETE_ACCOUNT_ORDER_FAIL";
@@ -98,7 +97,6 @@ public class ErrorCode {
 
     // Image
     public static final String ERR_IMAGE_NOT_FOUND = "ERR_PAYMENT_METHOD_NOT_FOUND";
-    public static final String ERR_IMAGE_EXISTED = "ERR_PAYMENT_METHOD_EXISTED"; // should use in service to check exist image
     public static final String ERR_CREATE_IMAGE_FAIL = "ERR_CREATE_PAYMENT_METHOD_FAIL";
     public static final String ERR_UPDATE_IMAGE_FAIL = "ERR_UPDATE_PAYMENT_METHOD_FAIL";
     public static final String ERR_DELETE_IMAGE_FAIL = "ERR_DELETE_PAYMENT_METHOD_FAIL";
