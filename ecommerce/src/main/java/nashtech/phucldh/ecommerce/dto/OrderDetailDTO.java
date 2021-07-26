@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -18,7 +19,7 @@ public class OrderDetailDTO {
 
     private Long id;
 
-    private Long orderId;
+    private Long accountOrderId;
 
     private Long itemId;
 
@@ -29,5 +30,7 @@ public class OrderDetailDTO {
 
     @NotBlank(message = "Order item property is mandatory")
     private String itemProperty;
+
+    private LocalDateTime createDate;
 
 }

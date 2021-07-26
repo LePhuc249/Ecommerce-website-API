@@ -15,8 +15,6 @@ public class AddCartItemDTO {
 
     private Long userId;
 
-    private Long cartId;
-
     private Long itemId;
 
 }
