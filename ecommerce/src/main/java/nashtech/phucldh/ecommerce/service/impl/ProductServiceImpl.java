@@ -300,7 +300,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<Product> getPaginationProductForAdmin(int pageNo, String valueSort) {
-        Pageable pageable = PageRequest.of(pageNo - 1, 10, Sort.by(valueSort).ascending());
+        Pageable pageable = PageRequest.of(pageNo - 1, 5, Sort.by(valueSort).ascending());
         Page<Product> page = productRepository.findAll(pageable);
         return page;
     }

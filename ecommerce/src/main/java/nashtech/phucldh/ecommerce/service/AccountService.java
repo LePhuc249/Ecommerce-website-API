@@ -14,6 +14,7 @@ import nashtech.phucldh.ecommerce.exception.DuplicateDataException;
 import nashtech.phucldh.ecommerce.payload.request.LoginRequest;
 import nashtech.phucldh.ecommerce.payload.request.SignUpRequest;
 import nashtech.phucldh.ecommerce.payload.response.JwtResponse;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -38,5 +39,9 @@ public interface AccountService {
     public Boolean registerAccount(SignUpRequest signUpRequest) throws CreateDataFailException, DuplicateDataException, DataNotFoundException;
 
     public Long getStatusAccount(Long id) throws AccountNotFoundException;
+
+    public Account getForgotAccount(String username, String fullname, String email, String phone);
+
+    public Page<Account> getPaginationAccount(int pageNo, String valueSort);
 
 }

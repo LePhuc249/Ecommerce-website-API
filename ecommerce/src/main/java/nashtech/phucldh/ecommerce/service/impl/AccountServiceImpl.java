@@ -1,7 +1,9 @@
 package nashtech.phucldh.ecommerce.service.impl;
 
+import nashtech.phucldh.ecommerce.dto.AccountProfileDTO;
 import nashtech.phucldh.ecommerce.entity.Account;
 import nashtech.phucldh.ecommerce.entity.ERole;
+import nashtech.phucldh.ecommerce.entity.Product;
 import nashtech.phucldh.ecommerce.entity.Role;
 
 import nashtech.phucldh.ecommerce.payload.request.LoginRequest;
@@ -28,6 +30,10 @@ import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
@@ -244,6 +250,19 @@ public class AccountServiceImpl implements AccountService {
         }
         Long status = account.getStatus();
         return status;
+    }
+
+    @Override
+    public Account getForgotAccount(String username, String fullname, String email, String phone) {
+        Account account = accountRepository.getForForgotPassword(username,fullname,email,phone);
+        return account;
+    }
+
+    @Override
+    public Page<Account> getPaginationAccount(int pageNo, String valueSort) {
+        Pageable pageable = PageRequest.of(pageNo - 1, 5, Sort.by(valueSort).ascending());
+        Page<Account> page = accountRepository.findAll(pageable);
+        return page;
     }
 
 }
