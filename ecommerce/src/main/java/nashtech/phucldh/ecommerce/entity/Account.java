@@ -55,7 +55,7 @@ public class Account {
     private String userName;
 
     @NotBlank(message = "Password is mandatory")
-    @Size(min = 10, max = 100, message = "Password must be between 10 and 100 characters")
+    @Size(min = 5, max = 100, message = "Password must be between 10 and 100 characters")
     @Column(name = "password")
     private String password;
 
