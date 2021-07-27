@@ -18,6 +18,7 @@ import nashtech.phucldh.ecommerce.service.AccountService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -41,23 +42,14 @@ public class AdminRestController {
     @Autowired
     private AccountConverter accountConverter;
 
-    @GetMapping("/account")
-    public ResponseEntity<ResponseDTO> getAllAccount() {
+    @GetMapping("/account/{page}")
+    public ResponseEntity<ResponseDTO> getAllAccount(@PathVariable("page") int pageNo) {
         ResponseDTO response = new ResponseDTO();
         try {
-            List<Account> list = accountService.getAllAccount();
-            if (list.size() == 0) {
-                response.setData(false);
-                response.setErrorCode(ErrorCode.ERR_ACCOUNT_NOT_FOUND);
-            } else {
-                List<AccountProfileDTO> listDTO = new ArrayList<>();
-                for (Account account : list) {
-                    AccountProfileDTO dto = accountConverter.convertAccountProfileToDto(account);
-                    listDTO.add(dto);
-                }
-                response.setData(listDTO);
-                response.setSuccessCode(SuccessCode.ACCOUNT_LOADED_SUCCESS);
-            }
+            Page<Account> page = accountService.getPaginationAccount(pageNo, "fullName");
+            List<AccountProfileDTO> listDTO = accountConverter.toDTOList(page.getContent());
+            response.setData(listDTO);
+            response.setSuccessCode(SuccessCode.ACCOUNT_LOADED_SUCCESS);
         } catch (Exception ex) {
             response.setErrorCode(ErrorCode.ERR_ACCOUNT_NOT_FOUND);
             throw new DataNotFoundException(ErrorCode.ERR_ACCOUNT_NOT_FOUND);
@@ -65,7 +57,7 @@ public class AdminRestController {
         return ResponseEntity.ok().body(response);
     }
 
-    @GetMapping("/account/{accountID}")
+    @GetMapping("/account/details/{accountID}")
     public ResponseEntity<ResponseDTO> getAccountDetail(@PathVariable int accountID) {
         ResponseDTO response = new ResponseDTO();
         try {
