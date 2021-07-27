@@ -41,4 +41,10 @@ public interface AccountReponsitory extends JpaRepository<Account, Long> {
     )
     int updateAccountStatusToLocked(Long id);
 
+    @Query(
+            value = "Select * from account where username = ?1 and fullname = ?2 and email = ?3 and phone = ?4",
+            nativeQuery = true
+    )
+    Account getForForgotPassword(String username, String fullname, String email, String phone);
+
 }
