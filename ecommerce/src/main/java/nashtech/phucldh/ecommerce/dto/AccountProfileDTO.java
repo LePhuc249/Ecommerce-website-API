@@ -23,6 +23,8 @@ public class AccountProfileDTO {
     @NotBlank(message = "User name is mandatory")
     private String userName;
 
+    private String password;
+
     @NotBlank(message = "Full name is mandatory")
     private String fullName;
 
