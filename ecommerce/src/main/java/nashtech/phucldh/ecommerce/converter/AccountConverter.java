@@ -19,8 +19,11 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -31,6 +34,9 @@ public class AccountConverter {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    PasswordEncoder encoder;
 
     public AccountDTO convertAccountToDto(Account account) throws ConvertEntityDTOException {
         try {
@@ -114,6 +120,33 @@ public class AccountConverter {
             LOGGER.info("Fail to convert Role to RoleDTO");
             throw new ConvertEntityDTOException(ErrorCode.ERR_CONVERTER_DTO_ENTITY_FAIL);
         }
+    }
+
+
+    public AccountProfileDTO toDTO(Account entity) {
+        AccountProfileDTO dto = new AccountProfileDTO();
+        dto.setId(entity.getId());
+        dto.setUserName(entity.getUserName());
+        dto.setPassword(entity.getPassword());
+        dto.setFullName(entity.getFullName());
+        dto.setCreateDate(entity.getCreateDate());
+        dto.setUpdateDate(entity.getUpdateDate());
+        dto.setPhone(entity.getPhone());
+        dto.setEmail(entity.getEmail());
+        Set<Role> setEntityRole = entity.getRoles();
+        Set<RoleDTO> setDTORole = new HashSet<>();
+        for (Role role : setEntityRole) {
+            RoleDTO dtoRole = convertRoleToDTO(role);
+            setDTORole.add(dtoRole);
+        }
+        dto.setRoles(setDTORole);
+        dto.setStatus(entity.getStatus());
+        return dto;
+    }
+
+    public List<AccountProfileDTO> toDTOList(List<Account> listEntity) {
+        List<AccountProfileDTO> listDTO = listEntity.stream().map(entity -> toDTO(entity)).collect(Collectors.toList());
+        return listDTO;
     }
 
 }
