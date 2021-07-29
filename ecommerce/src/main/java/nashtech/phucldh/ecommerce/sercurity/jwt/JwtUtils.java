@@ -2,33 +2,25 @@ package nashtech.phucldh.ecommerce.sercurity.jwt;
 
 import java.time.LocalDate;
 import java.util.Date;
-
 import javax.crypto.SecretKey;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Value;
-
 import org.springframework.security.core.Authentication;
-
 import org.springframework.stereotype.Component;
-
 import com.google.common.net.HttpHeaders;
-
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-
 import nashtech.phucldh.ecommerce.sercurity.service.impl.UserDetailsImpl;
 
 @Component
 public class JwtUtils {
 
-    private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(JwtUtils.class);
 
     @Value("${application.jwt.secretKey}")
     private String secretKey;
@@ -59,13 +51,13 @@ public class JwtUtils {
             Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
             return true;
         } catch (MalformedJwtException e) {
-            logger.error("Invalid JWT token: {}", e.getMessage());
+            LOGGER.error("Invalid JWT token: " + e.getMessage());
         } catch (ExpiredJwtException e) {
-            logger.error("JWT token is expired: {}", e.getMessage());
+            LOGGER.error("JWT token is expired: " + e.getMessage());
         } catch (UnsupportedJwtException e) {
-            logger.error("JWT token is unsupported: {}", e.getMessage());
+            LOGGER.error("JWT token is unsupported: " + e.getMessage());
         } catch (IllegalArgumentException e) {
-            logger.error("JWT claims string is empty: {}", e.getMessage());
+            LOGGER.error("JWT claims string is empty: " + e.getMessage());
         }
         return false;
     }
