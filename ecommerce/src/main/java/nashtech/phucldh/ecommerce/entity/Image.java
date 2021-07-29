@@ -1,13 +1,11 @@
 package nashtech.phucldh.ecommerce.entity;
 
 import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -56,12 +53,9 @@ public class Image {
     private LocalDateTime updateDate;
 
     @Column(name = "create_by")
-    private Integer createBy;
+    private Long createBy;
 
     @Column(name = "isdeleted")
     private boolean isDeleted;
-
-    @OneToOne(mappedBy = "imageOrganization")
-    private Organization organization;
 
 }

@@ -1,5 +1,5 @@
 package nashtech.phucldh.ecommerce.entity;
 
 public enum ERole {
-    Customer, Admin, Manager
+    ROLE_CUSTOMER, ROLE_ADMIN, ROLE_MANAGER
 }

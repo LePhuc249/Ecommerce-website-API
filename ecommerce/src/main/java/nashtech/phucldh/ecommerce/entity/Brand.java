@@ -5,7 +5,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,7 +15,6 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -47,8 +45,5 @@ public class Brand {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "organization", referencedColumnName = "id")
     private Organization organization;
-
-//    @OneToMany()
-//    private List<Category> listCategory = new ArrayList<>();
 
 }

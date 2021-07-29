@@ -1,13 +1,11 @@
 package nashtech.phucldh.ecommerce.entity;
 
 import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,7 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -54,6 +51,7 @@ public class Coupons {
     private String description;
 
     @Column(name = "expiration_date")
+    @Size(min = 5, max = 15, message = "Coupon expiration date must be between 5 and 15 characters")
     private String expirationDate;
 
     @Column(name = "create_by")
