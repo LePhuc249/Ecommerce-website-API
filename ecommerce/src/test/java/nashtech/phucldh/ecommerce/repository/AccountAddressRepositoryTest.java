@@ -74,7 +74,7 @@ public class AccountAddressRepositoryTest {
 
     @Test
     public void getListAddress() throws DataNotFoundException{
-        List<String> list = accountaddressRepository.findAddressByAccountId(Long.valueOf("1"));
+        List<AccountAddress> list = accountaddressRepository.findAddressByAccountId(Long.valueOf("1"));
         if (list.size() == 0) {
             throw new DataNotFoundException(ErrorCode.ERR_ACCOUNT_ADDRESS_NOT_FOUND);
         }

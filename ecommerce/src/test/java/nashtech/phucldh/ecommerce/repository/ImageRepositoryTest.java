@@ -46,7 +46,7 @@ public class ImageRepositoryTest {
         Image image = new Image();
         image.setUrl("Test url");
         image.setDescription("Test description");
-        image.setCreateBy(1);
+        image.setCreateBy(Long.valueOf(String.valueOf(1)));
         image.setDeleted(false);
         Assert.notNull(imageRepository.save(image));
     }

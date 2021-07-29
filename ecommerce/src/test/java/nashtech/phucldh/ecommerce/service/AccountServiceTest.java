@@ -46,9 +46,9 @@ public class AccountServiceTest {
     @BeforeEach
     public void setUp() {
 
-        Role userRole = new Role(1L, ERole.Customer);
-        Role adminRole = new Role(2L, ERole.Admin);
-        Role managerRole = new Role(3L, ERole.Manager);
+        Role userRole = new Role(1L, ERole.ROLE_CUSTOMER);
+        Role adminRole = new Role(2L, ERole.ROLE_ADMIN);
+        Role managerRole = new Role(3L, ERole.ROLE_MANAGER);
 
         Set<Role> roles = new HashSet<>();
         roles.add(adminRole);
@@ -60,7 +60,7 @@ public class AccountServiceTest {
         roles3.add(userRole);
         roles3.add(adminRole);
 
-        Mockito.when(roleRepository.findByName(ERole.Admin)).thenReturn(Optional.of(adminRole));
+        Mockito.when(roleRepository.findByName(ERole.ROLE_ADMIN)).thenReturn(Optional.of(adminRole));
 
         Account account = new Account();
         long generatedLong = new Random().nextLong();
