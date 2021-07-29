@@ -1,27 +1,18 @@
 package nashtech.phucldh.ecommerce.converter;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
-
-import nashtech.phucldh.ecommerce.dto.AccountProfileDTO;
-import nashtech.phucldh.ecommerce.dto.RoleDTO;
-import nashtech.phucldh.ecommerce.dto.AccountDTO;
-
+import nashtech.phucldh.ecommerce.dto.Account.AccountProfileDTO;
+import nashtech.phucldh.ecommerce.dto.Role.RoleDTO;
+import nashtech.phucldh.ecommerce.dto.Account.AccountDTO;
 import nashtech.phucldh.ecommerce.entity.ERole;
 import nashtech.phucldh.ecommerce.entity.Role;
 import nashtech.phucldh.ecommerce.entity.Account;
-
 import nashtech.phucldh.ecommerce.exception.ConvertEntityDTOException;
-
 import org.modelmapper.ModelMapper;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,9 +25,6 @@ public class AccountConverter {
 
     @Autowired
     private ModelMapper modelMapper;
-
-    @Autowired
-    PasswordEncoder encoder;
 
     public AccountDTO convertAccountToDto(Account account) throws ConvertEntityDTOException {
         try {
@@ -57,9 +45,9 @@ public class AccountConverter {
             AccountProfileDTO dto = modelMapper.map(account, AccountProfileDTO.class);
             Set<RoleDTO> roles = account.getRoles().stream()
                     .map(role -> {
-                        if (role.getName().equals(ERole.Admin)) {
+                        if (role.getName().equals(ERole.ROLE_ADMIN)) {
                             return new RoleDTO(role.getId(), "Admin");
-                        } else if (role.getName().equals(ERole.Customer)) {
+                        } else if (role.getName().equals(ERole.ROLE_CUSTOMER)) {
                             return new RoleDTO(role.getId(), "Customer");
                         } else {
                             return new RoleDTO(role.getId(), "Manager");
@@ -79,11 +67,11 @@ public class AccountConverter {
             Role role = new Role();
             role.setId(dto.getId());
             if (dto.getName().equals("Admin")) {
-                role.setName(ERole.Admin);
+                role.setName(ERole.ROLE_ADMIN);
             } else if (dto.getName().equals("Customer")) {
-                role.setName(ERole.Customer);
+                role.setName(ERole.ROLE_CUSTOMER);
             } else {
-                role.setName(ERole.Manager);
+                role.setName(ERole.ROLE_MANAGER);
             }
             return role;
         } catch (Exception ex) {
@@ -108,9 +96,9 @@ public class AccountConverter {
         try {
             RoleDTO dto = new RoleDTO();
             dto.setId(role.getId());
-            if (role.getName().equals(ERole.Admin)) {
+            if (role.getName().equals(ERole.ROLE_ADMIN)) {
                 dto.setName("Admin");
-            } else if (role.getName().equals(ERole.Customer)) {
+            } else if (role.getName().equals(ERole.ROLE_CUSTOMER)) {
                 dto.setName("Customer");
             } else {
                 dto.setName("Manager");

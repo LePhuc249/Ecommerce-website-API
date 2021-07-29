@@ -1,8 +1,8 @@
 package nashtech.phucldh.ecommerce.converter;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
-import nashtech.phucldh.ecommerce.dto.OrderDetail.OrderDetailDTO;
-import nashtech.phucldh.ecommerce.entity.OrderDetail;
+import nashtech.phucldh.ecommerce.dto.AccountStatus.AccountStatusDTO;
+import nashtech.phucldh.ecommerce.entity.AccountStatus;
 import nashtech.phucldh.ecommerce.exception.ConvertEntityDTOException;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -11,29 +11,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class OrderDetailConverter {
+public class AccountStatusConverter {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AccountOrderConverter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AccountConverter.class);
 
     @Autowired
     private ModelMapper modelMapper;
 
-    public OrderDetailDTO convertOrderDetailToDTO(OrderDetail orderDetail) {
+    public AccountStatusDTO convertAccountStatusToDTO(AccountStatus status) {
         try {
-            OrderDetailDTO dto = modelMapper.map(orderDetail, OrderDetailDTO.class);
+            AccountStatusDTO dto = modelMapper.map(status, AccountStatusDTO.class);
             return dto;
         } catch (Exception e) {
-            LOGGER.info("Fail to convert Account to AccountDTO");
+            LOGGER.info("Fail to convert AccountStatus to AccountStatusDTO");
             throw new ConvertEntityDTOException(ErrorCode.ERR_CONVERTER_DTO_ENTITY_FAIL);
         }
     }
 
-    public OrderDetail convertOrderDetailToEntity(OrderDetailDTO orderDetailDTO) {
+    public AccountStatus convertAccountStatusDTOToEntity(AccountStatusDTO dto) {
         try {
-            OrderDetail entity = modelMapper.map(orderDetailDTO, OrderDetail.class);
-            return entity;
+            AccountStatus status = modelMapper.map(dto, AccountStatus.class);
+            return status;
         } catch (Exception e) {
-            LOGGER.info("Fail to convert Account to AccountDTO");
+            LOGGER.info("Fail to convert AccountStatusDTO to AccountStatus");
             throw new ConvertEntityDTOException(ErrorCode.ERR_CONVERTER_DTO_ENTITY_FAIL);
         }
     }

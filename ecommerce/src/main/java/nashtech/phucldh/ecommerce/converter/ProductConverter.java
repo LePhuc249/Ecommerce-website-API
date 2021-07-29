@@ -1,32 +1,23 @@
 package nashtech.phucldh.ecommerce.converter;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
-
-import nashtech.phucldh.ecommerce.dto.CreateProductDTO;
-import nashtech.phucldh.ecommerce.dto.PagingProductDTO;
-import nashtech.phucldh.ecommerce.dto.ProductDTO;
-import nashtech.phucldh.ecommerce.dto.ProductDetailDTO;
-import nashtech.phucldh.ecommerce.dto.UpdateProductDTO;
-
+import nashtech.phucldh.ecommerce.dto.Product.CreateProductDTO;
+import nashtech.phucldh.ecommerce.dto.Product.PagingProductDTO;
+import nashtech.phucldh.ecommerce.dto.Product.ProductDTO;
+import nashtech.phucldh.ecommerce.dto.Product.ProductDetailDTO;
+import nashtech.phucldh.ecommerce.dto.Product.UpdateProductDTO;
 import nashtech.phucldh.ecommerce.entity.Brand;
 import nashtech.phucldh.ecommerce.entity.Category;
 import nashtech.phucldh.ecommerce.entity.Product;
-
 import nashtech.phucldh.ecommerce.exception.ConvertEntityDTOException;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
-
 import nashtech.phucldh.ecommerce.repository.BrandRepository;
 import nashtech.phucldh.ecommerce.repository.CategoryRepository;
-
 import org.modelmapper.ModelMapper;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
