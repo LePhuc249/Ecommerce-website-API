@@ -1,26 +1,17 @@
 package nashtech.phucldh.ecommerce.controller;
 
 import javax.validation.Valid;
-
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
 import nashtech.phucldh.ecommerce.constants.SuccessCode;
-
 import nashtech.phucldh.ecommerce.dto.ResponseDTO;
-
 import nashtech.phucldh.ecommerce.service.AccountService;
-
 import nashtech.phucldh.ecommerce.exception.AccountAuthenticationException;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
-
 import nashtech.phucldh.ecommerce.payload.response.JwtResponse;
-
 import nashtech.phucldh.ecommerce.payload.request.LoginRequest;
 import nashtech.phucldh.ecommerce.payload.request.SignUpRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,8 +32,10 @@ public class AuthRestController {
         JwtResponse jwtResponse;
         try {
             jwtResponse = accountService.authenticateAccount(loginRequest);
-            response.setSuccessCode(SuccessCode.USER_LOGIN_SUCCESS);
-            response.setData(jwtResponse);
+            if (jwtResponse != null) {
+                response.setSuccessCode(SuccessCode.ACCOUNT_LOGIN_SUCCESS);
+                response.setData(jwtResponse);
+            }
         } catch (Exception ex) {
             response.setErrorCode(ErrorCode.ERR_ACCOUNT_LOGIN_FAIL);
             throw new AccountAuthenticationException(ErrorCode.ERR_ACCOUNT_LOGIN_FAIL);
@@ -54,11 +47,10 @@ public class AuthRestController {
     public ResponseEntity<ResponseDTO> registerCustomer(@Valid @RequestBody SignUpRequest signUpRequest) throws DataNotFoundException, AccountAuthenticationException {
         ResponseDTO response = new ResponseDTO();
         try {
-            boolean result;
-            result = accountService.registerAccount(signUpRequest);
+            boolean result = accountService.registerAccount(signUpRequest);
             if (result) {
                 response.setData(true);
-                response.setSuccessCode(SuccessCode.USER_SIGNUP_SUCCESS);
+                response.setSuccessCode(SuccessCode.ACCOUNT_SIGNUP_SUCCESS);
             } else {
                 response.setData(false);
                 response.setErrorCode(ErrorCode.ERR_CREATE_ACCOUNT_FAIL);

@@ -2,16 +2,14 @@ package nashtech.phucldh.ecommerce.controller;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
 import nashtech.phucldh.ecommerce.constants.SuccessCode;
-
 import nashtech.phucldh.ecommerce.converter.CartConverter;
-import nashtech.phucldh.ecommerce.converter.ProductConverter;
-import nashtech.phucldh.ecommerce.dto.AccountOrderDTO;
-import nashtech.phucldh.ecommerce.dto.AddCartItemDTO;
-import nashtech.phucldh.ecommerce.dto.CartDTO;
-import nashtech.phucldh.ecommerce.dto.ProductDetailDTO;
+import nashtech.phucldh.ecommerce.dto.AccountAddress.AccountAddressDTO;
+import nashtech.phucldh.ecommerce.dto.AccountOrder.AccountOrderDTO;
+import nashtech.phucldh.ecommerce.dto.CartItem.AddCartItemDTO;
+import nashtech.phucldh.ecommerce.dto.Cart.CartDTO;
+import nashtech.phucldh.ecommerce.dto.Product.ProductDetailDTO;
 import nashtech.phucldh.ecommerce.dto.ResponseDTO;
-import nashtech.phucldh.ecommerce.dto.UpdateCartItemDTO;
-
+import nashtech.phucldh.ecommerce.dto.CartItem.UpdateCartItemDTO;
 import nashtech.phucldh.ecommerce.entity.Account;
 import nashtech.phucldh.ecommerce.entity.AccountOrder;
 import nashtech.phucldh.ecommerce.entity.Cart;
@@ -19,12 +17,11 @@ import nashtech.phucldh.ecommerce.entity.CartItem;
 import nashtech.phucldh.ecommerce.entity.Coupons;
 import nashtech.phucldh.ecommerce.entity.OrderDetail;
 import nashtech.phucldh.ecommerce.entity.Product;
-
 import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
-
 import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
 import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
+import nashtech.phucldh.ecommerce.service.AccountAddressService;
 import nashtech.phucldh.ecommerce.service.AccountOrderService;
 import nashtech.phucldh.ecommerce.service.AccountService;
 import nashtech.phucldh.ecommerce.service.CartItemService;
@@ -32,12 +29,8 @@ import nashtech.phucldh.ecommerce.service.CartService;
 import nashtech.phucldh.ecommerce.service.CouponsService;
 import nashtech.phucldh.ecommerce.service.OrderDetailService;
 import nashtech.phucldh.ecommerce.service.ProductService;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,7 +40,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +65,7 @@ public class CustomerRestController {
     private CartItemService cartItemService;
 
     @Autowired
-    private ProductConverter productConverter;
+    private AccountAddressService accountAddressService;
 
     @Autowired
     private CartConverter cartConverter;
@@ -84,37 +76,22 @@ public class CustomerRestController {
     @Autowired
     private OrderDetailService orderDetailService;
 
-    @GetMapping("/alldetail/{productId}")
+    @GetMapping("/all/details/{productId}")
     public ResponseEntity<ResponseDTO> getProduct(@PathVariable int productId) {
         ResponseDTO response = new ResponseDTO();
         try {
             Long id = Long.valueOf(String.valueOf(productId));
-            Product product = productService.getProductById(id);
-            ProductDetailDTO dto = productConverter.convertProductDetailToDto(product);
-            response.setData(dto);
-            response.setSuccessCode(SuccessCode.GET_PRODUCT_SUCCESS);
-        } catch (Exception ex) {
-            response.setErrorCode(ErrorCode.ERR_PRODUCT_NOT_FOUND);
-            throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
-        }
-        return ResponseEntity.ok().body(response);
-    }
-
-    @GetMapping("/all/") // check this
-    public ResponseEntity<ResponseDTO> getProductListByNameOrCategory(@PathVariable String name, @PathVariable int categoryId) {
-        ResponseDTO response = new ResponseDTO();
-        try {
-            Long cateId = Long.valueOf(String.valueOf(categoryId));
-            List<Product> list = productService.findByNameOrCategoryForCustomer(name, cateId);
-            if (list.size() == 0) {
-                response.setErrorCode(ErrorCode.ERR_PRODUCT_NOT_FOUND);
-                throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
+            ProductDetailDTO dto = productService.getProductDetailByID(id);
+            if (dto != null) {
+                response.setData(dto);
+                response.setSuccessCode(SuccessCode.PRODUCT_LOADED_SUCCESS);
+            } else {
+                response.setData(false);
+                response.setErrorCode(ErrorCode.ERR_PRODUCT_LOADED_FAIL);
             }
-            response.setData(list);
-            response.setSuccessCode(SuccessCode.GET_ALL_PRODUCT_SUCCESS);
-        } catch (Exception ex) {
-            response.setErrorCode(ErrorCode.ERR_PRODUCT_NOT_FOUND);
-            throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
+        } catch (Exception e) {
+            response.setErrorCode(ErrorCode.ERR_PRODUCT_LOADED_FAIL);
+            throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_LOADED_FAIL);
         }
         return ResponseEntity.ok().body(response);
     }
@@ -123,13 +100,17 @@ public class CustomerRestController {
     public ResponseEntity<ResponseDTO> getProductList(@PathVariable("page") int pageNo) {
         ResponseDTO response = new ResponseDTO();
         try {
-            Page<Product> page = productService.getPaginationProductForCustomer(pageNo, "name");
-            List<ProductDetailDTO> listDTO = productConverter.toDTOList(page.getContent());
-            response.setData(listDTO);
-            response.setSuccessCode(SuccessCode.GET_ALL_PRODUCT_SUCCESS);
-        } catch (Exception ex) {
-            response.setErrorCode(ErrorCode.ERR_PRODUCT_NOT_FOUND);
-            throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
+            List<ProductDetailDTO> listDTO = productService.getListProductForCustomer(pageNo, "name");
+            if (listDTO.size() > 0) {
+                response.setData(listDTO);
+                response.setSuccessCode(SuccessCode.PRODUCT_LIST_LOADED_SUCCESS);
+            } else {
+                response.setData(false);
+                response.setErrorCode(ErrorCode.ERR_PRODUCT_LIST_EMPTY);
+            }
+        } catch (Exception e) {
+            response.setErrorCode(ErrorCode.ERR_PRODUCT_LIST_LOADED_FAIL);
+            throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_LIST_LOADED_FAIL);
         }
         return ResponseEntity.ok().body(response);
     }
@@ -150,9 +131,9 @@ public class CustomerRestController {
                 response.setData(false);
                 response.setErrorCode(ErrorCode.ERR_COUPONS_NOT_FOUND);
             }
-        } catch (Exception ex) {
-            response.setErrorCode(ErrorCode.ERR_COUPONS_NOT_FOUND);
-            throw new DataNotFoundException(ErrorCode.ERR_COUPONS_NOT_FOUND);
+        } catch (Exception e) {
+            response.setErrorCode(ErrorCode.ERR_COUPONS_LOADED_FAIL);
+            throw new DataNotFoundException(ErrorCode.ERR_COUPONS_LOADED_FAIL);
         }
         return ResponseEntity.ok().body(response);
     }
@@ -166,7 +147,7 @@ public class CustomerRestController {
             Cart cart = cartService.getCartOfCustomer(account);
             if (cart != null) {
                 CartItem item = new CartItem();
-                Product product = productService.getProductById(dto.getItemId());
+                Product product = productService.getProductToAdd(dto.getItemId());
                 item.setCart(cart);
                 item.setProduct(product);
                 item.setPrice(product.getPrice());
@@ -184,7 +165,7 @@ public class CustomerRestController {
                 newCart.setAccount(account);
                 newCart.setCreateDate(LocalDateTime.now());
                 cartService.createCart(newCart);
-                Product product = productService.getProductById(dto.getItemId());
+                Product product = productService.getProductToAdd(dto.getItemId());
                 CartItem item = new CartItem();
                 Cart cartCreated = cartService.getCartOfCustomer(account);
                 item.setCart(cartCreated);
@@ -200,7 +181,7 @@ public class CustomerRestController {
                     throw new CreateDataFailException(ErrorCode.ERR_ADD_ITEM_CART_FAIL);
                 }
             }
-        } catch (Exception ex) {
+        } catch (Exception e) {
             response.setErrorCode(ErrorCode.ERR_CREATE_CART_FAIL);
             throw new CreateDataFailException(ErrorCode.ERR_CREATE_CART_FAIL);
         }
@@ -234,7 +215,7 @@ public class CustomerRestController {
                 response.setErrorCode(ErrorCode.ERR_CART_NOT_FOUND);
                 throw new DataNotFoundException(ErrorCode.ERR_CART_NOT_FOUND);
             }
-        } catch (Exception ex) {
+        } catch (Exception e) {
             response.setErrorCode(ErrorCode.ERR_UPDATE_CART_FAIL);
             throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_CART_FAIL);
         }
@@ -254,7 +235,7 @@ public class CustomerRestController {
                 response.setErrorCode(ErrorCode.ERR_REMOVE_ITEM_CART_FAIL);
                 throw new DeleteDataFailException(ErrorCode.ERR_REMOVE_ITEM_CART_FAIL);
             }
-        } catch (Exception ex) {
+        } catch (Exception e) {
             response.setErrorCode(ErrorCode.ERR_DELETE_CART_FAIL);
             throw new DeleteDataFailException(ErrorCode.ERR_DELETE_CART_FAIL);
         }
@@ -274,7 +255,7 @@ public class CustomerRestController {
                 response.setData(true);
                 response.setSuccessCode(SuccessCode.CART_CLEAR_SUCCESS);
             }
-        } catch (Exception ex) {
+        } catch (Exception e) {
             response.setErrorCode(ErrorCode.ERR_DELETE_CART_FAIL);
             throw new DeleteDataFailException(ErrorCode.ERR_DELETE_CART_FAIL);
         }
@@ -293,7 +274,7 @@ public class CustomerRestController {
             CartDTO dto = cartConverter.convertCartToDto(cart);
             response.setData(dto);
             response.setSuccessCode(SuccessCode.GET_CART_SUCCESS);
-        } catch (Exception ex) {
+        } catch (Exception e) {
             response.setErrorCode(ErrorCode.ERR_CART_NOT_FOUND);
             throw new DataNotFoundException(ErrorCode.ERR_CART_NOT_FOUND);
         }
@@ -307,7 +288,7 @@ public class CustomerRestController {
             boolean result;
             dto.setCreateDate(LocalDateTime.now());
             dto.setDateDelivery(LocalDateTime.now().plusDays(3).toString().substring(0, 10));
-            dto.setStatus(Long.valueOf(1));
+            dto.setStatus(Long.valueOf(String.valueOf(1)));
             Account account = accountService.getAccountDetail(dto.getAccountId());
             Cart cart = cartService.getCartOfCustomer(account);
             List<CartItem> listCartItem = cartItemService.getListItemOfCart(cart.getId());
@@ -346,9 +327,87 @@ public class CustomerRestController {
                 response.setData(false);
                 response.setErrorCode(ErrorCode.ERR_CREATE_ACCOUNT_ORDER_FAIL);
             }
-        } catch (Exception ex) {
+        } catch (Exception e) {
             response.setErrorCode(ErrorCode.ERR_CREATE_ACCOUNT_ORDER_FAIL);
             throw new CreateDataFailException(ErrorCode.ERR_CREATE_ACCOUNT_ORDER_FAIL);
+        }
+        return ResponseEntity.ok().body(response);
+    }
+
+    @PostMapping("/accountaddress")
+    public ResponseEntity<ResponseDTO> createAccountAddress(@RequestBody AccountAddressDTO dto) throws CreateDataFailException {
+        ResponseDTO response = new ResponseDTO();
+        try {
+            boolean result = accountAddressService.addNewAddress(dto);
+            if (result) {
+                response.setData(true);
+                response.setSuccessCode(SuccessCode.ACCOUNT_ADDRESS_CREATE_SUCCESS);
+            } else {
+                response.setData(false);
+                response.setErrorCode(ErrorCode.ERR_CREATE_ACCOUNT_ADDRESS_FAIL);
+            }
+        } catch (Exception e) {
+            response.setErrorCode(ErrorCode.ERR_CREATE_ACCOUNT_ADDRESS_FAIL);
+            throw new CreateDataFailException(ErrorCode.ERR_CREATE_ACCOUNT_ADDRESS_FAIL);
+        }
+        return ResponseEntity.ok().body(response);
+    }
+
+    @PutMapping("/accountaddress")
+    public ResponseEntity<ResponseDTO> updateAccountAddress(@RequestBody AccountAddressDTO dto) throws UpdateDataFailException {
+        ResponseDTO response = new ResponseDTO();
+        try {
+            boolean result = accountAddressService.updateAddress(dto);
+            if (result) {
+                response.setData(true);
+                response.setSuccessCode(SuccessCode.ACCOUNT_ADDRESS_UPDATE_SUCCESS);
+            } else {
+                response.setData(false);
+                response.setErrorCode(ErrorCode.ERR_UPDATE_ACCOUNT_ADDRESS_FAIL);
+            }
+        } catch (Exception e) {
+            response.setErrorCode(ErrorCode.ERR_UPDATE_ACCOUNT_ADDRESS_FAIL);
+            throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_ACCOUNT_ADDRESS_FAIL);
+        }
+        return ResponseEntity.ok().body(response);
+    }
+
+    @DeleteMapping("/accountaddress/{id}")
+    public ResponseEntity<ResponseDTO> deleteAccountAddress(@PathVariable("id") int id) throws DeleteDataFailException {
+        ResponseDTO response = new ResponseDTO();
+        try {
+            Long idAccountAddress = Long.valueOf(String.valueOf(id));
+            boolean result = accountAddressService.deleteAddress(idAccountAddress);
+            if (result) {
+                response.setData(true);
+                response.setSuccessCode(SuccessCode.ACCOUNT_ADDRESS_DELETE_SUCCESS);
+            } else {
+                response.setData(false);
+                response.setErrorCode(ErrorCode.ERR_DELETE_ACCOUNT_ADDRESS_FAIL);
+            }
+        } catch (Exception e) {
+            response.setErrorCode(ErrorCode.ERR_DELETE_ACCOUNT_ADDRESS_FAIL);
+            throw new DeleteDataFailException(ErrorCode.ERR_DELETE_ACCOUNT_ADDRESS_FAIL);
+        }
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/accountaddress/{id}")
+    public ResponseEntity<ResponseDTO> getListAddress(@PathVariable("id") int id) {
+        ResponseDTO response = new ResponseDTO();
+        try {
+            Long idAccount = Long.valueOf(String.valueOf(id));
+            List<AccountAddressDTO> listDTO = accountAddressService.getListAddress(idAccount);
+            if (listDTO.size() > 0) {
+                response.setData(listDTO);
+                response.setSuccessCode(SuccessCode.ACCOUNT_ADDRESS_LOADED_SUCCESS);
+            } else {
+                response.setData(false);
+                response.setErrorCode(ErrorCode.ERR_ACCOUNT_ADDRESS_EMPTY);
+            }
+        } catch (Exception e) {
+            response.setErrorCode(ErrorCode.ERR_ACCOUNT_ADDRESS_LOADED_FAIL);
+            throw new DataNotFoundException(ErrorCode.ERR_ACCOUNT_ADDRESS_LOADED_FAIL);
         }
         return ResponseEntity.ok().body(response);
     }
