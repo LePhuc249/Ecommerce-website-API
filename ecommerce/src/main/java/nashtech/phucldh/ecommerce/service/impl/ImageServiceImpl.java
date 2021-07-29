@@ -1,25 +1,22 @@
 package nashtech.phucldh.ecommerce.service.impl;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
-
+import nashtech.phucldh.ecommerce.converter.ImageConverter;
+import nashtech.phucldh.ecommerce.dto.Image.ImageDTO;
 import nashtech.phucldh.ecommerce.entity.Image;
-
 import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
 import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
 import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
-
 import nashtech.phucldh.ecommerce.repository.ImageRepository;
-
 import nashtech.phucldh.ecommerce.service.ImageService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,20 +28,30 @@ public class ImageServiceImpl implements ImageService {
     @Autowired
     ImageRepository imageRepository;
 
+    @Autowired
+    ImageConverter imageConverter;
+
     @Override
-    public List<Image> getAllImage() throws DataNotFoundException {
-        List<Image> listAllImage;
+    public List<ImageDTO> getAllImage() throws DataNotFoundException {
+        List<ImageDTO> listDTO = null;
         try {
-            listAllImage = imageRepository.findAll();
+            List<Image> listAllImage = imageRepository.findAll();
+            if (listAllImage.size() > 0) {
+                listDTO = new ArrayList<>();
+                for (Image image : listAllImage) {
+                    ImageDTO dto = imageConverter.convertImageToDTO(image);
+                    listDTO.add(dto);
+                }
+            }
         } catch (Exception e) {
             LOGGER.info("Can't find all image ");
             throw new DataNotFoundException(ErrorCode.ERR_IMAGE_NOT_FOUND);
         }
-        return listAllImage;
+        return listDTO;
     }
 
     @Override
-    public Image getImage(Long id) throws DataNotFoundException {
+    public ImageDTO getImage(Long id) throws DataNotFoundException {
         Image image;
         Optional<Image> imageOptional = imageRepository.findById(id);
         if (imageOptional.isPresent()) {
@@ -53,11 +60,11 @@ public class ImageServiceImpl implements ImageService {
             LOGGER.info("Can't find image by id " + id);
             throw new DataNotFoundException(ErrorCode.ERR_IMAGE_NOT_FOUND);
         }
-        return image;
+        return imageConverter.convertImageToDTO(image);
     }
 
     @Override
-    public Image getImageByURL(String url) throws DataNotFoundException {
+    public ImageDTO getImageByURL(String url) throws DataNotFoundException {
         Image image;
         Optional<Image> imageOptional = imageRepository.findByUrl(url);
         if (imageOptional.isPresent()) {
@@ -66,14 +73,16 @@ public class ImageServiceImpl implements ImageService {
             LOGGER.info("Can't find image by url " + url);
             throw new DataNotFoundException(ErrorCode.ERR_IMAGE_NOT_FOUND);
         }
-        return image;
+        return imageConverter.convertImageToDTO(image);
     }
 
 
     @Override
-    public Boolean addNewImage(Image image) throws CreateDataFailException {
+    public Boolean addNewImage(ImageDTO dto) throws CreateDataFailException {
         boolean result;
         try {
+            Image image = imageConverter.convertImageToDTO(dto);
+            image.setCreateDate(LocalDateTime.now());
             imageRepository.save(image);
             result = true;
         } catch (Exception ex) {
@@ -84,17 +93,17 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public Boolean updateImage(Image image) throws DataNotFoundException, UpdateDataFailException {
+    public Boolean updateImage(ImageDTO dto) throws DataNotFoundException, UpdateDataFailException {
         boolean result;
-        Image tempImage = null;
-        Optional<Image> imageOptional = imageRepository.findById(image.getId());
-        if (imageOptional.isPresent()) {
-            tempImage = imageOptional.get();
-        } else {
-            LOGGER.info("Can't find image by id " + image.getId());
-            throw new DataNotFoundException(ErrorCode.ERR_IMAGE_NOT_FOUND);
-        }
         try {
+            Optional<Image> imageOptional = imageRepository.findById(dto.getId());
+            if (!imageOptional.isPresent())  {
+                LOGGER.info("Can't find image by id " + dto.getId());
+                throw new DataNotFoundException(ErrorCode.ERR_IMAGE_NOT_FOUND);
+            }
+            Image image = imageConverter.convertImageToDTO(dto);
+            image.setCreateDate(imageOptional.get().getCreateDate());
+            image.setUpdateDate(LocalDateTime.now());
             imageRepository.save(image);
             result = true;
         } catch (Exception ex) {
@@ -107,15 +116,12 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public Boolean deleteImage(Long id) throws DataNotFoundException, DeleteDataFailException {
         boolean result;
-        Image image = null;
-        Optional<Image> imageOptional = imageRepository.findById(id);
-        if (imageOptional.isPresent()) {
-            image = imageOptional.get();
-        } else {
-            LOGGER.info("Can't find image by id " + image.getId());
-            throw new DataNotFoundException(ErrorCode.ERR_IMAGE_NOT_FOUND);
-        }
         try {
+            Optional<Image> imageOptional = imageRepository.findById(id);
+            if (!imageOptional.isPresent()) {
+                LOGGER.info("Can't find image by id " + id);
+                throw new DataNotFoundException(ErrorCode.ERR_IMAGE_NOT_FOUND);
+            }
             imageRepository.deleteImage(id);
             result = true;
         } catch (Exception ex) {
@@ -128,37 +134,13 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public Boolean activeImage(Long id) throws DataNotFoundException, DeleteDataFailException {
         boolean result;
-        Image image = null;
-        Optional<Image> imageOptional = imageRepository.findById(id);
-        if (imageOptional.isPresent()) {
-            image = imageOptional.get();
-        } else {
-            LOGGER.info("Can't find image by id " + image.getId());
-            throw new DataNotFoundException(ErrorCode.ERR_IMAGE_NOT_FOUND);
-        }
         try {
+            Optional<Image> imageOptional = imageRepository.findById(id);
+            if (!imageOptional.isPresent())  {
+                LOGGER.info("Can't find image by id " + id);
+                throw new DataNotFoundException(ErrorCode.ERR_IMAGE_NOT_FOUND);
+            }
             imageRepository.unDeleteImage(id);
-            result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't update image ");
-            throw new DeleteDataFailException(ErrorCode.ERR_DELETE_IMAGE_FAIL);
-        }
-        return result;
-    }
-
-    @Override
-    public Boolean updateImageUrl(Long id, String url) throws DataNotFoundException, DeleteDataFailException {
-        boolean result;
-        Image image = null;
-        Optional<Image> imageOptional = imageRepository.findById(id);
-        if (imageOptional.isPresent()) {
-            image = imageOptional.get();
-        } else {
-            LOGGER.info("Can't find image by id " + image.getId());
-            throw new DataNotFoundException(ErrorCode.ERR_IMAGE_NOT_FOUND);
-        }
-        try {
-            imageRepository.updateImageURL(id, url);
             result = true;
         } catch (Exception ex) {
             LOGGER.info("Can't update image ");

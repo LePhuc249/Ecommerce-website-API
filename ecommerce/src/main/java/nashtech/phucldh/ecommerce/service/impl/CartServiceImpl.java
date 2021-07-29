@@ -1,25 +1,17 @@
 package nashtech.phucldh.ecommerce.service.impl;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
-
 import nashtech.phucldh.ecommerce.entity.Account;
 import nashtech.phucldh.ecommerce.entity.Cart;
-
 import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
 import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
-
 import nashtech.phucldh.ecommerce.repository.CartRepository;
-
 import nashtech.phucldh.ecommerce.service.CartService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -33,8 +25,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Cart getCartOfCustomer(Account account) throws DataNotFoundException {
-        Cart cart = cartRepository.findByAccount(account);
-        return cart;
+        return cartRepository.findByAccount(account);
     }
 
     @Override
@@ -54,15 +45,12 @@ public class CartServiceImpl implements CartService {
     @Override
     public Boolean deleteCart(Long cartID) throws DataNotFoundException, DeleteDataFailException {
         boolean result;
-        Cart cart = null;
-        Optional<Cart> cartOptional = cartRepository.findById(cartID);
-        if (cartOptional.isPresent()) {
-            cart = cartOptional.get();
-        } else {
-            LOGGER.info("Can't find cart with id " + cartID);
-            throw new DataNotFoundException(ErrorCode.ERR_CART_NOT_FOUND);
-        }
         try {
+            Optional<Cart> cartOptional = cartRepository.findById(cartID);
+            if (!cartOptional.isPresent())  {
+                LOGGER.info("Can't find cart with id " + cartID);
+                throw new DataNotFoundException(ErrorCode.ERR_CART_NOT_FOUND);
+            }
             cartRepository.deleteById(cartID);
             result = true;
         } catch (Exception ex) {

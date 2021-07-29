@@ -1,36 +1,31 @@
 package nashtech.phucldh.ecommerce.service;
 
-import nashtech.phucldh.ecommerce.dto.OrganizationAddressDTO;
-
+import nashtech.phucldh.ecommerce.dto.OrganizationAddress.OrganizationAddressDTO;
 import nashtech.phucldh.ecommerce.entity.OrganizationAddress;
-
 import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
 import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
 import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
-
-import org.springframework.data.domain.Page;
-
 import java.util.List;
 
 public interface OrganizationAddressService {
 
-    public List<OrganizationAddress> findAllAddress() throws DataNotFoundException;
+    List<OrganizationAddress> findAllAddress() throws DataNotFoundException;
 
-    public List<OrganizationAddress> getListAddressOfOrganization(Long id) throws DataNotFoundException;
+    List<String> getListStringAddress(Long id) throws DataNotFoundException;
 
-    public List<String> getListStringAddress(Long id) throws DataNotFoundException;
+    OrganizationAddress findAddressById(Long id) throws DataNotFoundException;
 
-    public OrganizationAddress findAddressById(Long id) throws DataNotFoundException;
+    OrganizationAddress getOrganizationAddress(Long id, String address) throws DataNotFoundException;
 
-    public OrganizationAddress getOrganizationAddress(Long id, String address) throws DataNotFoundException;
+    Boolean createNewAddress(OrganizationAddressDTO organizationAddressDTO) throws CreateDataFailException;
 
-    public Boolean createNewAddress(OrganizationAddressDTO organizationAddressDTO) throws CreateDataFailException;
+    Boolean updateAddress(OrganizationAddressDTO organizationAddressDTO) throws UpdateDataFailException;
 
-    public Boolean updateAddress(OrganizationAddressDTO organizationAddressDTO) throws UpdateDataFailException;
+    Boolean deleteAddress(Long organizationAddressID) throws DeleteDataFailException;
 
-    public Boolean deleteAddress(Long organizationAddressID) throws DeleteDataFailException;
+    List<OrganizationAddressDTO> getOrganizationAddressToShow(Long id) throws DataNotFoundException;
 
-    public Page<OrganizationAddress> getPaginationOrganizationAddress(int pageNo, String valueSort);
+    List<OrganizationAddressDTO> getListAllOrganizationAddressToShow(int pageNo, String valueSort);
 
 }

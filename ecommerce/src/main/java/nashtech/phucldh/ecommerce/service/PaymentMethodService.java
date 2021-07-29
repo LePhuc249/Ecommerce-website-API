@@ -1,23 +1,24 @@
 package nashtech.phucldh.ecommerce.service;
 
 import java.util.List;
-
-import nashtech.phucldh.ecommerce.entity.PaymentMethod;
-
+import nashtech.phucldh.ecommerce.dto.PaymentMethod.PaymentMethodDTO;
+import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
 import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
 import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
 
 public interface PaymentMethodService {
 
-    public List<PaymentMethod> findAllPayment() throws DataNotFoundException;
+    List<PaymentMethodDTO> findAllPayment() throws DataNotFoundException;
 
-    public PaymentMethod getPaymentmethodById(Long idPayment) throws DataNotFoundException;
+    PaymentMethodDTO getPaymentmethodById(Long idPayment) throws DataNotFoundException;
 
-    public Boolean deletePayment(Long idPayment) throws DataNotFoundException, DeleteDataFailException;
+    Boolean createNewPaymentMethod(PaymentMethodDTO dto) throws CreateDataFailException;
 
-    public Boolean unDeletePayment(Long idPayment) throws DataNotFoundException, UpdateDataFailException;
+    Boolean updatePaymentMethod(PaymentMethodDTO dto) throws UpdateDataFailException;
 
-    public Boolean updateNamePaymentMethod(Long idPayment, String newName) throws DataNotFoundException, UpdateDataFailException;
+    Boolean deletePayment(Long idPayment) throws DataNotFoundException, DeleteDataFailException;
+
+    Boolean unDeletePayment(Long idPayment) throws DataNotFoundException, UpdateDataFailException;
 
 }

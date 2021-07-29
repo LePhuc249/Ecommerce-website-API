@@ -1,38 +1,28 @@
 package nashtech.phucldh.ecommerce.service.impl;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
-
 import nashtech.phucldh.ecommerce.converter.ProductConverter;
-
-import nashtech.phucldh.ecommerce.dto.CreateProductDTO;
-import nashtech.phucldh.ecommerce.dto.UpdateProductDTO;
-
+import nashtech.phucldh.ecommerce.dto.Product.CreateProductDTO;
+import nashtech.phucldh.ecommerce.dto.Product.ProductDetailDTO;
+import nashtech.phucldh.ecommerce.dto.Product.UpdateProductDTO;
 import nashtech.phucldh.ecommerce.entity.Product;
-
 import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
 import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
 import nashtech.phucldh.ecommerce.exception.DuplicateDataException;
 import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
-
 import nashtech.phucldh.ecommerce.repository.BrandRepository;
 import nashtech.phucldh.ecommerce.repository.CategoryRepository;
 import nashtech.phucldh.ecommerce.repository.ProductRepository;
-
 import nashtech.phucldh.ecommerce.service.ProductService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -53,30 +43,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ProductConverter productConverter;
-
-    @Override
-    public List<Product> findAllProductForAdmin() throws DataNotFoundException {
-        List<Product> result;
-        try {
-            result = productRepository.findAll();
-        } catch (Exception e) {
-            LOGGER.info("Can't find all product ");
-            throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
-        }
-        return result;
-    }
-
-    @Override
-    public List<Product> findAllForCustomer() throws DataNotFoundException {
-        List<Product> result;
-        try {
-            result = productRepository.findByIsDeletedAndQuantityGreaterThan(false, 0);
-        } catch (Exception e) {
-            LOGGER.info("Can't find all product ");
-            throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
-        }
-        return result;
-    }
 
     @Override
     public List<Product> findByNameOrCategory(String itemname, Long categoryid) throws DataNotFoundException {
@@ -143,6 +109,7 @@ public class ProductServiceImpl implements ProductService {
                 LOGGER.info("Can't find product ");
                 throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
             }
+            product.setCreateDate(productOptional.get().getCreateDate());
             product.setUpdateDate(LocalDateTime.now());
             productRepository.save(product);
             result = true;
@@ -167,15 +134,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Boolean deleteProduct(Long productId) throws DataNotFoundException, DeleteDataFailException {
         boolean result;
-        Optional<Product> optionalProduct = productRepository.findById(productId);
-        Product theProduct = null;
-        if (optionalProduct.isPresent()) {
-            theProduct = optionalProduct.get();
-        } else {
-            LOGGER.info("Can't find product ");
-            throw new DataNotFoundException(ErrorCode.ERR_ROLE_NOT_FOUND);
-        }
         try {
+            Optional<Product> optionalProduct = productRepository.findById(productId);
+            if (!optionalProduct.isPresent()) {
+                LOGGER.info("Can't find product ");
+                throw new DataNotFoundException(ErrorCode.ERR_ROLE_NOT_FOUND);
+            }
             productRepository.deleteProduct(productId);
             result = true;
         } catch (Exception ex) {
@@ -188,15 +152,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Boolean activeProduct(Long productId) throws DataNotFoundException, UpdateDataFailException {
         boolean result;
-        Optional<Product> optionalProduct = productRepository.findById(productId);
-        Product theProduct = null;
-        if (optionalProduct.isPresent()) {
-            theProduct = optionalProduct.get();
-        } else {
-            LOGGER.info("Can't find product ");
-            throw new DataNotFoundException(ErrorCode.ERR_ROLE_NOT_FOUND);
-        }
         try {
+            Optional<Product> optionalProduct = productRepository.findById(productId);
+            if (!optionalProduct.isPresent()) {
+                LOGGER.info("Can't find product ");
+                throw new DataNotFoundException(ErrorCode.ERR_ROLE_NOT_FOUND);
+            }
             productRepository.unDeleteProduct(productId);
             result = true;
         } catch (Exception ex) {
@@ -216,66 +177,6 @@ public class ProductServiceImpl implements ProductService {
             throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
         }
         return product;
-    }
-
-    @Override
-    public int getQuantityOfProduct(Long id) throws DataNotFoundException {
-        Product product;
-        Optional<Product> optionalProduct = productRepository.findById(id);
-        if (optionalProduct.isPresent()) {
-            product = optionalProduct.get();
-        } else {
-            LOGGER.info("Can't find product ");
-            throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
-        }
-        int quantity;
-        try {
-            quantity = productRepository.getQuantityOfProduct(product.getId());
-        } catch (Exception e) {
-            LOGGER.info("Can't update product ");
-            throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
-        }
-        return quantity;
-    }
-
-    @Override
-    public int getCounterOfProduct(Long id) throws DataNotFoundException {
-        Product product;
-        Optional<Product> optionalProduct = productRepository.findById(id);
-        if (optionalProduct.isPresent()) {
-            product = optionalProduct.get();
-        } else {
-            LOGGER.info("Can't find product ");
-            throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
-        }
-        int counter;
-        try {
-            counter = productRepository.getCounterOfProduct(product.getId());
-        } catch (Exception e) {
-            LOGGER.info("Can't get counter product ");
-            throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
-        }
-        return counter;
-    }
-
-    @Override
-    public int getQuantityOfProductForCustomer(Long id) throws DataNotFoundException {
-        Product product;
-        Optional<Product> optionalProduct = productRepository.findById(id);
-        if (optionalProduct.isPresent()) {
-            product = optionalProduct.get();
-        } else {
-            LOGGER.info("Can't find product ");
-            throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
-        }
-        int quantity;
-        try {
-            quantity = productRepository.getQuantityOfProductForCustomer(product.getId());
-        } catch (Exception e) {
-            LOGGER.info("Can't get counter product ");
-            throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
-        }
-        return quantity;
     }
 
     @Override
@@ -301,15 +202,59 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> getPaginationProductForAdmin(int pageNo, String valueSort) {
         Pageable pageable = PageRequest.of(pageNo - 1, 5, Sort.by(valueSort).ascending());
-        Page<Product> page = productRepository.findAll(pageable);
-        return page;
+        return productRepository.findAll(pageable);
     }
 
     @Override
     public Page<Product> getPaginationProductForCustomer(int pageNo, String valueSort) {
         Pageable pageable = PageRequest.of(pageNo - 1, 10, Sort.by(valueSort).ascending());
-        Page<Product> page = productRepository.findByIsDeletedAndQuantityGreaterThan(false, 0, pageable);
-        return page;
+        return productRepository.findByIsDeletedAndQuantityGreaterThan(false, 0, pageable);
+    }
+
+    @Override
+    public ProductDetailDTO getProductDetailByID(Long productId) throws DataNotFoundException {
+        ProductDetailDTO dto;
+        try {
+            Product theProduct = productRepository.getProductByID(productId);
+            if (theProduct == null) {
+                LOGGER.info("Can't find product with the product id: " + productId);
+                throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
+            } else {
+                dto = productConverter.convertProductDetailToDto(theProduct);
+            }
+        } catch (Exception e) {
+            LOGGER.info("Having error when load the product: " + e.getMessage());
+            throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_LOADED_FAIL);
+        }
+        return dto;
+    }
+
+    @Override
+    public List<ProductDetailDTO> getListProductForAdmin(int pageNo, String valueSort) {
+        List<ProductDetailDTO> listDTO;
+        try {
+            Pageable pageable = PageRequest.of(pageNo - 1, 5, Sort.by(valueSort).ascending());
+            Page<Product> page = productRepository.findAll(pageable);
+            listDTO = productConverter.toDTOList(page.getContent());
+        } catch (Exception e) {
+            LOGGER.info("Having error when load the list product: " + e.getMessage());
+            throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_LIST_LOADED_FAIL);
+        }
+        return listDTO;
+    }
+
+    @Override
+    public List<ProductDetailDTO> getListProductForCustomer(int pageNo, String valueSort) {
+        List<ProductDetailDTO> listDTO;
+        try {
+            Pageable pageable = PageRequest.of(pageNo - 1, 10, Sort.by(valueSort).ascending());
+            Page<Product> page = productRepository.findByIsDeletedAndQuantityGreaterThan(false, 0, pageable);
+            listDTO = productConverter.toDTOList(page.getContent());
+        } catch (Exception e) {
+            LOGGER.info("Having error when load the list product: " + e.getMessage());
+            throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_LIST_LOADED_FAIL);
+        }
+        return listDTO;
     }
 
 }

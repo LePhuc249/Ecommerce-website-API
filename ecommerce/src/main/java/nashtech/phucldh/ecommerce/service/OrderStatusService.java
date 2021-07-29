@@ -1,23 +1,24 @@
 package nashtech.phucldh.ecommerce.service;
 
-import nashtech.phucldh.ecommerce.entity.OrderStatus;
-
+import nashtech.phucldh.ecommerce.dto.OrderStatus.OrderStatusDTO;
+import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
 import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
 import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
-
 import java.util.List;
 
 public interface OrderStatusService {
 
-    public List<OrderStatus> findAllStatus() throws DataNotFoundException;
+    List<OrderStatusDTO> findAllStatus() throws DataNotFoundException;
 
-    public OrderStatus getOrderStatusById(Long idStatus) throws DataNotFoundException;
+    OrderStatusDTO getOrderStatusById(Long idStatus) throws DataNotFoundException;
 
-    public Boolean deleteOrderStatus(Long idStatus) throws DataNotFoundException, DeleteDataFailException;
+    Boolean createNewOrderStatus(OrderStatusDTO dto) throws CreateDataFailException;
 
-    public Boolean unDeleteOrderStatus(Long idStatus) throws DataNotFoundException, UpdateDataFailException;
+    Boolean updateOrderStatus(OrderStatusDTO dto) throws UpdateDataFailException;
 
-    public Boolean updateNameOrderStatus(Long idStatus, String newName) throws DataNotFoundException, UpdateDataFailException;
+    Boolean deleteOrderStatus(Long idStatus) throws DataNotFoundException, DeleteDataFailException;
+
+    Boolean unDeleteOrderStatus(Long idStatus) throws DataNotFoundException, UpdateDataFailException;
 
 }

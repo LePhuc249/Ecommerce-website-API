@@ -1,22 +1,20 @@
 package nashtech.phucldh.ecommerce.service;
 
-import nashtech.phucldh.ecommerce.entity.AccountAddress;
-
+import nashtech.phucldh.ecommerce.dto.AccountAddress.AccountAddressDTO;
 import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
 import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
 import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
-
 import java.util.List;
 
 public interface AccountAddressService {
 
-    public List<String> getListAddress(Long id) throws DataNotFoundException;
+    List<AccountAddressDTO> getListAddress(Long id) throws DataNotFoundException;
 
-    public Boolean addNewAddress(AccountAddress address) throws CreateDataFailException;
+    Boolean addNewAddress(AccountAddressDTO dto) throws CreateDataFailException;
 
-    public Boolean updateAddress(AccountAddress address) throws DataNotFoundException, UpdateDataFailException;
+    Boolean updateAddress(AccountAddressDTO dto) throws DataNotFoundException, UpdateDataFailException;
 
-    public Boolean deleteAddress(Long id) throws DataNotFoundException, DeleteDataFailException;
+    Boolean deleteAddress(Long id) throws DataNotFoundException, DeleteDataFailException;
 
 }

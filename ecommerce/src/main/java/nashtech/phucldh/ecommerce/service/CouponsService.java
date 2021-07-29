@@ -1,40 +1,33 @@
 package nashtech.phucldh.ecommerce.service;
 
 import java.util.List;
-
-import nashtech.phucldh.ecommerce.dto.CouponsDTO;
-
+import nashtech.phucldh.ecommerce.dto.Coupons.CouponsDTO;
 import nashtech.phucldh.ecommerce.entity.Coupons;
-
 import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
 import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
 import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
 
-import org.springframework.data.domain.Page;
-
 public interface CouponsService {
 
-    public List<Coupons> findAllCoupons() throws DataNotFoundException;
+    List<Coupons> getListCouponByItem(Long itemID) throws DataNotFoundException;
 
-    public List<Coupons> findByItem(Long itemID) throws DataNotFoundException;
+    Coupons getCouponById(Long id) throws DataNotFoundException;
 
-    public List<Coupons> getListCouponByItem(Long itemID) throws DataNotFoundException;
+    Coupons getCouponByCode(String code) throws DataNotFoundException;
 
-    public Coupons getCouponById(Long id) throws DataNotFoundException;
+    Coupons getCouponCanUseByCode(String code) throws DataNotFoundException;
 
-    public Coupons getCouponByCode(String code) throws DataNotFoundException;
+    Boolean createCoupon(CouponsDTO dtoCoupon) throws CreateDataFailException;
 
-    public Coupons getCouponCanUseByCode(String code) throws DataNotFoundException;
+    Boolean updateCoupon(CouponsDTO dtoCoupon) throws UpdateDataFailException;
 
-    public Boolean createCoupon(CouponsDTO dtoCoupon) throws CreateDataFailException;
+    Boolean deleteCoupon(Long id) throws DataNotFoundException, DeleteDataFailException;
 
-    public Boolean updateCoupon(CouponsDTO dtoCoupon) throws UpdateDataFailException;
+    Boolean unDeleteCoupon(Long id) throws DataNotFoundException, DeleteDataFailException, UpdateDataFailException;
 
-    public Boolean deleteCoupon(Long id) throws DataNotFoundException, DeleteDataFailException;
+    CouponsDTO getCouponsToShow(Long id) throws DataNotFoundException;
 
-    public Boolean unDeleteCoupon(Long id) throws DataNotFoundException, DeleteDataFailException, UpdateDataFailException;
-
-    public Page<Coupons> getPaginationCoupons(int pageNo, String valueSort);
+    List<CouponsDTO> getListCouponsToShow(int pageNo, String valueSort);
 
 }

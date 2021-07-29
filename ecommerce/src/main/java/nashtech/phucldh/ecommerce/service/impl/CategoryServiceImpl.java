@@ -1,34 +1,23 @@
 package nashtech.phucldh.ecommerce.service.impl;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
-
 import nashtech.phucldh.ecommerce.converter.CategoryConverter;
-
-import nashtech.phucldh.ecommerce.dto.CategoryDTO;
-
+import nashtech.phucldh.ecommerce.dto.Category.CategoryDTO;
 import nashtech.phucldh.ecommerce.entity.Category;
-
 import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
 import nashtech.phucldh.ecommerce.exception.DuplicateDataException;
 import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
-
 import nashtech.phucldh.ecommerce.repository.CategoryRepository;
-
 import nashtech.phucldh.ecommerce.service.CategoryService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -87,6 +76,7 @@ public class CategoryServiceImpl implements CategoryService {
                 LOGGER.info("Can't find the category to update ");
                 throw new DataNotFoundException(ErrorCode.ERR_CATEGORY_NOT_FOUND);
             }
+            category.setCreateDate(tempCategory.getCreateDate());
             category.setUpdateDate(LocalDateTime.now());
             categoryRepository.save(category);
             result = true;
@@ -155,22 +145,47 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Page<Category> getPaginationCategory(int pageNo, String valueSort) {
-        Pageable pageable = PageRequest.of(pageNo - 1, 5, Sort.by(valueSort).ascending());
-        Page<Category> page = categoryRepository.findAll(pageable);
-        return page;
+    public CategoryDTO getCategoryToShow(Long id) throws DataNotFoundException {
+        CategoryDTO dto;
+        try {
+            Optional<Category> result = categoryRepository.findById(id);
+            Category theCategory;
+            if (result.isPresent()) {
+                theCategory = result.get();
+            } else {
+                LOGGER.info("Can't find category with id " + id);
+                throw new DataNotFoundException(ErrorCode.ERR_CATEGORY_NOT_FOUND);
+            }
+            dto = categoryConverter.convertCategoryToDto(theCategory) ;
+        } catch (Exception e) {
+            LOGGER.info("Having error when load the category " + e.getMessage());
+            throw new DataNotFoundException(ErrorCode.ERR_CATEGORY_LOADED_FAIL);
+        }
+        return dto;
+    }
+
+    @Override
+    public List<CategoryDTO> getListCategoryToShow(int pageNo, String valueSort) {
+        List<CategoryDTO> listDTO;
+        try {
+            Pageable pageable = PageRequest.of(pageNo - 1, 5, Sort.by(valueSort).ascending());
+            Page<Category> page = categoryRepository.findAll(pageable);
+            listDTO = categoryConverter.toDTOList(page.getContent());
+        } catch (Exception e) {
+            LOGGER.info("Having error when load list category " + e.getMessage());
+            throw new DataNotFoundException(ErrorCode.ERR_CATEGORY_LIST_LOADED_FAIL);
+        }
+        return listDTO;
     }
 
     @Override
     public Category getCategoryByNameAndBrand(String name) throws DataNotFoundException {
-        Category result = categoryRepository.checkExistCategory(name);
-        return result;
+        return categoryRepository.checkExistCategory(name);
     }
 
     @Override
     public Category getCategoryByIdAndBrand(Long id) throws DataNotFoundException {
-        Category result = categoryRepository.checkExistCategoryById(id);
-        return result;
+        return categoryRepository.checkExistCategoryById(id);
     }
 
     @Override

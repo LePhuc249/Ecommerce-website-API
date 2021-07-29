@@ -1,35 +1,24 @@
 package nashtech.phucldh.ecommerce.service.impl;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
-
 import nashtech.phucldh.ecommerce.converter.CouponsConverter;
-
-import nashtech.phucldh.ecommerce.dto.CouponsDTO;
-
+import nashtech.phucldh.ecommerce.dto.Coupons.CouponsDTO;
 import nashtech.phucldh.ecommerce.entity.Coupons;
-
 import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
 import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
 import nashtech.phucldh.ecommerce.exception.DuplicateDataException;
 import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
-
 import nashtech.phucldh.ecommerce.repository.CouponsRepository;
-
 import nashtech.phucldh.ecommerce.service.CouponsService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -44,30 +33,6 @@ public class CouponsServiceImpl implements CouponsService {
 
     @Autowired
     CouponsConverter couponsConverter;
-
-    @Override
-    public List<Coupons> findAllCoupons() throws DataNotFoundException {
-        List<Coupons> theListCoupons = null;
-        try {
-            theListCoupons = couponsRepository.findAll();
-        } catch (Exception ex) {
-            LOGGER.info("Can't find all coupons ");
-            throw new DataNotFoundException(ErrorCode.ERR_COUPONS_NOT_FOUND);
-        }
-        return theListCoupons;
-    }
-
-    @Override
-    public List<Coupons> findByItem(Long itemID) throws DataNotFoundException {
-        List<Coupons> theListCoupons = null;
-        try {
-            couponsRepository.findByProductDiscount(itemID);
-        } catch (Exception ex) {
-            LOGGER.info("Can't find coupon by item " + itemID);
-            throw new DataNotFoundException(ErrorCode.ERR_COUPONS_NOT_FOUND);
-        }
-        return theListCoupons;
-    }
 
     @Override
     public Coupons getCouponByCode(String code) throws DataNotFoundException {
@@ -123,6 +88,7 @@ public class CouponsServiceImpl implements CouponsService {
                 LOGGER.info("Can't find coupon by id " + coupons.getId());
                 throw new DataNotFoundException(ErrorCode.ERR_COUPONS_NOT_FOUND);
             }
+            coupons.setCreateDate(tempCoupons.getCreateDate());
             coupons.setUpdateDate(LocalDateTime.now());
             couponsRepository.save(coupons);
             result = true;
@@ -176,10 +142,37 @@ public class CouponsServiceImpl implements CouponsService {
     }
 
     @Override
-    public Page<Coupons> getPaginationCoupons(int pageNo, String valueSort) {
-        Pageable pageable = PageRequest.of(pageNo - 1, 5, Sort.by(valueSort).ascending());
-        Page<Coupons> page = couponsRepository.findAll(pageable);
-        return page;
+    public CouponsDTO getCouponsToShow(Long id) throws DataNotFoundException {
+        CouponsDTO dto;
+        try {
+            Optional<Coupons> result = couponsRepository.findById(id);
+            Coupons theCoupon;
+            if (result.isPresent()) {
+                theCoupon = result.get();
+            } else {
+                LOGGER.info("Can't find coupon by id " + id);
+                throw new DataNotFoundException(ErrorCode.ERR_COUPONS_NOT_FOUND);
+            }
+            dto = couponsConverter.convertCouponsToDTO(theCoupon);
+        } catch (Exception e) {
+            LOGGER.info("Having error when load the coupons " + e.getMessage());
+            throw new DataNotFoundException(ErrorCode.ERR_COUPONS_LOADED_FAIL);
+        }
+        return dto;
+    }
+
+    @Override
+    public List<CouponsDTO> getListCouponsToShow(int pageNo, String valueSort) {
+        List<CouponsDTO> listDTO;
+        try {
+            Pageable pageable = PageRequest.of(pageNo - 1, 5, Sort.by(valueSort).ascending());
+            Page<Coupons> page = couponsRepository.findAll(pageable);
+            listDTO = couponsConverter.toDTOList(page.getContent());
+        } catch (Exception e) {
+            LOGGER.info("Having error when load list coupons " + e.getMessage());
+            throw new DataNotFoundException(ErrorCode.ERR_COUPONS_LIST_LOADED_FAIL);
+        }
+        return listDTO;
     }
 
     @Override

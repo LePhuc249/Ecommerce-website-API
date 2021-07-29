@@ -1,36 +1,28 @@
 package nashtech.phucldh.ecommerce.service;
 
 import java.util.List;
-
-import nashtech.phucldh.ecommerce.dto.AccountOrderDTO;
+import nashtech.phucldh.ecommerce.dto.AccountOrder.AccountOrderDTO;
 import nashtech.phucldh.ecommerce.entity.AccountOrder;
-
 import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
 import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
 
 public interface AccountOrderService {
 
-    public List<AccountOrder> findAll() throws DataNotFoundException;
+    List<AccountOrder> findAll() throws DataNotFoundException;
 
-    public List<AccountOrder> findOrderOfCustomer(Long accountID) throws DataNotFoundException;
+    AccountOrder getAccountOrder(Long accountId, int totalPrice) throws DataNotFoundException;
 
-    public List<String> listUsedCoupons(Long id) throws DataNotFoundException;
+    Boolean createNewOrder(AccountOrderDTO newUserOrderDTO) throws CreateDataFailException;
 
-    public AccountOrder getOrderById(Long orderID) throws DataNotFoundException;
+    Boolean updateStatusToFinish(Long orderId) throws UpdateDataFailException;
 
-    public AccountOrder getAccountOrder(Long accountId, int totalPrice) throws DataNotFoundException;
+    Boolean updateStatusToCancel(Long orderId) throws UpdateDataFailException;
 
-    public Boolean createNewOrder(AccountOrderDTO newUserOrderDTO) throws CreateDataFailException;
+    Boolean updateStatusToConfirm(Long orderId) throws UpdateDataFailException;
 
-    public Boolean updateStatusToFinish(Long orderId) throws UpdateDataFailException;
+    Boolean updateStatusToProcess(Long orderId) throws UpdateDataFailException;
 
-    public Boolean updateStatusToCancel(Long orderId) throws UpdateDataFailException;
-
-    public Boolean updateStatusToConfirm(Long orderId) throws UpdateDataFailException;
-
-    public Boolean updateStatusToProcess(Long orderId) throws UpdateDataFailException;
-
-    public Long getStatusOfOrder(Long orderID) throws DataNotFoundException;
+    Long getStatusOfOrder(Long orderID) throws DataNotFoundException;
 
 }

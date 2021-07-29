@@ -1,35 +1,26 @@
 package nashtech.phucldh.ecommerce.service.impl;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
-
 import nashtech.phucldh.ecommerce.converter.OrganizationAddressConverter;
-
-import nashtech.phucldh.ecommerce.dto.OrganizationAddressDTO;
-
+import nashtech.phucldh.ecommerce.dto.OrganizationAddress.OrganizationAddressDTO;
 import nashtech.phucldh.ecommerce.entity.OrganizationAddress;
-
 import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
 import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
 import nashtech.phucldh.ecommerce.exception.DuplicateDataException;
 import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
-
 import nashtech.phucldh.ecommerce.repository.OrganizationAddressRepository;
-
 import nashtech.phucldh.ecommerce.service.OrganizationAddressService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,18 +55,6 @@ public class OrganizationAddressServiceImpl implements OrganizationAddressServic
             throw new DataNotFoundException(ErrorCode.ERR_ORGANIZATION_ADDRESS_NOT_FOUND);
         }
         return organizationAddress;
-    }
-
-    @Override
-    public List<OrganizationAddress> getListAddressOfOrganization(Long id) throws DataNotFoundException {
-        List<OrganizationAddress> listOrganizationAddress;
-        try {
-            listOrganizationAddress = organizationAddressRepository.getAddressByOrganization(id);
-        } catch (Exception e) {
-            LOGGER.info("Can't find organization address ");
-            throw new DataNotFoundException(ErrorCode.ERR_ORGANIZATION_ADDRESS_NOT_FOUND);
-        }
-        return listOrganizationAddress;
     }
 
     @Override
@@ -156,10 +135,39 @@ public class OrganizationAddressServiceImpl implements OrganizationAddressServic
     }
 
     @Override
-    public Page<OrganizationAddress> getPaginationOrganizationAddress(int pageNo, String valueSort) {
-        Pageable pageable = PageRequest.of(pageNo - 1, 5, Sort.by(valueSort).ascending());
-        Page<OrganizationAddress> page = organizationAddressRepository.findAll(pageable);
-        return page;
+    public List<OrganizationAddressDTO> getOrganizationAddressToShow(Long id) throws DataNotFoundException {
+        List<OrganizationAddressDTO> listDTO;
+        try {
+            List<OrganizationAddress> listOrganizationAddress = organizationAddressRepository.getAddressByOrganization(id);
+            if (listOrganizationAddress.size() > 0) {
+                listDTO = new ArrayList<>();
+                for (OrganizationAddress address : listOrganizationAddress) {
+                    OrganizationAddressDTO dto = organizationAddressConverter.convertOrganizationToDTO(address);
+                    listDTO.add(dto);
+                }
+            } else {
+                LOGGER.info("Can't find the address organization id: " + id);
+                throw new DataNotFoundException(ErrorCode.ERR_ORGANIZATION_ADDRESS_NOT_FOUND);
+            }
+        } catch (Exception e) {
+            LOGGER.info("Having error when load the list address of organization: " + e.getMessage());
+            throw new DataNotFoundException(ErrorCode.ERR_ORGANIZATION_ADDRESS_LIST_LOADED_FAIL);
+        }
+        return listDTO;
+    }
+
+    @Override
+    public List<OrganizationAddressDTO> getListAllOrganizationAddressToShow(int pageNo, String valueSort) {
+        List<OrganizationAddressDTO> listDTO;
+        try {
+            Pageable pageable = PageRequest.of(pageNo - 1, 5, Sort.by(valueSort).ascending());
+            Page<OrganizationAddress> page = organizationAddressRepository.findAll(pageable);
+            listDTO = organizationAddressConverter.toDTOList(page.getContent());
+        } catch (Exception e) {
+            LOGGER.info("Having error when load the list address of organization: " + e.getMessage());
+            throw new DataNotFoundException(ErrorCode.ERR_ORGANIZATION_ADDRESS_LIST_LOADED_FAIL);
+        }
+        return listDTO;
     }
 
 }

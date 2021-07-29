@@ -2,22 +2,17 @@ package nashtech.phucldh.ecommerce.service.impl;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
 import nashtech.phucldh.ecommerce.converter.AccountOrderConverter;
-import nashtech.phucldh.ecommerce.dto.AccountOrderDTO;
+import nashtech.phucldh.ecommerce.dto.AccountOrder.AccountOrderDTO;
 import nashtech.phucldh.ecommerce.entity.AccountOrder;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
 import nashtech.phucldh.ecommerce.repository.AccountOrderRepository;
 import nashtech.phucldh.ecommerce.service.AccountOrderService;
-
 import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
 import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -34,81 +29,43 @@ public class AccountOrderServiceImpl implements AccountOrderService {
 
     @Override
     public List<AccountOrder> findAll() throws DataNotFoundException {
-        List<AccountOrder> theListUserorder = null;
+        List<AccountOrder> theListUserorder;
         try {
             theListUserorder = userorderRepository.findAll();
-        } catch (Exception ex) {
-            LOGGER.info("Can't find all order");
-            throw new DataNotFoundException(ErrorCode.ERR_ACCOUNT_ORDER_NOT_FOUND);
+        } catch (Exception e) {
+            LOGGER.info("Having error when load the list order: " + e.getMessage());
+            throw new DataNotFoundException(ErrorCode.ERR_ACCOUNT_ORDER_LIST_LOADED_FAIL);
         }
         return theListUserorder;
     }
 
     @Override
-    public List<AccountOrder> findOrderOfCustomer(Long accountID) throws DataNotFoundException {
-        List<AccountOrder> result = null;
-        try {
-            result = userorderRepository.findByCustomerid(accountID);
-        } catch (Exception ex) {
-            LOGGER.info("Can't find all order of Customer id: " + accountID);
-            throw new DataNotFoundException(ErrorCode.ERR_ACCOUNT_ORDER_NOT_FOUND);
-        }
-        return result;
-    }
-
-    @Override
-    public List<String> listUsedCoupons(Long id) throws DataNotFoundException {
-        List<String> result = null;
-        try {
-            result = userorderRepository.findByCouponid(id);
-        } catch (Exception ex) {
-            LOGGER.info("Can't find the list coupons have been used");
-            throw new DataNotFoundException(ErrorCode.ERR_ACCOUNT_ORDER_NOT_FOUND);
-        }
-        return result;
-    }
-
-    @Override
     public Boolean createNewOrder(AccountOrderDTO newUserOrderDTO) throws CreateDataFailException {
-        boolean result = false;
+        boolean result;
         try {
             AccountOrder order = accountOrderConverter.convertAccountOrderToEntity(newUserOrderDTO);
             userorderRepository.save(order);
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't create a new order");
+        } catch (Exception e) {
+            LOGGER.info("Having error when create a new order: " + e.getMessage());
             throw new CreateDataFailException(ErrorCode.ERR_CREATE_ACCOUNT_ORDER_FAIL);
         }
         return result;
     }
 
     @Override
-    public AccountOrder getOrderById(Long orderID) throws DataNotFoundException {
-        Optional<AccountOrder> result = userorderRepository.findById(orderID);
-        AccountOrder theUserorder = null;
-        if (result.isPresent()) {
-            theUserorder = result.get();
-        } else {
-            LOGGER.info("Can't find order by the id " + orderID);
-            throw new DataNotFoundException(ErrorCode.ERR_ROLE_NOT_FOUND);
-        }
-        return theUserorder;
-    }
-
-    @Override
     public AccountOrder getAccountOrder(Long accountId, int totalPrice) throws DataNotFoundException {
-        AccountOrder order = userorderRepository.getAccountOrderByAccountAndTotalPrice(accountId, totalPrice);
-        return order;
+        return userorderRepository.getAccountOrderByAccountAndTotalPrice(accountId, totalPrice);
     }
 
     @Override
     public Boolean updateStatusToFinish(Long orderId) throws UpdateDataFailException {
         boolean result = false;
-        int value = 0;
+        int value;
         try {
             value = userorderRepository.updateStatusToFinish(orderId);
         } catch (Exception ex) {
-            LOGGER.info("Can't update status order " + orderId + " To Finish");
+            LOGGER.info("Having error when update status order " + orderId + " To Finish");
             throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_ACCOUNT_ORDER_FAIL);
         }
         if (value > 0) {
@@ -120,11 +77,11 @@ public class AccountOrderServiceImpl implements AccountOrderService {
     @Override
     public Boolean updateStatusToCancel(Long orderId) throws UpdateDataFailException {
         boolean result = false;
-        int value = 0;
+        int value;
         try {
             value = userorderRepository.updateStatusToCancel(orderId);
         } catch (Exception ex) {
-            LOGGER.info("Can't update status order " + orderId + " To Cancel");
+            LOGGER.info("Having error when update status order " + orderId + " To Cancel");
             throw new UpdateDataFailException(ErrorCode.ERR_DELETE_ACCOUNT_ORDER_FAIL);
         }
         if (value > 0) {
@@ -136,11 +93,11 @@ public class AccountOrderServiceImpl implements AccountOrderService {
     @Override
     public Boolean updateStatusToConfirm(Long orderId) throws UpdateDataFailException {
         boolean result = false;
-        int value = 0;
+        int value;
         try {
             value = userorderRepository.updateStatusToConfirm(orderId);
         } catch (Exception ex) {
-            LOGGER.info("Can't update status order " + orderId + " To Confirm");
+            LOGGER.info("Having error when update status order " + orderId + " To Confirm");
             throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_ACCOUNT_ORDER_FAIL);
         }
         if (value > 0) {
@@ -152,11 +109,11 @@ public class AccountOrderServiceImpl implements AccountOrderService {
     @Override
     public Boolean updateStatusToProcess(Long orderId) throws UpdateDataFailException {
         boolean result = false;
-        int value = 0;
+        int value;
         try {
             value = userorderRepository.updateStatusToProcessing(orderId);
         } catch (Exception ex) {
-            LOGGER.info("Can't update status order " + orderId + " To Process");
+            LOGGER.info("Having error when update status order " + orderId + " To Process");
             throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_ACCOUNT_ORDER_FAIL);
         }
         if (value > 0) {
@@ -167,7 +124,7 @@ public class AccountOrderServiceImpl implements AccountOrderService {
 
     @Override
     public Long getStatusOfOrder(Long orderID) throws DataNotFoundException {
-        AccountOrder order = null;
+        AccountOrder order;
         Optional<AccountOrder> orderOptional = userorderRepository.findById(orderID);
         if (orderOptional.isPresent()) {
             order = orderOptional.get();
@@ -175,8 +132,7 @@ public class AccountOrderServiceImpl implements AccountOrderService {
             LOGGER.info("Can't get status order " + orderID);
             throw new DataNotFoundException(ErrorCode.ERR_ACCOUNT_ORDER_NOT_FOUND);
         }
-        Long status = order.getStatus();
-        return status;
+        return order.getStatus();
     }
 
 }

@@ -1,37 +1,25 @@
 package nashtech.phucldh.ecommerce.service.impl;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
-
 import nashtech.phucldh.ecommerce.converter.BrandConverter;
-
-import nashtech.phucldh.ecommerce.dto.BrandDTO;
-
+import nashtech.phucldh.ecommerce.dto.Brand.BrandDTO;
 import nashtech.phucldh.ecommerce.entity.Brand;
-import nashtech.phucldh.ecommerce.entity.Organization;
-
 import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
 import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
 import nashtech.phucldh.ecommerce.exception.DuplicateDataException;
 import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
-
 import nashtech.phucldh.ecommerce.repository.BrandRepository;
 import nashtech.phucldh.ecommerce.repository.OrganizationRepository;
-
 import nashtech.phucldh.ecommerce.service.BrandService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -50,18 +38,6 @@ public class BrandServiceImpl implements BrandService {
     BrandConverter brandConverter;
 
     @Override
-    public List<Brand> getAllBrand() throws DataNotFoundException {
-        List<Brand> brandList;
-        try {
-            brandList = brandRepository.findAll();
-        } catch (Exception e) {
-            LOGGER.info("Can't find all brand");
-            throw new DataNotFoundException(ErrorCode.ERR_BRAND_NOT_FOUND);
-        }
-        return brandList;
-    }
-
-    @Override
     public Brand getBrand(Long id) throws DataNotFoundException {
         Brand brand = brandRepository.getBrandByIdBrand(id);
         if (brand == null) {
@@ -73,33 +49,12 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public Brand getBrandByName(String name) throws DataNotFoundException {
-        Brand brand = null;
+        Brand brand;
         Optional<Brand> brandOptional = brandRepository.findByName(name);
         if (brandOptional.isPresent()) {
             brand = brandOptional.get();
         } else {
             LOGGER.info("Can't find brand by name: " + name);
-            throw new DataNotFoundException(ErrorCode.ERR_BRAND_NOT_FOUND);
-        }
-        return brand;
-    }
-
-    @Override
-    public Brand getBrandByOrganization(Long organizationId) throws DataNotFoundException {
-        Organization organization;
-        Optional<Organization> organizationOptional = organizationRepository.findById(organizationId);
-        if (organizationOptional.isPresent()) {
-            organization = organizationOptional.get();
-        } else {
-            LOGGER.info("Can't find organization by id: " + organizationId);
-            throw new DataNotFoundException(ErrorCode.ERR_ORGANIZATION_NOT_FOUND);
-        }
-        Brand brand;
-        Optional<Brand> brandOptional = brandRepository.findByOrganization(organization);
-        if (brandOptional.isPresent()) {
-            brand = brandOptional.get();
-        } else {
-            LOGGER.info("Can't find brand by organization id: " + organizationId);
             throw new DataNotFoundException(ErrorCode.ERR_BRAND_NOT_FOUND);
         }
         return brand;
@@ -183,10 +138,34 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public Page<Brand> getPaginationBrand(int pageNo, String valueSort) {
-        Pageable pageable = PageRequest.of(pageNo - 1, 5, Sort.by(valueSort).ascending());
-        Page<Brand> page = brandRepository.findAll(pageable);
-        return page;
+    public BrandDTO getBrandToShow(Long id) throws DataNotFoundException {
+        BrandDTO dto;
+        try {
+            Brand brand = brandRepository.getBrandByIdBrand(id);
+            if (brand == null) {
+                LOGGER.info("Can't find brand by id " + id);
+                throw new DataNotFoundException(ErrorCode.ERR_BRAND_NOT_FOUND);
+            }
+            dto = brandConverter.convertBrandToDTO(brand);
+        } catch (Exception e) {
+            LOGGER.info("Having error when load the brand " + e.getMessage());
+            throw new DataNotFoundException(ErrorCode.ERR_BRAND_LOADED_FAIL);
+        }
+        return dto;
+    }
+
+    @Override
+    public List<BrandDTO> getBrandListToShow(int pageNo, String valueSort) {
+        List<BrandDTO> listDTO;
+        try {
+            Pageable pageable = PageRequest.of(pageNo - 1, 5, Sort.by(valueSort).ascending());
+            Page<Brand> page = brandRepository.findAll(pageable);
+            listDTO = brandConverter.toDTOList(page.getContent());
+        } catch (Exception e) {
+            LOGGER.info("Having error when load list brand " + e.getMessage());
+            throw new DataNotFoundException(ErrorCode.ERR_BRAND_LIST_LOADED_FAIL);
+        }
+        return listDTO;
     }
 
 }

@@ -1,34 +1,24 @@
 package nashtech.phucldh.ecommerce.service.impl;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
-
 import nashtech.phucldh.ecommerce.converter.OrganizationConverter;
-
-import nashtech.phucldh.ecommerce.dto.OrganizationDTO;
+import nashtech.phucldh.ecommerce.dto.Organization.OrganizationDTO;
 import nashtech.phucldh.ecommerce.entity.Organization;
-
 import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
 import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
 import nashtech.phucldh.ecommerce.exception.DuplicateDataException;
 import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
-
 import nashtech.phucldh.ecommerce.repository.OrganizationRepository;
-
 import nashtech.phucldh.ecommerce.service.OrganizationService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -122,7 +112,7 @@ public class OrganizationServiceImpl implements OrganizationService {
                 LOGGER.info("Can't find organization ");
                 throw new DataNotFoundException(ErrorCode.ERR_ORGANIZATION_NOT_FOUND);
             }
-            organization.setCreateDate(organizationDTO.getCreateDate());
+            organization.setCreateDate(tempOrganization.getCreateDate());
             organization.setUpdateDate(LocalDateTime.now());
             organizationRepository.save(organization);
             result = true;
@@ -136,15 +126,12 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public Boolean deleteOrganization(Long id) throws DataNotFoundException, DeleteDataFailException {
         boolean result;
-        Organization organization = null;
-        Optional<Organization> organizationOptional = organizationRepository.findById(id);
-        if (organizationOptional.isPresent()) {
-            organization = organizationOptional.get();
-        } else {
-            LOGGER.info("Can't find organization ");
-            throw new DataNotFoundException(ErrorCode.ERR_ORGANIZATION_NOT_FOUND);
-        }
         try {
+            Optional<Organization> organizationOptional = organizationRepository.findById(id);
+            if (!organizationOptional.isPresent()) {
+                LOGGER.info("Can't find organization ");
+                throw new DataNotFoundException(ErrorCode.ERR_ORGANIZATION_NOT_FOUND);
+            }
             organizationRepository.deleteOrganization(id);
             result = true;
         } catch (Exception ex) {
@@ -157,15 +144,12 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public Boolean activeOrganization(Long id) throws DataNotFoundException, UpdateDataFailException {
         boolean result;
-        Organization organization = null;
-        Optional<Organization> organizationOptional = organizationRepository.findById(id);
-        if (organizationOptional.isPresent()) {
-            organization = organizationOptional.get();
-        } else {
-            LOGGER.info("Can't find organization ");
-            throw new DataNotFoundException(ErrorCode.ERR_ORGANIZATION_NOT_FOUND);
-        }
         try {
+            Optional<Organization> organizationOptional = organizationRepository.findById(id);
+            if (!organizationOptional.isPresent()) {
+                LOGGER.info("Can't find organization ");
+                throw new DataNotFoundException(ErrorCode.ERR_ORGANIZATION_NOT_FOUND);
+            }
             organizationRepository.unDeleteOrganization(id);
             result = true;
         } catch (Exception ex) {
@@ -177,23 +161,43 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public Long getStatusOfOrganization(Long id) throws DataNotFoundException {
-        Organization organization = null;
         Optional<Organization> imageOptional = organizationRepository.findById(id);
-        if (imageOptional.isPresent()) {
-            organization = imageOptional.get();
-        } else {
+        if (!imageOptional.isPresent())  {
             LOGGER.info("Can't find organization ");
             throw new DataNotFoundException(ErrorCode.ERR_ORGANIZATION_NOT_FOUND);
         }
-        Long status = organizationRepository.getStatusOfOrganization(id);
-        return status;
+        return organizationRepository.getStatusOfOrganization(id);
     }
 
     @Override
-    public Page<Organization> getPaginationOrganization(int pageNo, String valueSort) {
-        Pageable pageable = PageRequest.of(pageNo - 1, 5, Sort.by(valueSort).ascending());
-        Page<Organization> page = organizationRepository.findAll(pageable);
-        return page;
+    public OrganizationDTO getOrganizationToShowByID(Long id) throws DataNotFoundException {
+        OrganizationDTO dto;
+        try {
+            Organization organization = organizationRepository.getOrganizationByOrganizationId(id);
+            if (organization == null) {
+                LOGGER.info("Can't find organization with organization id: " + id);
+                throw new DataNotFoundException(ErrorCode.ERR_ORGANIZATION_NOT_FOUND);
+            }
+            dto = organizationConverter.convertOrganizationToDTO(organization);
+        } catch(Exception e) {
+            LOGGER.info("Having error when load organization: " + e.getMessage());
+            throw new DataNotFoundException(ErrorCode.ERR_ORGANIZATION_LOADED_FAIL);
+        }
+        return dto;
+    }
+
+    @Override
+    public List<OrganizationDTO> getOrganizationListToShowByID(int pageNo, String valueSort) throws DataNotFoundException {
+        List<OrganizationDTO> listDTO;
+        try {
+            Pageable pageable = PageRequest.of(pageNo - 1, 5, Sort.by(valueSort).ascending());
+            Page<Organization> page = organizationRepository.findAll(pageable);
+            listDTO = organizationConverter.toDTOList(page.getContent());
+        } catch (Exception e) {
+            LOGGER.info("Having error when load list organization: " + e.getMessage());
+            throw new DataNotFoundException(ErrorCode.ERR_ORGANIZATION_LIST_LOADED_FAIL);
+        }
+        return listDTO;
     }
 
 }

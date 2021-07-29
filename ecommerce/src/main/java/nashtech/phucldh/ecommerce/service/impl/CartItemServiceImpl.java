@@ -1,27 +1,18 @@
 package nashtech.phucldh.ecommerce.service.impl;
 
 import nashtech.phucldh.ecommerce.constants.ErrorCode;
-
 import nashtech.phucldh.ecommerce.entity.CartItem;
-
 import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
 import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
 import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
-
 import nashtech.phucldh.ecommerce.repository.CartItemRepository;
-
 import nashtech.phucldh.ecommerce.service.CartItemService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CartItemServiceImpl implements CartItemService {
@@ -30,18 +21,6 @@ public class CartItemServiceImpl implements CartItemService {
 
     @Autowired
     CartItemRepository cartItemRepository;
-
-    @Override
-    public List<CartItem> findAllItem() throws DataNotFoundException {
-        List<CartItem> cartItem;
-        try {
-            cartItem = cartItemRepository.findAll();
-        } catch (Exception e) {
-            LOGGER.info("Can't find all item cart ");
-            throw new DataNotFoundException(ErrorCode.ERR_ITEM_CART_NOT_FOUND);
-        }
-        return cartItem;
-    }
 
     @Override
     public List<CartItem> getListItemOfCart(Long cartID) throws DataNotFoundException {
@@ -120,27 +99,6 @@ public class CartItemServiceImpl implements CartItemService {
         } catch (Exception e) {
             LOGGER.info("Can't update item in cart with item id " + itemID);
             throw new DeleteDataFailException(ErrorCode.ERR_REMOVE_ITEM_CART_FAIL);
-        }
-        return result;
-    }
-
-    @Override
-    public Boolean updateQuantityItemInCart(Long id, int quantity) throws DataNotFoundException, UpdateDataFailException {
-        boolean result;
-        CartItem cart = null;
-        Optional<CartItem> cartItemOptional = cartItemRepository.findById(id);
-        if (cartItemOptional.isPresent()) {
-            cart = cartItemOptional.get();
-        } else {
-            LOGGER.info("Can't find cart item with id " + id);
-            throw new DataNotFoundException(ErrorCode.ERR_ITEM_CART_NOT_FOUND);
-        }
-        try {
-            cartItemRepository.updateItemQuantity(id, quantity);
-            result = true;
-        } catch (Exception e) {
-            LOGGER.info("Can't update item quantity in cart with item id " + id);
-            throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_CART_FAIL);
         }
         return result;
     }
