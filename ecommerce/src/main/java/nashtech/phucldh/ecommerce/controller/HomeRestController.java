@@ -62,10 +62,14 @@ public class HomeRestController {
     public ResponseEntity<ResponseDTO> getProductList(@PathVariable("page") int pageNo) {
         ResponseDTO response = new ResponseDTO();
         try {
-            Page<Product> page = productService.getPaginationProductForCustomer(pageNo, "name");
-            List<ProductDetailDTO> listDTO = productConverter.toDTOList(page.getContent());
-            response.setData(listDTO);
-            response.setSuccessCode(SuccessCode.PRODUCT_LIST_LOADED_SUCCESS);
+            List<ProductDetailDTO> listDTO = productService.getListProductForCustomer(pageNo, "name");
+            if (listDTO.size() > 0) {
+                response.setData(listDTO);
+                response.setSuccessCode(SuccessCode.PRODUCT_LIST_LOADED_SUCCESS);
+            } else {
+                response.setData(false);
+                response.setErrorCode(ErrorCode.ERR_PRODUCT_LIST_EMPTY);
+            }
         } catch (Exception ex) {
             response.setErrorCode(ErrorCode.ERR_PRODUCT_NOT_FOUND);
             throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
