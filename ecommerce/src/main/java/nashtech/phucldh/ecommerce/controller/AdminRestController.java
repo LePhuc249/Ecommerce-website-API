@@ -236,14 +236,14 @@ public class AdminRestController {
             boolean result = paymentMethodService.createNewPaymentMethod(dto);
             if (result) {
                 response.setData(true);
-                response.setSuccessCode(SuccessCode.ORDER_STATUS_CREATE_SUCCESS);
+                response.setSuccessCode(SuccessCode.PAYMENT_METHOD_CREATE_SUCCESS);
             } else {
                 response.setData(false);
-                response.setErrorCode(ErrorCode.ERR_CREATE_ORDER_STATUS_FAIL);
+                response.setErrorCode(ErrorCode.ERR_CREATE_PAYMENT_METHOD_FAIL);
             }
         } catch (Exception e) {
-            response.setErrorCode(ErrorCode.ERR_CREATE_ORDER_STATUS_FAIL);
-            throw new CreateDataFailException(ErrorCode.ERR_CREATE_ORDER_STATUS_FAIL);
+            response.setErrorCode(ErrorCode.ERR_CREATE_PAYMENT_METHOD_FAIL);
+            throw new CreateDataFailException(ErrorCode.ERR_CREATE_PAYMENT_METHOD_FAIL);
         }
         return ResponseEntity.ok().body(response);
     }
@@ -255,14 +255,14 @@ public class AdminRestController {
             boolean result = paymentMethodService.updatePaymentMethod(dto);
             if (result) {
                 response.setData(true);
-                response.setSuccessCode(SuccessCode.ORDER_STATUS_UPDATE_SUCCESS);
+                response.setSuccessCode(SuccessCode.PAYMENT_METHOD_UPDATE_SUCCESS);
             } else {
                 response.setData(false);
-                response.setErrorCode(ErrorCode.ERR_UPDATE_ORDER_STATUS_FAIL);
+                response.setErrorCode(ErrorCode.ERR_UPDATE_PAYMENT_METHOD_FAIL);
             }
         } catch (Exception e) {
-            response.setErrorCode(ErrorCode.ERR_UPDATE_ORDER_STATUS_FAIL);
-            throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_ORDER_STATUS_FAIL);
+            response.setErrorCode(ErrorCode.ERR_UPDATE_PAYMENT_METHOD_FAIL);
+            throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_PAYMENT_METHOD_FAIL);
         }
         return ResponseEntity.ok().body(response);
     }
@@ -275,14 +275,14 @@ public class AdminRestController {
             boolean result = paymentMethodService.deletePayment(paymentId);
             if (result) {
                 response.setData(true);
-                response.setSuccessCode(SuccessCode.ORDER_STATUS_DELETE_SUCCESS);
+                response.setSuccessCode(SuccessCode.PAYMENT_METHOD_DELETE_SUCCESS);
             } else {
                 response.setData(false);
-                response.setErrorCode(ErrorCode.ERR_DELETE_ORDER_STATUS_FAIL);
+                response.setErrorCode(ErrorCode.ERR_DELETE_PAYMENT_METHOD_FAIL);
             }
         } catch (Exception e) {
-            response.setErrorCode(ErrorCode.ERR_DELETE_ORDER_STATUS_FAIL);
-            throw new DeleteDataFailException(ErrorCode.ERR_DELETE_ORDER_STATUS_FAIL);
+            response.setErrorCode(ErrorCode.ERR_DELETE_PAYMENT_METHOD_FAIL);
+            throw new DeleteDataFailException(ErrorCode.ERR_DELETE_PAYMENT_METHOD_FAIL);
         }
         return ResponseEntity.ok().body(response);
     }
@@ -295,14 +295,14 @@ public class AdminRestController {
             boolean result = paymentMethodService.unDeletePayment(paymentId);
             if (result) {
                 response.setData(true);
-                response.setSuccessCode(SuccessCode.ORDER_STATUS_ACTIVE_SUCCESS);
+                response.setSuccessCode(SuccessCode.PAYMENT_METHOD_ACTIVE_SUCCESS);
             } else {
                 response.setData(false);
-                response.setErrorCode(ErrorCode.ERR_UPDATE_ORDER_STATUS_FAIL);
+                response.setErrorCode(ErrorCode.ERR_UPDATE_PAYMENT_METHOD_FAIL);
             }
         } catch (Exception e) {
-            response.setErrorCode(ErrorCode.ERR_UPDATE_ORDER_STATUS_FAIL);
-            throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_ORDER_STATUS_FAIL);
+            response.setErrorCode(ErrorCode.ERR_UPDATE_PAYMENT_METHOD_FAIL);
+            throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_PAYMENT_METHOD_FAIL);
         }
         return ResponseEntity.ok().body(response);
     }
@@ -314,10 +314,10 @@ public class AdminRestController {
             Long paymentId = Long.valueOf(String.valueOf(id));
             PaymentMethodDTO payment = paymentMethodService.getPaymentmethodById(paymentId);
             response.setData(payment);
-            response.setSuccessCode(SuccessCode.ORDER_STATUS_LOADED_SUCCESS);
+            response.setSuccessCode(SuccessCode.PAYMENT_METHOD_LOADED_SUCCESS);
         } catch (Exception e) {
-            response.setErrorCode(ErrorCode.ERR_ORDER_STATUS_LOADED_FAIL);
-            throw new DataNotFoundException(ErrorCode.ERR_ORDER_STATUS_LOADED_FAIL);
+            response.setErrorCode(ErrorCode.ERR_PAYMENT_METHOD_LOADED_FAIL);
+            throw new DataNotFoundException(ErrorCode.ERR_PAYMENT_METHOD_LOADED_FAIL);
         }
         return ResponseEntity.ok().body(response);
     }
@@ -328,10 +328,10 @@ public class AdminRestController {
         try {
             List<PaymentMethodDTO> list = paymentMethodService.findAllPayment();
             response.setData(list);
-            response.setSuccessCode(SuccessCode.ORDER_STATUS_LIST_LOADED_SUCCESS);
+            response.setSuccessCode(SuccessCode.PAYMENT_METHOD_LIST_LOADED_SUCCESS);
         } catch (Exception e) {
-            response.setErrorCode(ErrorCode.ERR_ORDER_STATUS_LIST_LOADED_FAIL);
-            throw new DataNotFoundException(ErrorCode.ERR_ORDER_STATUS_LIST_LOADED_FAIL);
+            response.setErrorCode(ErrorCode.ERR_PAYMENT_METHOD_LIST_LOADED_FAIL);
+            throw new DataNotFoundException(ErrorCode.ERR_PAYMENT_METHOD_LIST_LOADED_FAIL);
         }
         return ResponseEntity.ok().body(response);
     }
@@ -343,14 +343,14 @@ public class AdminRestController {
             boolean result = accountStatusService.createNewAccountStatus(dto);
             if (result) {
                 response.setData(true);
-                response.setSuccessCode(SuccessCode.ORDER_STATUS_CREATE_SUCCESS);
+                response.setSuccessCode(SuccessCode.ACCOUNT_STATUS_CREATE_SUCCESS);
             } else {
                 response.setData(false);
-                response.setErrorCode(ErrorCode.ERR_CREATE_ORDER_STATUS_FAIL);
+                response.setErrorCode(ErrorCode.ERR_CREATE_ACCOUNT_STATUS_FAIL);
             }
         } catch (Exception e) {
-            response.setErrorCode(ErrorCode.ERR_CREATE_ORDER_STATUS_FAIL);
-            throw new CreateDataFailException(ErrorCode.ERR_CREATE_ORDER_STATUS_FAIL);
+            response.setErrorCode(ErrorCode.ERR_CREATE_ACCOUNT_STATUS_FAIL);
+            throw new CreateDataFailException(ErrorCode.ERR_CREATE_ACCOUNT_STATUS_FAIL);
         }
         return ResponseEntity.ok().body(response);
     }
@@ -362,14 +362,14 @@ public class AdminRestController {
             boolean result = accountStatusService.updateAccountStatus(dto);
             if (result) {
                 response.setData(true);
-                response.setSuccessCode(SuccessCode.ORDER_STATUS_UPDATE_SUCCESS);
+                response.setSuccessCode(SuccessCode.ACCOUNT_STATUS_UPDATE_SUCCESS);
             } else {
                 response.setData(false);
-                response.setErrorCode(ErrorCode.ERR_UPDATE_ORDER_STATUS_FAIL);
+                response.setErrorCode(ErrorCode.ERR_UPDATE_ACCOUNT_STATUS_FAIL);
             }
         } catch (Exception e) {
-            response.setErrorCode(ErrorCode.ERR_UPDATE_ORDER_STATUS_FAIL);
-            throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_ORDER_STATUS_FAIL);
+            response.setErrorCode(ErrorCode.ERR_UPDATE_ACCOUNT_STATUS_FAIL);
+            throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_ACCOUNT_STATUS_FAIL);
         }
         return ResponseEntity.ok().body(response);
     }
@@ -382,14 +382,14 @@ public class AdminRestController {
             boolean result = accountStatusService.deleteAccountStatus(paymentId);
             if (result) {
                 response.setData(true);
-                response.setSuccessCode(SuccessCode.ORDER_STATUS_DELETE_SUCCESS);
+                response.setSuccessCode(SuccessCode.ACCOUNT_STATUS_DELETE_SUCCESS);
             } else {
                 response.setData(false);
-                response.setErrorCode(ErrorCode.ERR_DELETE_ORDER_STATUS_FAIL);
+                response.setErrorCode(ErrorCode.ERR_DELETE_ACCOUNT_STATUS_FAIL);
             }
         } catch (Exception e) {
-            response.setErrorCode(ErrorCode.ERR_DELETE_ORDER_STATUS_FAIL);
-            throw new DeleteDataFailException(ErrorCode.ERR_DELETE_ORDER_STATUS_FAIL);
+            response.setErrorCode(ErrorCode.ERR_DELETE_ACCOUNT_STATUS_FAIL);
+            throw new DeleteDataFailException(ErrorCode.ERR_DELETE_ACCOUNT_STATUS_FAIL);
         }
         return ResponseEntity.ok().body(response);
     }
@@ -400,10 +400,10 @@ public class AdminRestController {
         try {
             List<AccountStatusDTO> list = accountStatusService.getAllStatus();
             response.setData(list);
-            response.setSuccessCode(SuccessCode.ORDER_STATUS_LIST_LOADED_SUCCESS);
+            response.setSuccessCode(SuccessCode.ACCOUNT_STATUS_LOADED_SUCCESS);
         } catch (Exception e) {
-            response.setErrorCode(ErrorCode.ERR_ORDER_STATUS_LIST_LOADED_FAIL);
-            throw new DataNotFoundException(ErrorCode.ERR_ORDER_STATUS_LIST_LOADED_FAIL);
+            response.setErrorCode(ErrorCode.ERR_ACCOUNT_STATUS_LIST_LOADED_FAIL);
+            throw new DataNotFoundException(ErrorCode.ERR_ACCOUNT_STATUS_LIST_LOADED_FAIL);
         }
         return ResponseEntity.ok().body(response);
     }
