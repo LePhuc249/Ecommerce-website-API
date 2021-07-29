@@ -90,8 +90,8 @@ public class BrandServiceImpl implements BrandService {
             }
             brandRepository.save(brand);
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't create new brand ");
+        } catch (Exception e) {
+            LOGGER.info("Having error when create new brand: " + e.getMessage());
             throw new CreateDataFailException(ErrorCode.ERR_CREATE_BRAND_FAIL);
         }
         return result;
@@ -109,8 +109,8 @@ public class BrandServiceImpl implements BrandService {
             }
             brandRepository.save(brand);
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't update brand");
+        } catch (Exception e) {
+            LOGGER.info("Having error when update brand: " + e.getMessage());
             throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_BRAND_FAIL);
         }
         return result;
@@ -130,8 +130,8 @@ public class BrandServiceImpl implements BrandService {
             }
             brandRepository.deleteById(brand.getId());
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't delete brand");
+        } catch (Exception e) {
+            LOGGER.info("Having error when delete brand: " + e.getMessage());
             throw new DeleteDataFailException(ErrorCode.ERR_DELETE_BRAND_FAIL);
         }
         return result;

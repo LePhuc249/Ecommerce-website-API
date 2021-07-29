@@ -33,10 +33,6 @@ public interface ProductService {
 
     String getNameProductById(Long id) throws DataNotFoundException;
 
-    Page<Product> getPaginationProductForAdmin(int pageNo, String valueSort);
-
-    Page<Product> getPaginationProductForCustomer(int pageNo, String valueSort);
-
     ProductDetailDTO getProductDetailByID(Long productId) throws DataNotFoundException;
 
     List<ProductDetailDTO> getListProductForAdmin(int pageNo, String valueSort);

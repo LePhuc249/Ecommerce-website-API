@@ -62,7 +62,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             result = productRepository.searchByNameOrCategoryForCustomer(itemname, categoryid);
         } catch (Exception e) {
-            LOGGER.info("Can't find product by name or category for customer");
+            LOGGER.info("Having error when find product by name or category for customer " + e.getMessage());
             throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
         }
         return result;
@@ -93,7 +93,7 @@ public class ProductServiceImpl implements ProductService {
             productRepository.save(product);
             result = true;
         } catch (Exception e) {
-            LOGGER.info("Can't create product ");
+            LOGGER.info("Having error when create product " + e.getMessage());
             throw new CreateDataFailException(ErrorCode.ERR_CREATE_PRODUCT_FAIL);
         }
         return result;
@@ -114,7 +114,7 @@ public class ProductServiceImpl implements ProductService {
             productRepository.save(product);
             result = true;
         } catch (Exception e) {
-            LOGGER.info("Can't create product ");
+            LOGGER.info("Having error when update product " + e.getMessage());
             throw new CreateDataFailException(ErrorCode.ERR_CREATE_PRODUCT_FAIL);
         }
         return result;
@@ -142,8 +142,8 @@ public class ProductServiceImpl implements ProductService {
             }
             productRepository.deleteProduct(productId);
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't delete product ");
+        } catch (Exception e) {
+            LOGGER.info("Having error when delete product " + e.getMessage());
             throw new DeleteDataFailException(ErrorCode.ERR_DELETE_PRODUCT_FAIL);
         }
         return result;
@@ -160,8 +160,8 @@ public class ProductServiceImpl implements ProductService {
             }
             productRepository.unDeleteProduct(productId);
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't update product ");
+        } catch (Exception e) {
+            LOGGER.info("Having error when update product " + e.getMessage());
             throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_PRODUCT_FAIL);
         }
         return result;
@@ -173,7 +173,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             product = productRepository.checkProductToAddToCart(id);
         } catch (Exception e) {
-            LOGGER.info("Can't find product ");
+            LOGGER.info("Having error when find product " + e.getMessage());
             throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
         }
         return product;
@@ -182,33 +182,21 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public String getNameProductById(Long id) throws DataNotFoundException {
         Product product;
-        Optional<Product> optionalProduct = productRepository.findById(id);
-        if (optionalProduct.isPresent()) {
-            product = optionalProduct.get();
-        } else {
-            LOGGER.info("Can't find product name ");
-            throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
-        }
         String name;
         try {
+            Optional<Product> optionalProduct = productRepository.findById(id);
+            if (optionalProduct.isPresent()) {
+                product = optionalProduct.get();
+            } else {
+                LOGGER.info("Can't find product name ");
+                throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
+            }
             name = productRepository.getNameById(product.getId());
         } catch (Exception e) {
-            LOGGER.info("Can't find name product ");
+            LOGGER.info("Having error when find name product " + e.getMessage());
             throw new DataNotFoundException(ErrorCode.ERR_PRODUCT_NOT_FOUND);
         }
         return name;
-    }
-
-    @Override
-    public Page<Product> getPaginationProductForAdmin(int pageNo, String valueSort) {
-        Pageable pageable = PageRequest.of(pageNo - 1, 5, Sort.by(valueSort).ascending());
-        return productRepository.findAll(pageable);
-    }
-
-    @Override
-    public Page<Product> getPaginationProductForCustomer(int pageNo, String valueSort) {
-        Pageable pageable = PageRequest.of(pageNo - 1, 10, Sort.by(valueSort).ascending());
-        return productRepository.findByIsDeletedAndQuantityGreaterThan(false, 0, pageable);
     }
 
     @Override

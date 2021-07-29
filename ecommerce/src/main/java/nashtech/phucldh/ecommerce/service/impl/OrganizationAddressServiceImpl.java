@@ -41,7 +41,7 @@ public class OrganizationAddressServiceImpl implements OrganizationAddressServic
         try {
             listAllOrganizationAddress = organizationAddressRepository.findAll();
         } catch (Exception e) {
-            LOGGER.info("Can't find organization address ");
+            LOGGER.info("Having error when find organization address " + e.getMessage());
             throw new DataNotFoundException(ErrorCode.ERR_ORGANIZATION_ADDRESS_NOT_FOUND);
         }
         return listAllOrganizationAddress;
@@ -63,7 +63,7 @@ public class OrganizationAddressServiceImpl implements OrganizationAddressServic
         try {
             listAddress = organizationAddressRepository.getListAddressOfOrganization(id);
         } catch (Exception e) {
-            LOGGER.info("Can't find organization address ");
+            LOGGER.info("Having error when find organization address " + e.getMessage());
             throw new DataNotFoundException(ErrorCode.ERR_ORGANIZATION_ADDRESS_NOT_FOUND);
         }
         return listAddress;
@@ -91,7 +91,7 @@ public class OrganizationAddressServiceImpl implements OrganizationAddressServic
             organizationAddressRepository.save(organizationAddress);
             result = true;
         } catch (Exception e) {
-            LOGGER.info("Create organization address fail ");
+            LOGGER.info("Having error when create organization address " + e.getMessage());
             throw new CreateDataFailException(ErrorCode.ERR_CREATE_ORGANIZATION_ADDRESS_FAIL);
         }
         return result;
@@ -110,7 +110,7 @@ public class OrganizationAddressServiceImpl implements OrganizationAddressServic
             organizationAddressRepository.save(organizationAddress);
             result = true;
         } catch (Exception e) {
-            LOGGER.info("Update organization address fail ");
+            LOGGER.info("Having error when Update organization address " + e.getMessage());
             throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_ORGANIZATION_ADDRESS_FAIL);
         }
         return result;
@@ -128,7 +128,7 @@ public class OrganizationAddressServiceImpl implements OrganizationAddressServic
             organizationAddressRepository.deleteById(organizationAddressID);
             result = true;
         } catch (Exception e) {
-            LOGGER.info("Create organization address fail ");
+            LOGGER.info("Having error when delete organization address " + e.getMessage());
             throw new DeleteDataFailException(ErrorCode.ERR_DELETE_ORGANIZATION_ADDRESS_FAIL);
         }
         return result;

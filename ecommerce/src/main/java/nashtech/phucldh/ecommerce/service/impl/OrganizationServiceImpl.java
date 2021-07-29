@@ -40,7 +40,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         try {
             listAllOrganization = organizationRepository.findAll();
         } catch (Exception e) {
-            LOGGER.info("Can't find all organization ");
+            LOGGER.info("Having error when find all organization " + e.getMessage());
             throw new DataNotFoundException(ErrorCode.ERR_ORGANIZATION_NOT_FOUND);
         }
         return listAllOrganization;
@@ -95,8 +95,8 @@ public class OrganizationServiceImpl implements OrganizationService {
             organization.setDeleted(false);
             organizationRepository.save(organization);
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't create organization ");
+        } catch (Exception e) {
+            LOGGER.info("Having error when create organization " + e.getMessage());
             throw new CreateDataFailException(ErrorCode.ERR_CREATE_ORGANIZATION_FAIL);
         }
         return result;
@@ -116,8 +116,8 @@ public class OrganizationServiceImpl implements OrganizationService {
             organization.setUpdateDate(LocalDateTime.now());
             organizationRepository.save(organization);
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't update organization ");
+        } catch (Exception e) {
+            LOGGER.info("Having error when update organization " + e.getMessage());
             throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_ORGANIZATION_FAIL);
         }
         return result;
@@ -134,8 +134,8 @@ public class OrganizationServiceImpl implements OrganizationService {
             }
             organizationRepository.deleteOrganization(id);
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't delete organization ");
+        } catch (Exception e) {
+            LOGGER.info("Having error when delete organization " + e.getMessage());
             throw new DeleteDataFailException(ErrorCode.ERR_DELETE_ORGANIZATION_FAIL);
         }
         return result;
@@ -152,8 +152,8 @@ public class OrganizationServiceImpl implements OrganizationService {
             }
             organizationRepository.unDeleteOrganization(id);
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't update organization ");
+        } catch (Exception e) {
+            LOGGER.info("Having error when update organization " + e.getMessage());
             throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_ORGANIZATION_FAIL);
         }
         return result;

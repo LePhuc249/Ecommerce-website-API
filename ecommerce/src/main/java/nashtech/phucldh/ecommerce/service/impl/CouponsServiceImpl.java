@@ -71,8 +71,8 @@ public class CouponsServiceImpl implements CouponsService {
             coupons.setDeleted(false);
             couponsRepository.save(coupons);
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't create new coupon ");
+        } catch (Exception e) {
+            LOGGER.info("Having error when create new coupon " + e.getMessage());
             throw new CreateDataFailException(ErrorCode.ERR_CREATE_COUPONS_FAIL);
         }
         return result;
@@ -92,8 +92,8 @@ public class CouponsServiceImpl implements CouponsService {
             coupons.setUpdateDate(LocalDateTime.now());
             couponsRepository.save(coupons);
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't create new coupon ");
+        } catch (Exception e) {
+            LOGGER.info("Having error when create new coupon " + e.getMessage());
             throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_COUPONS_FAIL);
         }
         return result;
@@ -113,8 +113,8 @@ public class CouponsServiceImpl implements CouponsService {
             }
             couponsRepository.deleteCoupons(coupon.getId());
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't delete coupon by id " + id);
+        } catch (Exception e) {
+            LOGGER.info("Having error when delete coupon " + e.getMessage());
             throw new DeleteDataFailException(ErrorCode.ERR_DELETE_COUPONS_FAIL);
         }
         return result;
@@ -134,8 +134,8 @@ public class CouponsServiceImpl implements CouponsService {
             }
             couponsRepository.unDeleteCoupons(coupon.getId());
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't update coupon by id " + id);
+        } catch (Exception e) {
+            LOGGER.info("Having error when update coupon " + e.getMessage());
             throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_COUPONS_FAIL);
         }
         return result;
@@ -194,7 +194,7 @@ public class CouponsServiceImpl implements CouponsService {
         try {
             listByItem = couponsRepository.findCouponsByItem(itemID);
         } catch (Exception e) {
-            LOGGER.info("Can't update coupon by id " + itemID);
+            LOGGER.info("Having error when update coupon " + e.getMessage());
             throw new DataNotFoundException(ErrorCode.ERR_COUPONS_NOT_FOUND);
         }
         return listByItem;

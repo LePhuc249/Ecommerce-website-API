@@ -24,8 +24,8 @@ public class OrderDetailServiceImpl implements OrderDetailService {
         try {
             orderdetailrepository.save(theOrderdetail);
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't create new order details ");
+        } catch (Exception e) {
+            LOGGER.info("Having error when create new order details " + e.getMessage());
             throw new CreateDataFailException(ErrorCode.ERR_CREATE_ORDER_DETAIL_FAIL);
         }
         return result;

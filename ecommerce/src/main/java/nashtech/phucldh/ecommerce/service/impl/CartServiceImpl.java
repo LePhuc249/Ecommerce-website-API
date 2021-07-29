@@ -35,8 +35,8 @@ public class CartServiceImpl implements CartService {
             cart.setCreateDate(LocalDateTime.now());
             cartRepository.save(cart);
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't create cart ");
+        } catch (Exception e) {
+            LOGGER.info("Having error when create cart " + e.getMessage());
             throw new CreateDataFailException(ErrorCode.ERR_CREATE_CART_FAIL);
         }
         return result;
@@ -53,8 +53,8 @@ public class CartServiceImpl implements CartService {
             }
             cartRepository.deleteById(cartID);
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't delete cart " + cartID);
+        } catch (Exception e) {
+            LOGGER.info("Having error when delete cart " + e.getMessage());
             throw new DeleteDataFailException(ErrorCode.ERR_DELETE_CART_FAIL);
         }
         return result;

@@ -64,8 +64,8 @@ public class AccountOrderServiceImpl implements AccountOrderService {
         int value;
         try {
             value = userorderRepository.updateStatusToFinish(orderId);
-        } catch (Exception ex) {
-            LOGGER.info("Having error when update status order " + orderId + " To Finish");
+        } catch (Exception e) {
+            LOGGER.info("Having error when update status order " + orderId + " To Finish: " + e.getMessage());
             throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_ACCOUNT_ORDER_FAIL);
         }
         if (value > 0) {
@@ -80,8 +80,8 @@ public class AccountOrderServiceImpl implements AccountOrderService {
         int value;
         try {
             value = userorderRepository.updateStatusToCancel(orderId);
-        } catch (Exception ex) {
-            LOGGER.info("Having error when update status order " + orderId + " To Cancel");
+        } catch (Exception e) {
+            LOGGER.info("Having error when update status order " + orderId + " To Cancel: " + e.getMessage());
             throw new UpdateDataFailException(ErrorCode.ERR_DELETE_ACCOUNT_ORDER_FAIL);
         }
         if (value > 0) {
@@ -96,8 +96,8 @@ public class AccountOrderServiceImpl implements AccountOrderService {
         int value;
         try {
             value = userorderRepository.updateStatusToConfirm(orderId);
-        } catch (Exception ex) {
-            LOGGER.info("Having error when update status order " + orderId + " To Confirm");
+        } catch (Exception e) {
+            LOGGER.info("Having error when update status order " + orderId + " To Confirm: " + e.getMessage());
             throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_ACCOUNT_ORDER_FAIL);
         }
         if (value > 0) {
@@ -112,8 +112,8 @@ public class AccountOrderServiceImpl implements AccountOrderService {
         int value;
         try {
             value = userorderRepository.updateStatusToProcessing(orderId);
-        } catch (Exception ex) {
-            LOGGER.info("Having error when update status order " + orderId + " To Process");
+        } catch (Exception e) {
+            LOGGER.info("Having error when update status order " + orderId + " To Process: " + e.getMessage());
             throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_ACCOUNT_ORDER_FAIL);
         }
         if (value > 0) {

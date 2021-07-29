@@ -162,8 +162,8 @@ public class AccountServiceImpl implements AccountService {
         try {
             accountRepository.save(theAccount);
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Update account with this username: " + theAccount.getUserName() + " fail");
+        } catch (Exception e) {
+            LOGGER.info("Having error when update account : " + e.getMessage());
             throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_ACCOUNT_FAIL);
         }
         return result;
@@ -183,8 +183,8 @@ public class AccountServiceImpl implements AccountService {
             }
             accountRepository.updateAccountStatusToLocked(account.getId());
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't lock account with the id: " + id);
+        } catch (Exception e) {
+            LOGGER.info("Having error when lock account: " + e.getMessage());
             throw new DeleteDataFailException(ErrorCode.ERR_DELETE_ACCOUNT_FAIL);
         }
         return result;
@@ -204,8 +204,8 @@ public class AccountServiceImpl implements AccountService {
             }
             accountRepository.updateAccountStatusToActive(account.getId());
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't unlock account with the id: " + id);
+        } catch (Exception e) {
+            LOGGER.info("Having error when unlock account : " + e.getMessage());
             throw new UpdateDataFailException(ErrorCode.ERR_DELETE_ACCOUNT_FAIL);
         }
         return result;
@@ -229,8 +229,8 @@ public class AccountServiceImpl implements AccountService {
                 throw new DataNotFoundException(ErrorCode.ERR_ACCOUNT_NOT_FOUND);
             }
             dto = accountConverter.convertAccountProfileToDto(account);
-        } catch (Exception ex) {
-            LOGGER.info("Can't find account with id: " + accountId);
+        } catch (Exception e) {
+            LOGGER.info("Having error when load account: " + e.getMessage());
             throw new DataNotFoundException(ErrorCode.ERR_ACCOUNT_NOT_FOUND);
         }
         return dto;

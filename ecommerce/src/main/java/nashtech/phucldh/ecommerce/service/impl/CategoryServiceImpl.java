@@ -38,8 +38,8 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category> theListCategory;
         try {
             theListCategory = categoryRepository.findAll();
-        } catch (Exception ex) {
-            LOGGER.info("Can't find category ");
+        } catch (Exception e) {
+            LOGGER.info("Having error when  find category " + e.getMessage());
             throw new DataNotFoundException(ErrorCode.ERR_CATEGORY_NOT_FOUND);
         }
         return theListCategory;
@@ -59,8 +59,8 @@ public class CategoryServiceImpl implements CategoryService {
             category.setDeleted(false);
             categoryRepository.save(category);
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't create new category ");
+        } catch (Exception e) {
+            LOGGER.info("Having error when  create new category " + e.getMessage());
             throw new CreateDataFailException(ErrorCode.ERR_CREATE_CATEGORY_FAIL);
         }
         return result;
@@ -80,8 +80,8 @@ public class CategoryServiceImpl implements CategoryService {
             category.setUpdateDate(LocalDateTime.now());
             categoryRepository.save(category);
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't update new category ");
+        } catch (Exception e) {
+            LOGGER.info("Having error when update new category " + e.getMessage());
             throw new UpdateDataFailException(ErrorCode.ERR_CREATE_CATEGORY_FAIL);
         }
         return result;
@@ -101,8 +101,8 @@ public class CategoryServiceImpl implements CategoryService {
         try {
             categoryRepository.deleteCategory(cate.getId());
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't delete category with id " + Id);
+        } catch (Exception e) {
+            LOGGER.info("Having error when delete category with id " + e.getMessage());
             throw new UpdateDataFailException(ErrorCode.ERR_DELETE_CATEGORY_FAIL);
         }
         return result;
@@ -111,19 +111,19 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Boolean undelete(Long Id) throws DataNotFoundException, UpdateDataFailException {
         boolean result;
-        Category cate;
-        Optional<Category> cateOptional = categoryRepository.findById(Id);
-        if (cateOptional.isPresent()) {
-            cate = cateOptional.get();
-        } else {
-            LOGGER.info("Can't find category with id " + Id);
-            throw new DataNotFoundException(ErrorCode.ERR_CATEGORY_NOT_FOUND);
-        }
         try {
+            Category cate;
+            Optional<Category> cateOptional = categoryRepository.findById(Id);
+            if (cateOptional.isPresent()) {
+                cate = cateOptional.get();
+            } else {
+                LOGGER.info("Can't find category with id " + Id);
+                throw new DataNotFoundException(ErrorCode.ERR_CATEGORY_NOT_FOUND);
+            }
             categoryRepository.unDeleteCategory(cate.getId());
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't update status category with id " + Id);
+        } catch (Exception e) {
+            LOGGER.info("Having error when update status category with id " + e.getMessage());
             throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_CATEGORY_FAIL);
         }
         return result;

@@ -122,8 +122,8 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
             }
             paymentmethodRepository.deletePayment(thePaymentmethod.getId());
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't delete payment method " + idPayment);
+        } catch (Exception e) {
+            LOGGER.info("Having error when delete payment method " + e.getMessage());
             throw new DeleteDataFailException(ErrorCode.ERR_DELETE_PAYMENT_METHOD_FAIL);
         }
         return result;
@@ -143,8 +143,8 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
             }
             paymentmethodRepository.unDeletePayment(thePaymentmethod.getId());
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't update payment method " + idPayment);
+        } catch (Exception e) {
+            LOGGER.info("Having error when update payment method " + e.getMessage());
             throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_PAYMENT_METHOD_FAIL);
         }
         return result;

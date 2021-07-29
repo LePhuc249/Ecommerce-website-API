@@ -28,7 +28,7 @@ public class CartItemServiceImpl implements CartItemService {
         try {
             cartItem = cartItemRepository.getListItem(cartID);
         } catch (Exception e) {
-            LOGGER.info("Can't find item in cart with id: " + cartID);
+            LOGGER.info("Having error when  find item in cart: " + e.getMessage());
             throw new DataNotFoundException(ErrorCode.ERR_ITEM_CART_NOT_FOUND);
         }
         return cartItem;
@@ -40,7 +40,7 @@ public class CartItemServiceImpl implements CartItemService {
         try {
             item = cartItemRepository.getByCartAndProduct(cartID, productID);
         } catch (Exception e) {
-            LOGGER.info("Can't find item in cart ");
+            LOGGER.info("Having error when  find item in cart " + e.getMessage());
             throw new DataNotFoundException(ErrorCode.ERR_ITEM_CART_NOT_FOUND);
         }
         return item;
@@ -49,16 +49,16 @@ public class CartItemServiceImpl implements CartItemService {
     @Override
     public Boolean createNewItemInCart(CartItem cartItem) throws CreateDataFailException {
         boolean result;
-        CartItem cartItemCheck = cartItemRepository.getByCartAndProduct(cartItem.getCart().getId(), cartItem.getProduct().getId());
-        if (cartItemCheck != null) {
-            LOGGER.info("Item have been in cart ");
-            throw new DataNotFoundException(ErrorCode.ERR_DUPLICATE_ITEM_CART);
-        }
         try {
+            CartItem cartItemCheck = cartItemRepository.getByCartAndProduct(cartItem.getCart().getId(), cartItem.getProduct().getId());
+            if (cartItemCheck != null) {
+                LOGGER.info("Item have been in cart ");
+                throw new DataNotFoundException(ErrorCode.ERR_DUPLICATE_ITEM_CART);
+            }
             cartItemRepository.save(cartItem);
             result = true;
         } catch (Exception e) {
-            LOGGER.info("Can't create new item in cart id " + cartItem.getCart().getId());
+            LOGGER.info("Having error when create new item in cart id " + e.getMessage());
             throw new CreateDataFailException(ErrorCode.ERR_ADD_ITEM_CART_FAIL);
         }
         return result;
@@ -67,16 +67,16 @@ public class CartItemServiceImpl implements CartItemService {
     @Override
     public Boolean updateNewItemInCart(CartItem cartItem) throws DataNotFoundException, UpdateDataFailException {
         boolean result;
-        CartItem cartItemCheck = cartItemRepository.getByCartAndProduct(cartItem.getCart().getId(), cartItem.getProduct().getId());
-        if (cartItemCheck == null) {
-            LOGGER.info("Item can't found in cart ");
-            throw new DataNotFoundException(ErrorCode.ERR_ITEM_CART_NOT_FOUND);
-        }
         try {
+            CartItem cartItemCheck = cartItemRepository.getByCartAndProduct(cartItem.getCart().getId(), cartItem.getProduct().getId());
+            if (cartItemCheck == null) {
+                LOGGER.info("Item can't found in cart ");
+                throw new DataNotFoundException(ErrorCode.ERR_ITEM_CART_NOT_FOUND);
+            }
             cartItemRepository.save(cartItem);
             result = true;
         } catch (Exception e) {
-            LOGGER.info("Can't update item in cart with cart item id " + cartItem.getId());
+            LOGGER.info("Having error when update item in cart " + e.getMessage());
             throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_CART_FAIL);
         }
         return result;
@@ -85,19 +85,19 @@ public class CartItemServiceImpl implements CartItemService {
     @Override
     public Boolean deleteCartItem(Long itemID) throws DataNotFoundException, DeleteDataFailException {
         boolean result = false;
-        CartItem cartItem = cartItemRepository.getByItemId(itemID);
-        CartItem cartItemCheck = cartItemRepository.getByCartAndProduct(cartItem.getCart().getId(), cartItem.getProduct().getId());
-        if (cartItemCheck == null) {
-            LOGGER.info("Item can't found in cart ");
-            throw new DataNotFoundException(ErrorCode.ERR_ITEM_CART_NOT_FOUND);
-        }
         try {
+            CartItem cartItem = cartItemRepository.getByItemId(itemID);
+            CartItem cartItemCheck = cartItemRepository.getByCartAndProduct(cartItem.getCart().getId(), cartItem.getProduct().getId());
+            if (cartItemCheck == null) {
+                LOGGER.info("Item can't found in cart ");
+                throw new DataNotFoundException(ErrorCode.ERR_ITEM_CART_NOT_FOUND);
+            }
             int resultDelete = cartItemRepository.deleteByItemId(itemID);
             if (resultDelete > 0) {
                 result = true;
             }
         } catch (Exception e) {
-            LOGGER.info("Can't update item in cart with item id " + itemID);
+            LOGGER.info("Having error when update item  " + e.getMessage());
             throw new DeleteDataFailException(ErrorCode.ERR_REMOVE_ITEM_CART_FAIL);
         }
         return result;
@@ -110,7 +110,7 @@ public class CartItemServiceImpl implements CartItemService {
             cartItemRepository.deleteByCartId(cartId);
             result = true;
         } catch (Exception e) {
-            LOGGER.info("Can't update item quantity in cart with cart id " + cartId);
+            LOGGER.info("Having error when update item quantity in cart " + e.getMessage());
             throw new DeleteDataFailException(ErrorCode.ERR_DELETE_CART_FAIL);
         }
         return result;

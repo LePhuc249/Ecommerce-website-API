@@ -44,7 +44,7 @@ public class ImageServiceImpl implements ImageService {
                 }
             }
         } catch (Exception e) {
-            LOGGER.info("Can't find all image ");
+            LOGGER.info("Having error when find all image " + e.getMessage());
             throw new DataNotFoundException(ErrorCode.ERR_IMAGE_NOT_FOUND);
         }
         return listDTO;
@@ -85,8 +85,8 @@ public class ImageServiceImpl implements ImageService {
             image.setCreateDate(LocalDateTime.now());
             imageRepository.save(image);
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't create new image ");
+        } catch (Exception e) {
+            LOGGER.info("Having error when  create new image " + e.getMessage());
             throw new CreateDataFailException(ErrorCode.ERR_CREATE_IMAGE_FAIL);
         }
         return result;
@@ -106,8 +106,8 @@ public class ImageServiceImpl implements ImageService {
             image.setUpdateDate(LocalDateTime.now());
             imageRepository.save(image);
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't update image ");
+        } catch (Exception e) {
+            LOGGER.info("Having error when update image " + e.getMessage());
             throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_IMAGE_FAIL);
         }
         return result;
@@ -124,8 +124,8 @@ public class ImageServiceImpl implements ImageService {
             }
             imageRepository.deleteImage(id);
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't delete image ");
+        } catch (Exception e) {
+            LOGGER.info("Having error when delete image " + e.getMessage());
             throw new DeleteDataFailException(ErrorCode.ERR_DELETE_IMAGE_FAIL);
         }
         return result;
@@ -142,8 +142,8 @@ public class ImageServiceImpl implements ImageService {
             }
             imageRepository.unDeleteImage(id);
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't update image ");
+        } catch (Exception e) {
+            LOGGER.info("Having error when update image " + e.getMessage());
             throw new DeleteDataFailException(ErrorCode.ERR_DELETE_IMAGE_FAIL);
         }
         return result;

@@ -122,8 +122,8 @@ public class OrderStatusServiceImpl implements OrderStatusService {
             }
             orderStatusRepository.deleteOrderStatus(theOrderStatus.getId());
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't delete status by id " + idStatus);
+        } catch (Exception e) {
+            LOGGER.info("Having error when delete status " + e.getMessage());
             throw new DeleteDataFailException(ErrorCode.ERR_DELETE_ORDER_STATUS_FAIL);
         }
         return result;
@@ -143,8 +143,8 @@ public class OrderStatusServiceImpl implements OrderStatusService {
             }
             orderStatusRepository.unDeleteOrderStatus(theOrderStatus.getId());
             result = true;
-        } catch (Exception ex) {
-            LOGGER.info("Can't update status by id " + idStatus);
+        } catch (Exception e) {
+            LOGGER.info("Having error when update status  " + e.getMessage());
             throw new UpdateDataFailException(ErrorCode.ERR_UPDATE_ORDER_STATUS_FAIL);
         }
         return result;
