@@ -7,6 +7,7 @@ import nashtech.phucldh.ecommerce.entity.Image;
 import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
 import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
+import nashtech.phucldh.ecommerce.exception.DuplicateDataException;
 import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
 import nashtech.phucldh.ecommerce.repository.ImageRepository;
 import nashtech.phucldh.ecommerce.service.ImageService;
@@ -81,6 +82,11 @@ public class ImageServiceImpl implements ImageService {
     public Boolean addNewImage(ImageDTO dto) throws CreateDataFailException {
         boolean result;
         try {
+            Image tempImage = imageRepository.checkExistedImage(dto.getUrl(), dto.getDescription());
+            if (tempImage != null) {
+                LOGGER.info("Image have been existed");
+                throw new DuplicateDataException(ErrorCode.ERR_IMAGE_EXISTED);
+            }
             Image image = imageConverter.convertImageToDTO(dto);
             image.setCreateDate(LocalDateTime.now());
             imageRepository.save(image);

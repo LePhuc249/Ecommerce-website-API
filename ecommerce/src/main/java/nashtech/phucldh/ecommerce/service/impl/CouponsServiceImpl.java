@@ -64,7 +64,7 @@ public class CouponsServiceImpl implements CouponsService {
             Coupons coupons = couponsConverter.convertCouponsDTOToEntity(dtoCoupon);
             Coupons tempCoupons = getCouponByCode(dtoCoupon.getCode());
             if (tempCoupons != null) {
-                LOGGER.info("Coupon have been existed");
+                LOGGER.info("Coupon code have been existed");
                 throw new DuplicateDataException(ErrorCode.ERR_COUPONS_EXISTED);
             }
             coupons.setCreateDate(LocalDateTime.now());

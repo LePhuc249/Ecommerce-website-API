@@ -50,7 +50,7 @@ public class CategoryServiceImpl implements CategoryService {
         boolean result;
         try {
             Category category = categoryConverter.convertCategoryToEntity(categoryDTO);
-            Category tempCategory = getCategoryByNameAndBrand(category.getName());
+            Category tempCategory = getCategoryByName(category.getName());
             if (tempCategory != null) {
                 LOGGER.info("Category have been existed ");
                 throw new DuplicateDataException(ErrorCode.ERR_CATEGORY_EXISTED);
@@ -71,7 +71,7 @@ public class CategoryServiceImpl implements CategoryService {
         boolean result;
         try {
             Category category = categoryConverter.convertCategoryToEntity(categoryDTO);
-            Category tempCategory = getCategoryByIdAndBrand(category.getId());
+            Category tempCategory = getCategoryById(category.getId());
             if (tempCategory == null) {
                 LOGGER.info("Can't find the category to update ");
                 throw new DataNotFoundException(ErrorCode.ERR_CATEGORY_NOT_FOUND);
@@ -179,12 +179,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category getCategoryByNameAndBrand(String name) throws DataNotFoundException {
+    public Category getCategoryByName(String name) throws DataNotFoundException {
         return categoryRepository.checkExistCategory(name);
     }
 
     @Override
-    public Category getCategoryByIdAndBrand(Long id) throws DataNotFoundException {
+    public Category getCategoryById(Long id) throws DataNotFoundException {
         return categoryRepository.checkExistCategoryById(id);
     }
 

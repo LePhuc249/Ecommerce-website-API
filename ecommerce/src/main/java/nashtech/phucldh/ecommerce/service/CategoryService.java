@@ -11,9 +11,9 @@ public interface CategoryService {
 
     List<Category> findAll() throws DataNotFoundException;
 
-    Category getCategoryByNameAndBrand(String name) throws DataNotFoundException;
+    Category getCategoryByName(String name) throws DataNotFoundException;
 
-    Category getCategoryByIdAndBrand(Long id) throws DataNotFoundException;
+    Category getCategoryById(Long id) throws DataNotFoundException;
 
     Category findById(Long categoryid) throws DataNotFoundException;
 

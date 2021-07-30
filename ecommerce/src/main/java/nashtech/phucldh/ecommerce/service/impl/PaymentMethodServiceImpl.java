@@ -7,6 +7,7 @@ import nashtech.phucldh.ecommerce.entity.PaymentMethod;
 import nashtech.phucldh.ecommerce.exception.CreateDataFailException;
 import nashtech.phucldh.ecommerce.exception.DataNotFoundException;
 import nashtech.phucldh.ecommerce.exception.DeleteDataFailException;
+import nashtech.phucldh.ecommerce.exception.DuplicateDataException;
 import nashtech.phucldh.ecommerce.exception.UpdateDataFailException;
 import nashtech.phucldh.ecommerce.repository.PaymentMethodRepository;
 import nashtech.phucldh.ecommerce.service.PaymentMethodService;
@@ -77,6 +78,11 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
     public Boolean createNewPaymentMethod(PaymentMethodDTO dto) throws CreateDataFailException {
         boolean result;
         try {
+            PaymentMethod tempPaymentMethod = paymentmethodRepository.checkExistedPaymentMethod(dto.getName());
+            if (tempPaymentMethod != null) {
+                LOGGER.info("Payment method have been existed");
+                throw new DuplicateDataException(ErrorCode.ERR_PAYMENT_METHOD_EXISTED);
+            }
             PaymentMethod paymentMethod = paymentMethodConverter.convertPaymentMethodDTOToEntity(dto);
             paymentMethod.setCreateDate(LocalDateTime.now());
             paymentmethodRepository.save(paymentMethod);
