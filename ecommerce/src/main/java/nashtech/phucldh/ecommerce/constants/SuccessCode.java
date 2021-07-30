@@ -65,9 +65,9 @@ public class SuccessCode {
     public static final String PRODUCT_LIST_LOADED_SUCCESS = "PRODUCT_LIST_LOADED_SUCCESS";
 
     // Cart
-    public static final String CART_CREATE_SUCCESS = "CART_CREATE_SUCCESS";
-    public static final String CART_UPDATE_SUCCESS = "CART_UPDATE_SUCCESS";
-    public static final String CART_DELETE_SUCCESS = "CART_DELETE_SUCCESS";
+    public static final String CART_CREATE_SUCCESS = "ADD_ITEM_TO_CART_SUCCESS";
+    public static final String CART_UPDATE_SUCCESS = "UPDATE_ITEM_IN_CART_SUCCESS";
+    public static final String CART_DELETE_SUCCESS = "DELETE_ITEM_IN_CART_SUCCESS";
     public static final String CART_CLEAR_SUCCESS = "CART_CLEAR_SUCCESS";
     public static final String GET_CART_SUCCESS = "GET_CART_SUCCESS";
 

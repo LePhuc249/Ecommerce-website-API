@@ -65,6 +65,7 @@ public class ErrorCode {
 
     // Account Status
     public static final String ERR_ACCOUNT_STATUS_NOT_FOUND = "ERR_ACCOUNT_STATUS_NOT_FOUND";
+    public static final String ERR_ACCOUNT_STATUS_EXISTED = "ERR_ACCOUNT_STATUS_EXISTED";
     public static final String ERR_ACCOUNT_STATUS_LIST_EMPTY = "ERR_ACCOUNT_STATUS_LIST_EMPTY";
     public static final String ERR_ACCOUNT_STATUS_LIST_LOADED_FAIL = "ERR_ACCOUNT_STATUS_LIST_LOADED_FAIL";
     public static final String ERR_CREATE_ACCOUNT_STATUS_FAIL = "ERR_CREATE_ACCOUNT_STATUS_FAIL";
@@ -120,6 +121,7 @@ public class ErrorCode {
 
     // Payment Method
     public static final String ERR_PAYMENT_METHOD_NOT_FOUND = "ERR_PAYMENT_METHOD_NOT_FOUND";
+    public static final String ERR_PAYMENT_METHOD_EXISTED = "ERR_PAYMENT_METHOD_EXISTED";
     public static final String ERR_PAYMENT_METHOD_LIST_EMPTY = "ERR_PAYMENT_METHOD_LIST_EMPTY";
     public static final String ERR_PAYMENT_METHOD_LOADED_FAIL = "ERR_PAYMENT_METHOD_LOADED_FAIL";
     public static final String ERR_PAYMENT_METHOD_LIST_LOADED_FAIL = "ERR_PAYMENT_METHOD_LIST_LOADED_FAIL";
@@ -129,6 +131,7 @@ public class ErrorCode {
 
     // Image
     public static final String ERR_IMAGE_NOT_FOUND = "ERR_IMAGE_NOT_FOUND";
+    public static final String ERR_IMAGE_EXISTED = "ERR_IMAGE_EXISTED";
     public static final String ERR_IMAGE_LOADED_FAIL = "ERR_IMAGE_LOADED_FAIL";
     public static final String ERR_IMAGE_LIST_LOADED_FAIL = "ERR_IMAGE_LIST_LOADED_FAIL";
     public static final String ERR_CREATE_IMAGE_FAIL = "ERR_CREATE_IMAGE_FAIL";
