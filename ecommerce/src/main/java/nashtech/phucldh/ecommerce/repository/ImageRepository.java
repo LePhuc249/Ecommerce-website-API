@@ -37,4 +37,10 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
     )
     int updateImageURL(Long id, String url);
 
+    @Query(
+            value = "Select * from image where url = ?1 and description = ?2",
+            nativeQuery = true
+    )
+    Image checkExistedImage(String url, String description);
+
 }

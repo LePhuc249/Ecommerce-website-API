@@ -26,12 +26,10 @@ public interface PaymentMethodRepository extends JpaRepository<PaymentMethod, Lo
     )
     int unDeletePayment(Long id);
 
-    @Modifying
-    @Transactional
     @Query(
-            value = "Update payment_method set name = ?2 where id = ?1",
+            value = "Select * from payment_method where name = ?1",
             nativeQuery = true
     )
-    int updateNamePayment(Long id, String newName);
+    PaymentMethod checkExistedPaymentMethod(String paymentName);
 
 }
